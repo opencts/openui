@@ -28,7 +28,7 @@ function Container({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    css += ' ' + props.className;
+    css += props.className ? (' ' + props.className) : '';
     return (
         <div className={css} style={{ ...customStyle, ...props.style }} {...props}>
             {children}
