@@ -6,12 +6,18 @@ function Border({
     padding = '0',
     radius = '0',
     type = 'none',
-    top = 'none',
-    right = 'none',
-    bottom = 'none',
-    left = 'none',
+    bTop = 'none',
+    bRight = 'none',
+    bBottom = 'none',
+    bLeft = 'none',
     width = 'auto',
     height = 'auto',
+    position = 'static',
+    zIndex = '0',
+    top = 'auto',
+    left = 'auto',
+    bottom = 'auto', 
+    right = 'auto',
     children,
     ...props
 }) {
@@ -32,7 +38,12 @@ function Border({
         borderBottom: bottom,
         border: type,
         width: trueWidth,
-        height: trueHeight
+        height: trueHeight,
+        zIndex,
+        top,
+        left,
+        bottom,
+        right
     };
 
     if (top !== 'none' || left !== 'none' || right !== 'none' || bottom !== 'none') {
@@ -62,6 +73,7 @@ function Border({
     css += handleMargin(margin, 'm');
     css += ' ' + handleMargin(padding, 'p');
     css += ' ' + props.className;
+    css += ' .' + position;
 
     const newChildren = Children.map(children, child => cloneElement(child, {
         className: css,

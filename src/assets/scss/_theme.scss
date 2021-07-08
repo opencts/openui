@@ -161,4 +161,22 @@ $spacings: 0, 0.25, 0.5, 1, 1.5, 3;
     }
 }
 
+.fixed {
+    position: fixed;
+}
 
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.sticky {
+    position: sticky;
+}
+
+.static {
+    position: static;
+}
