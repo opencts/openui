@@ -5,7 +5,7 @@ function Border({
     margin = '0',
     padding = '0',
     radius = '0',
-    type = 'none',
+    border = 'none',
     bTop = 'none',
     bRight = 'none',
     bBottom = 'none',
@@ -16,8 +16,10 @@ function Border({
     zIndex = '0',
     top = 'auto',
     left = 'auto',
-    bottom = 'auto', 
+    bottom = 'auto',
     right = 'auto',
+    elevation = '0',
+    elevationColor = '#999',
     children,
     ...props
 }) {
@@ -28,25 +30,25 @@ function Border({
     const trueHeight = (Number(height) >= 0 && Number(height) <= 1) ?
         Number(height) * 100 + '%' : height;
 
-    console.log(type);
 
     const customStyle = {
         borderRadius: radius,
-        borderTop: top,
-        borderRight: right,
-        borderLeft: left,
-        borderBottom: bottom,
-        border: type,
+        borderTop: bTop,
+        borderRight: bRight,
+        borderLeft: bLeft,
+        borderBottom: bBottom,
+        border,
         width: trueWidth,
         height: trueHeight,
         zIndex,
         top,
         left,
         bottom,
-        right
+        right,
+        boxShadow: `0 ${elevation}px ${elevation}px 0 ${elevationColor}`
     };
 
-    if (top !== 'none' || left !== 'none' || right !== 'none' || bottom !== 'none') {
+    if (bTop !== 'none' || bLeft !== 'none' || bRight !== 'none' || bBottom !== 'none') {
         delete customStyle.border;
     }
 
@@ -72,8 +74,8 @@ function Border({
     let css = '';
     css += handleMargin(margin, 'm');
     css += ' ' + handleMargin(padding, 'p');
-    css += ' ' + props.className;
-    css += ' .' + position;
+    css += ' ' + position;
+    css += (props.className ? ' ' + props.className : '');
 
     const newChildren = Children.map(children, child => cloneElement(child, {
         className: css,

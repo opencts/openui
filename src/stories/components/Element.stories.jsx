@@ -16,7 +16,7 @@ Default.args = {
   margin: '0',
   padding: '0',
   radius: '0',
-  type: 'none',
+  border: 'none',
   top: 'none',
   right: 'none',
   bottom: 'none',
@@ -30,7 +30,7 @@ Solid.args = {
   margin: '0',
   padding: '0',
   radius: '0',
-  type: 'solid 3px #f58706',
+  border: 'solid 3px #f58706',
   top: 'none',
   right: 'none',
   bottom: 'none',
@@ -59,5 +59,5 @@ Width35.args = {
   radius: '0',
   width: '.35',
   height: 'auto',
-  type: 'solid 1px #000'
+  border: 'solid 1px #000'
 }
