@@ -1,15 +1,15 @@
 import React from 'react';
-import Border from '../../components/Border'
+import Element from '../../components/Element'
 import '../assets/scss/_index.scss';
 
 export default {
-  title: 'General/Border',
-  component: Border
+  title: 'General/Element',
+  component: Element
 };
 
-const Template = (args) => <Border {...args}>
+const Template = (args) => <Element {...args}>
   <div>It's war!</div>
-</Border>
+</Element>
 
 export const Default = Template.bind({});
 Default.args = {

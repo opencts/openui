@@ -5,10 +5,8 @@ import { useState } from 'react'
 function Hidden({
     up = null,
     down = null,
-    style,
-    className,
-    onClick = () => { },
-    children
+    children,
+    ...props
 }) {
 
     if (!up && !down) up = '1000px';
@@ -33,7 +31,7 @@ function Hidden({
     if (!visible) return null;
 
     return (
-        <div style={style} className={className} onClick={onClick}>
+        <div style={props.style} className={props.className} {...props}>
             {children}
         </div>
     )

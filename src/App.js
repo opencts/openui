@@ -1,4 +1,4 @@
-import Border from "./components/Border";
+import Element from "./components/Element";
 import Container from "./components/Container";
 import Font from "./components/Font";
 import Hidden from "./components/Hidden";
@@ -15,9 +15,9 @@ function App() {
           <p>Lorem ipsum dolor sit amet <Font inline weight="bold">consectetur</Font> adipisicing elit. Magni numquam, amet doloribus nisi non inventore, quaerat, eos ea saepe dolorum qui magnam consectetur ad illo dolore nulla delectus similique cupiditate!</p>
         </Font>
 
-        <Border margin="2" radius="25px" padding="0 2" top="solid 1px green" width=".7">
+        <Element margin="2" radius="25px" padding="0 2" top="solid 1px green" width=".7">
           <div>Hello world</div>
-        </Border>
+        </Element>
 
         <Hidden down="md">
           <Font color="primary">

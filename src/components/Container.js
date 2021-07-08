@@ -6,10 +6,8 @@ function Container({
     sm = null,
     md = null,
     lg = null,
-    style = {},
-    className = '',
-    onClick = () => { },
-    children
+    children,
+    ...props
 }) {
 
     let css = 'container';
@@ -30,9 +28,9 @@ function Container({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    css += ' ' + className;
+    css += ' ' + props.className;
     return (
-        <div className={css} style={{ ...customStyle, ...style }} onClick={onClick}>
+        <div className={css} style={{ ...customStyle, ...props.style }} {...props}>
             {children}
         </div>
     )
