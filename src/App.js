@@ -16,7 +16,7 @@ import Select from "./components/Forms/Select";
 import Password from "./components/Forms/Password";
 import Checkbox from "./components/Forms/Checkbox";
 import Birthday from "./components/Forms/Birthday";
-import Alert from './components/Alert';
+import Alert from './components/Dialogs/Alert';
 
 function App() {
 

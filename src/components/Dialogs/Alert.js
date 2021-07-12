@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Icon from "./Icon"
+import Icon from "../Fonts/Icon";
 
 function makeStyle(type, color) {
     let style = { icone: '', container: '', content: '' }
