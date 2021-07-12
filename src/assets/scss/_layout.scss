@@ -20,30 +20,40 @@
     position: relative;
     width: fit-content;
     overflow: hidden;
+    background-color: transparent;
+    padding-top: 2px;
+}
+
+.ripple-container-raised {
+    position: relative;
+    width: fit-content;
+    overflow: hidden;
+    background-color: transparent;
+    padding: 2px 2px 3px 2px;
 }
 
 .ripple {
-    border-radius: 50%;
+    border-radius: 300px;
     transform: translateX(-50%) translateY(-50%);
     background-color: #00000025;
     animation: rippleAnimation 0.3s;
 }
 
 .ripple-center {
-    border-radius: 10px;
+    border-radius: 100px;
     background-color: #00000025;
     animation: rippleCircleAnimation 0.3s;
 }
 
 @keyframes rippleAnimation {
     from {
-        width: 10%;
-        height: 10%;
+        width: 0%;
+        height: 0%;
     }
 
     to {
-        width: 200%;
-        height: 200%;
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -179,7 +189,7 @@
 
 @keyframes zoomin {
     from {
-        transform: scale(0.75);
+        transform: scale(0.5);
     }
     to {
         transform: scale(1);
@@ -197,14 +207,19 @@
 
 @keyframes shake {
     0% {
-        transform: skew(10deg, 10deg);
+        transform: skew(3deg, 3deg);
     }
     50% {
-        transform: skew(-10deg, -10deg);
+        transform: skew(-3deg, -3deg);
     }
     to {
         transform: skew(0deg, 0deg);
     }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 /* ------------------------------*/
 

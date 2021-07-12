@@ -1,6 +1,6 @@
 import React from 'react'
 
-function FloatingButton() {
+function Country() {
     return (
         <div>
             
@@ -8,4 +8,4 @@ function FloatingButton() {
     )
 }
 
-export default FloatingButton
+export default Country

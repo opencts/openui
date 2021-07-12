@@ -1,9 +1,12 @@
 import React from 'react'
+import { Children } from 'react';
 import { useRef } from 'react';
 
 function Ripple({
     fromCenter = false,
-    children
+    raised = false,
+    children,
+    ...props
 }) {
 
     const ref = useRef(null);
@@ -17,14 +20,21 @@ function Ripple({
         } else {
             ripple.style.top = (event.clientY - y) + 'px';
             ripple.style.left = (event.clientX - x) + 'px';
+            ripple.style.borderRadius = '100px';
             ripple.classList.toggle('ripple');
         }
         ref.current.appendChild(ripple);
     }
 
+    const newChildren = Children.map(children, child => {
+        return React.cloneElement(child, {
+            ...props
+        });
+    });
+
     return (
-        <div onClick={handleClick} className="ripple-container" ref={ref}>
-            {children}
+        <div onClick={handleClick} className={raised ? 'ripple-container-raised': 'ripple-container'} ref={ref}>
+            {newChildren}
         </div>
     )
 }

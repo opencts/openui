@@ -52,8 +52,6 @@ function Border({
         delete customStyle.border;
     }
 
-    console.log(customStyle)
-
     const handleMargin = (marginValue, prefix) => {
         let trueMargin = '';
         if (marginValue.indexOf('px') !== -1) {
@@ -82,8 +80,6 @@ function Border({
         style: { ...customStyle, ...props.style },
         ...props
     }));
-
-    console.log({ ...customStyle, ...props.style })
 
     return newChildren;
 }
