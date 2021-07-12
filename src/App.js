@@ -17,6 +17,7 @@ import Password from "./components/Forms/Password";
 import Checkbox from "./components/Forms/Checkbox";
 import Birthday from "./components/Forms/Birthday";
 import Alert from './components/Dialogs/Alert';
+import Upload from "./components/Forms/Upload";
 
 function App() {
 
@@ -169,13 +170,15 @@ function App() {
 
         <Input type="number" />
 
-        <Flex jc="space-between">
+        <Flex gap={10}>
           <Checkbox />
           <Checkbox color="secondary" />
           <Checkbox color="danger" />
         </Flex>
 
-        <Birthday />
+        <Birthday onChange={v => console.log(v)} />
+
+        <Upload />
       </Container>
 
 

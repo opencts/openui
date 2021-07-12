@@ -7,6 +7,7 @@ function Select({
     color = 'primary',
     searcheable = true,
     data,
+    onChange = _ => { },
     valueId = 'id',
     valueLabel = 'name',
     ...props
@@ -30,6 +31,7 @@ function Select({
 
     function selectItem(item) {
         setValue(item);
+        onChange(item[valueId]);
         optionsRef.current.className = 'options';
     }
 
@@ -47,7 +49,7 @@ function Select({
 
     useEffect(() => {
         const cb = (event) => {
-            if (optionsRef && !optionsRef.current.contains(event.target)) {
+            if (optionsRef && optionsRef.current && !optionsRef.current.contains(event.target)) {
                 if (optionsRef.current.className.indexOf('show') !== -1) {
                     optionsRef.current.className = 'options';
                 }

@@ -158,5 +158,6 @@ export const _ERROR_MSGS = {
     required: 'This field is required',
     password: ({min, strong}) => strong ? 
         '8 characters at least - Lowercase, upperCase, number and character among -- !@#%^&*_ = -- are required':
-        `${min} characters at least`
+        `${min} characters at least`,
+    date: 'Year is required'
 };

@@ -12,6 +12,8 @@ function Ripple({
     const ref = useRef(null);
 
     function handleClick(event) {
+        const ripples = ref.current.querySelectorAll('.ripple');
+        // for
         const { x, y } = ref.current.getBoundingClientRect();
         const ripple = document.createElement('div');
         ripple.style.position = 'absolute';
