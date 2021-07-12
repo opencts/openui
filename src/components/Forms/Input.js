@@ -128,22 +128,26 @@ function Input({
                             onBlur={handleInputBlur}
                             {...props} />
                         {actionIcon && !flipAction &&
-                            <Icon
-                                color={color}
-                                name={actionIcon}
-                                onClick={() => {
-                                    if (actionIconFlip)
-                                        setFlipAction(!flipAction);
-                                    onAction();
-                                }} />}
+                            <div className="pr-2">
+                                <Icon
+                                    color={color}
+                                    name={actionIcon}
+                                    onClick={() => {
+                                        if (actionIconFlip)
+                                            setFlipAction(!flipAction);
+                                        onAction();
+                                    }} />
+                            </div>}
                         {actionIconFlip && flipAction &&
-                            <Icon
-                                name={actionIconFlip}
-                                color={color}
-                                onClick={() => {
-                                    setFlipAction(!flipAction);
-                                    onActionChange();
-                                }} />}
+                            <div className="pr-2">
+                                <Icon
+                                    name={actionIconFlip}
+                                    color={color}
+                                    onClick={() => {
+                                        setFlipAction(!flipAction);
+                                        onActionChange();
+                                    }} />
+                            </div>}
                     </Flex>
                 </div>
                 <label ref={labelRef}>

@@ -1,9 +1,20 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import Flex from '../Containers/Flex';
 import Select from './Select'
+import { _ERROR_MSGS } from '../../services/validators';
 
 function Birthday({
-
+    onChange = _ => { },
+    errorMsg = _ERROR_MSGS.date,
+    required = true
 }) {
+
+    const [value, setValue] = useState({
+        day: null,
+        month: null,
+        year: null
+    });
+    const [error, setError] = useState('');
 
     const days = useMemo(() => {
         const d = [];
@@ -30,19 +41,32 @@ function Birthday({
 
     const years = useMemo(() => {
         const d = [];
-        for (let i = new Date().getFullYear(); i > 1899; i++) {
+        for (let i = new Date().getFullYear(); i > 1899; i--) {
             d.push({ value: i });
         }
         return d;
     }, []);
 
+    useEffect(() => {
+        onChange(value);
+        if (required) {
+            if (!value.year) {
+                setError(errorMsg);
+            } else {
+                setError('');
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
+
     return (
         <div className="birthday">
-            <div>
+            <Flex gap={10}>
                 <Select
                     searcheable={false}
                     label="Day"
                     data={days}
+                    onChange={v => setValue({ ...value, day: v })}
                     valueId="value"
                     valueLabel="value"
                 />
@@ -50,15 +74,20 @@ function Birthday({
                     searcheable={false}
                     label="Month"
                     data={months}
+                    onChange={v => setValue({ ...value, month: v })}
                     valueId="value"
                     valueLabel="name" />
                 <Select
-                    searcheable={true}
+                    searcheable={false}
                     label="Year"
                     data={years}
+                    onChange={v => setValue({ ...value, year: v })}
                     valueId="value"
-                    valueLabel="name" />
-            </div>
+                    valueLabel="value" />
+            </Flex>
+            <div style={{
+                transform: 'translateY(-16px)'
+            }} className="hint">{error}</div>
         </div>
     )
 }
