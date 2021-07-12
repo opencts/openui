@@ -1,17 +1,28 @@
-import Element from "./components/Element";
-import Container from "./components/Container";
-import Font from "./components/Font";
-import Hidden from "./components/Hidden";
-import Ripple from "./components/Ripple";
-import Transition from "./components/Transition";
-import Flex from "./components/Flex";
-import Grid from "./components/Grid";
-import Icon from "./components/Icon";
-import Button from "./components/Button";
+import Element from "./components/Containers/Element";
+import Container from "./components/Containers/Container";
+import Font from "./components/Fonts/Font";
+import Hidden from "./components/Containers/Hidden";
+import Ripple from "./components/Animations/Ripple";
+import Transition from "./components/Animations/Transition";
+import Flex from "./components/Containers/Flex";
+import Grid from "./components/Containers/Grid";
+import Icon from "./components/Fonts/Icon";
+import Button from "./components/Forms/Button";
+import FloatingButton from "./components/Forms/FloatingButton";
+import Input from "./components/Forms/Input";
+import Search from "./components/Forms/Search";
+import { useState } from "react";
+import Select from "./components/Forms/Select";
+import Password from "./components/Forms/Password";
+import Checkbox from "./components/Forms/Checkbox";
+import Birthday from "./components/Forms/Birthday";
 
 function App() {
+
+  const [v, setV] = useState('');
+
   return (
-    <div>
+    <div className="pb-5">
       <Container lg="70%" md="80%" sm="95%">
         <Font color="light" background="secondary">
           <h2>Toto</h2>
@@ -90,8 +101,82 @@ function App() {
       <br /><br /><br />
 
       <Container>
-        <Button>Primary</Button>
+        <Button>Primary</Button> <br />
+        <Button flatted>Primary</Button> <br />
+        <Button outlined icon="check">Primary</Button> <br />
+        <Button raised>Primary</Button> <br />
+        <Button rounded>Primary</Button> <br />
+        <Button color="secondary">Primary</Button> <br />
+        <Button color="success">Primary</Button> <br />
+        <Button color="danger">Primary</Button> <br />
+        <Button disabled>Primary</Button> <br />
+        <Button rounded icon="coffee" iconRight>Primary</Button> <br />
+        <Button rounded icon="camera" color="dark">Primary</Button> <br />
+        <Button loading>Primary</Button> <br />
+        <br /><br />
+
+        <Flex jc="space-between">
+          <FloatingButton icon="plus" />
+          <FloatingButton size="45" icon="camera" color="secondary" circled={false} />
+          <FloatingButton size="20" icon="times" color="danger" />
+          <FloatingButton size="60" icon="question" color="success" />
+          <FloatingButton size="30" icon="minus" color="danger" />
+          <FloatingButton size="60" icon="question" color="success" circled={false} />
+        </Flex>
+
+        <br />
+        <br />
+
+        <Input
+          labelIcon="user"
+          actionIcon="eye"
+          actionIconFlip="eyeSlash"
+          onChange={e => console.log(e.target.value)}
+          contentCase="upper"
+          label="This is a label"
+          hint="This field is required"
+          required />
+
+        <Input
+          value={v}
+          onChange={e => setV(e.target.value)}
+          label="This is a label"
+          type="email"
+          contentCase="upper"
+          minLength="4"
+          required />
+
+        {v}
+
+        <Button onClick={_ => setV('')}>Clear</Button>
+
+
+        <Search /> <br /><br />
+
+        <Select color="danger" data={[
+          { id: 1, name: 'John Doe' },
+          { id: 2, name: 'Jane Doe' },
+          { id: 3, name: 'Foo Bar' }
+        ]} valueId="id" valueLabel="name" required />
+
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt, corporis corrupti. Repellendus impedit odio, amet ea blanditiis aut nobis, odit neque aliquid quibusdam reprehenderit temporibus quas deserunt, possimus suscipit magnam.
+        </p>
+
+        <Password />
+        <Password strong={false} min={4} />
+
+        <Input type="number" />
+
+        <Flex jc="space-between">
+          <Checkbox />
+          <Checkbox color="secondary" />
+          <Checkbox color="danger" />
+        </Flex>
+
+        <Birthday />
       </Container>
+
 
 
       <br /> <br />

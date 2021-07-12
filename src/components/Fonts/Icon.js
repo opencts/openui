@@ -7,7 +7,9 @@ import * as brands from '@fortawesome/free-brands-svg-icons';
 const icons = { ...solids, ...regulars, ...brands };
 
 function Icon({
-    name
+    name,
+    color = 'primary',
+    ...props
 }) {
 
     function transformName(name) {
@@ -15,7 +17,7 @@ function Icon({
     }
  
     return (
-        <FontAwesomeIcon icon={icons[transformName(name)]} />
+        <FontAwesomeIcon icon={icons[transformName(name)]} {...props} className={'text-' + color + ' icon ' + (props.className ? props.className: '')} />
     )
 }
 
