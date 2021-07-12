@@ -14,8 +14,9 @@ function Icon({
 
     function transformName(name) {
         return 'fa' + name[0].toUpperCase() + name.substr(1);
+
     }
- 
+
     return (
         <FontAwesomeIcon icon={icons[transformName(name)]} {...props} className={'text-' + color + ' icon ' + (props.className ? props.className: '')} />
     )

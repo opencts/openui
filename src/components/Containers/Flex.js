@@ -7,10 +7,10 @@ function Flex({
     ...props
 }) {
 
-    const css = 'flex' + (jc ? (' f-jc-' + jc) : '') + (ai ? (' f-ai-' + ai) : ''); 
+    const css = 'flex' + (jc ? (' f-jc-' + jc) : '') + (ai ? (' f-ai-' + ai) : '');
 
     return (
-        <div className={css + (props.className ? (' ' + props.className): '')} {...props}>
+        <div className={css + (props.className ? (' ' + props.className) : '')} {...props}>
             {children}
         </div>
     )
