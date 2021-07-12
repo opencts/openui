@@ -8,7 +8,7 @@ function Flex({
 }) {
 
     const css = 'flex' + (jc ? (' f-jc-' + jc) : '') + (ai ? (' f-ai-' + ai) : ''); 
-    console.log(css)
+    //console.log(css)
 
     return (
         <div className={css + (props.className ? (' ' + props.className): '')} {...props}>

@@ -52,7 +52,7 @@ function Border({
         delete customStyle.border;
     }
 
-    console.log(customStyle)
+    //console.log(customStyle)
 
     const handleMargin = (marginValue, prefix) => {
         let trueMargin = '';
@@ -83,7 +83,7 @@ function Border({
         ...props
     }));
 
-    console.log({ ...customStyle, ...props.style })
+   // console.log({ ...customStyle, ...props.style })
 
     return newChildren;
 }

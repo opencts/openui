@@ -55,6 +55,9 @@ $dark-gray: #686c75;
 $gray: #9b9ea3;
 $light-gray: #e4e6eb;
 $light: #f7f8fa;
+$success: #00841D;
+$danger: #AD320D;
+
 
 $_COLORS: (
     primary: $primary,
@@ -64,6 +67,8 @@ $_COLORS: (
     gray: $gray,
     light-gray: $light-gray,
     light: $light,
+    succes: $success,
+    danger: $danger 
 );
 @each $key, $val in $_COLORS {
     // Text color's generation

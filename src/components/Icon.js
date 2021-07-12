@@ -7,15 +7,17 @@ import * as brands from '@fortawesome/free-brands-svg-icons';
 const icons = { ...solids, ...regulars, ...brands };
 
 function Icon({
-    name
+    name,
+    props
 }) {
 
     function transformName(name) {
         return 'fa' + name[0].toUpperCase() + name.substr(1);
+
     }
- 
+
     return (
-        <FontAwesomeIcon icon={icons[transformName(name)]} />
+        <FontAwesomeIcon icon={icons[transformName(name)]}  {...props} />
     )
 }
 
