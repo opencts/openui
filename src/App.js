@@ -190,26 +190,26 @@ function App() {
       </Container>
 
 
-      {/* <Container style={{ marginTop: "50px" }}>
+      <Container style={{ marginTop: "50px" }}>
         <Alert>User added successfully</Alert>
         <Alert color='warning' type='dense' closable>Are you sure ?</Alert>
         <Alert color='success' type='dense' closable>You're logging successfully !</Alert>
         <Alert color='danger' type='dense' closable>An error occurred !</Alert>
       </Container>
 
-      <Container style={{ marginTop: "50px" }}>
+      {/* <Container style={{ marginTop: "50px" }}>
         <Alert color='info'    type='text' fixed vpos='bottom' hpos='left'>User added successfully</Alert>
         <Alert color='warning' type='text' fixed vpos='top' closable hpos='right'>Are you sure ?</Alert>
         <Alert color='success' type='text' fixed hpos='center'>You're logging successfully !</Alert>
         <Alert color='danger'  type='text'>An error occurred !</Alert>
       </Container> */}
 
-      {/* <Container style={{ marginTop: "50px" }}>
+      <Container style={{ marginTop: "50px" }}>
         <Alert color='info' type='outline'>User added successfully</Alert>
         <Alert color='warning' type='outline'>Are you sure ?</Alert>
         <Alert color='success' type='outline'>You're logging successfully !</Alert>
         <Alert color='danger' type='outline'>An error occurred !</Alert>
-      </Container> */}
+      </Container>
 
       {s && <Dialog title="Test" titleIcon="plus" color="danger" onClose={_ => setS(false)}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ratione minus nam deserunt eos dolorum voluptatem amet hic similique sunt corrupti quod laudantium, quas quibusdam voluptates eum, nemo non expedita?
