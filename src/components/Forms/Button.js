@@ -20,8 +20,13 @@ function Button({
 
     let css = 'btn bg-' + color;
     let style = { ...props.style };
+    let rippleAttrs = {
+        raised: false,
+        expand: false
+    };
     if (raised) {
         css += ' raised';
+        rippleAttrs.raised = true;
     }
 
     if (iconRight) iconLeft = false;
@@ -42,73 +47,17 @@ function Button({
 
     if (expand) {
         style.width = '100%';
-
-        if (raised) {
-            return (
-                <Ripple raised expand>
-                    <button className={css} {...props} style={style}>
-                        <Flex jc="center" ai="center" gap={10}>
-                            {icon && iconLeft && <Icon name={icon} className="icon-left" />}
-                            {children}
-                            {icon && iconRight && <Icon name={icon} className="icon-right" />}
-                        </Flex>
-                    </button>
-                </Ripple>
-            )
-        }
-
-        if (loading) {
-            return <button className={css} {...props} style={style}>
-                <Flex jc="center" ai="center" gap={10}>
-                    <Icon color={outlined ? color : 'light'} name="spinner" className="spin icon-left" />
-                    {children}
-                </Flex>
-            </button>
-        }
-
-        return (
-            <Ripple expand>
-                <button className={css} {...props} style={style}>
-                    <Flex jc="center" ai="center" gap={5}>
-                        {icon && iconLeft && <Icon color={outlined ? color : 'light'} name={icon} className="icon-left" />}
-                        {children}
-                        {icon && iconRight && <Icon color={outlined ? color : 'light'} name={icon} className="icon-right" />}
-                    </Flex>
-                </button>
-            </Ripple>
-        )
-    }
-
-    if (raised) {
-        return (
-            <Ripple raised>
-                <button className={css} {...props}>
-                    <Flex jc="center" ai="center" gap={10}>
-                        {icon && iconLeft && <Icon name={icon} className="icon-left" />}
-                        {children}
-                        {icon && iconRight && <Icon name={icon} className="icon-right" />}
-                    </Flex>
-                </button>
-            </Ripple>
-        )
-    }
-
-    if (loading) {
-        return <button className={css} {...props}>
-            <Flex jc="center" ai="center" gap={10}>
-                <Icon color={outlined ? color : 'light'} name="spinner" className="spin icon-left" />
-                {children}
-            </Flex>
-        </button>
+        rippleAttrs.expand = true;
     }
 
     return (
-        <Ripple>
-            <button className={css} {...props}>
-                <Flex jc="center" ai="center" gap={5}>
-                    {icon && iconLeft && <Icon color={outlined ? color : 'light'} name={icon} className="icon-left" />}
+        <Ripple {...rippleAttrs}>
+            <button className={css} {...props} style={{ ...props.style, ...style }}>
+                <Flex jc="center" ai="center" gap={10}>
+                    {icon && iconLeft && <Icon color={outlined ? color : null} name={icon} className="icon-left" />}
+                    {loading && <Icon color={outlined ? color : null} name="spinner" className="spin icon-left" />}
                     {children}
-                    {icon && iconRight && <Icon color={outlined ? color : 'light'} name={icon} className="icon-right" />}
+                    {icon && iconRight && <Icon color={outlined ? color : null} name={icon} className="icon-right" />}
                 </Flex>
             </button>
         </Ripple>

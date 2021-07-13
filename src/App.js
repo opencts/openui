@@ -117,6 +117,7 @@ function App() {
         <Button rounded icon="coffee" iconRight>Primary</Button> <br />
         <Button rounded icon="camera" color="dark">Primary</Button> <br />
         <Button loading>Primary</Button> <br />
+        <Button raised loading color="light">Primary</Button> <br />
         <br /><br />
 
         <Flex jc="space-between">
