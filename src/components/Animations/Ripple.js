@@ -5,6 +5,7 @@ import { useRef } from 'react';
 function Ripple({
     fromCenter = false,
     raised = false,
+    expand = false,
     children,
     ...props
 }) {
@@ -34,8 +35,20 @@ function Ripple({
         });
     });
 
+    if (expand) {
+        return (
+            <div
+                onClick={handleClick}
+                className={raised ? 'ripple-container-raised' : 'ripple-container'}
+                style={{ width: '100%' }}
+                ref={ref}>
+                {newChildren}
+            </div>
+        )
+    }
+
     return (
-        <div onClick={handleClick} className={raised ? 'ripple-container-raised': 'ripple-container'} ref={ref}>
+        <div onClick={handleClick} className={raised ? 'ripple-container-raised' : 'ripple-container'} ref={ref}>
             {newChildren}
         </div>
     )
