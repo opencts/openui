@@ -53,7 +53,7 @@ function Button({
     return (
         <Ripple {...rippleAttrs}>
             <button className={css} {...props} style={{ ...props.style, ...style }}>
-                <Flex jc="center" ai="center" gap={10}>
+                <Flex jc="center" ai="center" gap={5}>
                     {icon && iconLeft && <Icon color={outlined ? color : null} name={icon} className="icon-left" />}
                     {loading && <Icon color={outlined ? color : null} name="spinner" className="spin icon-left" />}
                     {children}
