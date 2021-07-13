@@ -9,6 +9,7 @@ function Button({
     outlined,
     flatted,
     raised,
+    expand,
     icon,
     children,
     iconLeft = true,
@@ -18,6 +19,7 @@ function Button({
 }) {
 
     let css = 'btn bg-' + color;
+    let style = { ...props.style };
     if (raised) {
         css += ' raised';
     }
@@ -38,11 +40,50 @@ function Button({
         css += ' bg-' + color + '-outlined';
     }
 
+    if (expand) {
+        style.width = '100%';
+
+        if (raised) {
+            return (
+                <Ripple raised expand>
+                    <button className={css} {...props} style={style}>
+                        <Flex jc="center" ai="center" gap={10}>
+                            {icon && iconLeft && <Icon name={icon} className="icon-left" />}
+                            {children}
+                            {icon && iconRight && <Icon name={icon} className="icon-right" />}
+                        </Flex>
+                    </button>
+                </Ripple>
+            )
+        }
+
+        if (loading) {
+            return <button className={css} {...props} style={style}>
+                <Flex jc="center" ai="center" gap={10}>
+                    <Icon color={outlined ? color : 'light'} name="spinner" className="spin icon-left" />
+                    {children}
+                </Flex>
+            </button>
+        }
+
+        return (
+            <Ripple expand>
+                <button className={css} {...props} style={style}>
+                    <Flex jc="center" ai="center" gap={5}>
+                        {icon && iconLeft && <Icon color={outlined ? color : 'light'} name={icon} className="icon-left" />}
+                        {children}
+                        {icon && iconRight && <Icon color={outlined ? color : 'light'} name={icon} className="icon-right" />}
+                    </Flex>
+                </button>
+            </Ripple>
+        )
+    }
+
     if (raised) {
         return (
             <Ripple raised>
                 <button className={css} {...props}>
-                    <Flex jc="space-between" ai="center">
+                    <Flex jc="center" ai="center" gap={10}>
                         {icon && iconLeft && <Icon name={icon} className="icon-left" />}
                         {children}
                         {icon && iconRight && <Icon name={icon} className="icon-right" />}
@@ -54,8 +95,8 @@ function Button({
 
     if (loading) {
         return <button className={css} {...props}>
-            <Flex jc="space-between" ai="center">
-                 <Icon color={outlined ? color: 'light'} name="spinner" className="spin icon-left" />
+            <Flex jc="center" ai="center" gap={10}>
+                <Icon color={outlined ? color : 'light'} name="spinner" className="spin icon-left" />
                 {children}
             </Flex>
         </button>
@@ -64,10 +105,10 @@ function Button({
     return (
         <Ripple>
             <button className={css} {...props}>
-                <Flex jc="space-between" ai="center">
-                    {icon && iconLeft && <Icon color={outlined ? color: 'light'} name={icon} className="icon-left" />}
+                <Flex jc="center" ai="center" gap={5}>
+                    {icon && iconLeft && <Icon color={outlined ? color : 'light'} name={icon} className="icon-left" />}
                     {children}
-                    {icon && iconRight && <Icon color={outlined ? color: 'light'} name={icon} className="icon-right" />}
+                    {icon && iconRight && <Icon color={outlined ? color : 'light'} name={icon} className="icon-right" />}
                 </Flex>
             </button>
         </Ripple>
