@@ -1,5 +1,5 @@
 import React from 'react';
-import Element from '../../components/Element'
+import Element from '../../components/Containers/Element'
 import '../assets/scss/_index.scss';
 
 export default {

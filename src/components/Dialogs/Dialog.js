@@ -11,7 +11,8 @@ function Dialog({
     actionIcon = 'windowClose',
     actionIconColor = 'light',
     children,
-    onClose = _ => {}
+    onClose = _ => {},
+    actions = _ => {}
 }) {
     return (
         <div className="dialog">
@@ -25,11 +26,14 @@ function Dialog({
                                     {title}
                                 </h5>
                             </Flex>
-                            <Icon name={actionIcon} onClick={onClose()} color={actionIconColor} />
+                            <Icon name={actionIcon} onClick={onClose} color={actionIconColor} />
                         </Flex>
                     </div>
                     <div className="dialog-subcontent">
                         {children}
+                    </div>
+                    <div className="dialog-actions">
+                        {actions()}
                     </div>
                 </div>
             </Transition>

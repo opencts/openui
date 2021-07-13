@@ -18,10 +18,12 @@ import Checkbox from "./components/Forms/Checkbox";
 import Birthday from "./components/Forms/Birthday";
 import Alert from './components/Dialogs/Alert';
 import Upload from "./components/Forms/Upload";
+import Dialog from "./components/Dialogs/Dialog";
 
 function App() {
 
   const [v, setV] = useState('');
+  const [s, setS] = useState(false);
 
   return (
     <div className="pb-5">
@@ -122,7 +124,7 @@ function App() {
           <FloatingButton size="45" icon="camera" color="secondary" circled={false} />
           <FloatingButton size="20" icon="times" color="danger" />
           <FloatingButton size="60" icon="question" color="success" />
-          <FloatingButton size="30" icon="minus" color="danger" />
+          <FloatingButton size="30" icon="minus" color="light" />
           <FloatingButton size="60" icon="question" color="success" circled={false} />
         </Flex>
 
@@ -150,12 +152,18 @@ function App() {
 
         {v}
 
-        <Button onClick={_ => setV('')}>Clear</Button>
+        <Button onClick={_ => setS(true)}>Clear</Button>
 
 
         <Search /> <br /><br />
 
         <Select color="danger" data={[
+          { id: 1, name: 'John Doe' },
+          { id: 2, name: 'Jane Doe' },
+          { id: 3, name: 'Foo Bar' }
+        ]} valueId="id" valueLabel="name" required />
+
+        <Select multiple color="danger" data={[
           { id: 1, name: 'John Doe' },
           { id: 2, name: 'Jane Doe' },
           { id: 3, name: 'Foo Bar' }
@@ -178,11 +186,11 @@ function App() {
 
         <Birthday onChange={v => console.log(v)} />
 
-        <Upload />
+        <Upload onUploadEnd={files => console.log(files)} />
       </Container>
 
 
-      <Container style={{ marginTop: "50px" }}>
+      {/* <Container style={{ marginTop: "50px" }}>
         <Alert>User added successfully</Alert>
         <Alert color='warning' type='dense' closable>Are you sure ?</Alert>
         <Alert color='success' type='dense' closable>You're logging successfully !</Alert>
@@ -194,14 +202,18 @@ function App() {
         <Alert color='warning' type='text' fixed vpos='top' closable hpos='right'>Are you sure ?</Alert>
         <Alert color='success' type='text' fixed hpos='center'>You're logging successfully !</Alert>
         <Alert color='danger'  type='text'>An error occurred !</Alert>
-      </Container>
+      </Container> */}
 
-      <Container style={{ marginTop: "50px" }}>
+      {/* <Container style={{ marginTop: "50px" }}>
         <Alert color='info' type='outline'>User added successfully</Alert>
         <Alert color='warning' type='outline'>Are you sure ?</Alert>
         <Alert color='success' type='outline'>You're logging successfully !</Alert>
         <Alert color='danger' type='outline'>An error occurred !</Alert>
-      </Container>
+      </Container> */}
+
+      {s && <Dialog title="Test" titleIcon="plus" color="danger" onClose={_ => setS(false)}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ratione minus nam deserunt eos dolorum voluptatem amet hic similique sunt corrupti quod laudantium, quas quibusdam voluptates eum, nemo non expedita?
+      </Dialog>}
 
       <br /> <br />
     </div>
