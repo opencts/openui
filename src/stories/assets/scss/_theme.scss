@@ -55,6 +55,9 @@ $dark-gray: #686c75;
 $gray: #9b9ea3;
 $light-gray: #e4e6eb;
 $light: #f7f8fa;
+$success: #00841D;
+$danger: #AD320D;
+
 
 $_COLORS: (
     primary: $primary,
@@ -64,7 +67,10 @@ $_COLORS: (
     gray: $gray,
     light-gray: $light-gray,
     light: $light,
+    success: $success,
+    danger: $danger
 );
+
 @each $key, $val in $_COLORS {
     // Text color's generation
     .text-#{$key} {
@@ -76,12 +82,25 @@ $_COLORS: (
         .bg-#{$key} {
             background-color: $val;
             color: $dark;
+            border: solid 1px $val;
         }
     } @else {
         .bg-#{$key} {
             background-color: $val;
             color: $light;
         }
+    }
+
+    // Outlined features generation
+    .bg-#{$key}-outlined {
+        background-color: $light;
+        color: $val;
+        border: solid 1px $val !important;
+    }
+
+    // Borders
+    .border-#{$key} {
+        border: solid 1px $val !important;
     }
 }
 
@@ -161,4 +180,26 @@ $spacings: 0, 0.25, 0.5, 1, 1.5, 3;
     }
 }
 
+// Positions
+.fixed {
+    position: fixed;
+}
 
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.sticky {
+    position: sticky;
+}
+
+.static {
+    position: static;
+}
+
+// Shadow box
+$shadow: 0 0 5px 0 $gray;

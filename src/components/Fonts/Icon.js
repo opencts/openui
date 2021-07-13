@@ -8,7 +8,7 @@ const icons = { ...solids, ...regulars, ...brands };
 
 function Icon({
     name,
-    color = 'primary',
+    color = null,
     ...props
 }) {
 
@@ -17,8 +17,14 @@ function Icon({
 
     }
 
+    if (!color) {
+        return (
+            <FontAwesomeIcon icon={icons[transformName(name)]} {...props} className={'icon ' + (props.className ? props.className : '')} />
+        )
+    }
+
     return (
-        <FontAwesomeIcon icon={icons[transformName(name)]} {...props} className={'text-' + color + ' icon ' + (props.className ? props.className: '')} />
+        <FontAwesomeIcon icon={icons[transformName(name)]} {...props} className={'text-' + color + ' icon ' + (props.className ? props.className : '')} />
     )
 }
 

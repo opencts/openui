@@ -2,8 +2,8 @@ import React from 'react'
 
 function Transition({
     name = 'fade-in',
-    duration = '1',
-    timingFunction = 'ease',
+    duration = '0.5',
+    timingFunction = 'ease-in-out',
     delay = '0',
     count = '1',
     direction = 'alternate',

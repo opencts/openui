@@ -1,5 +1,5 @@
 import React from 'react'
-import Ripple from '../../components/Ripple';
+import Ripple from '../../components/Animations/Ripple';
 import '../assets/scss/_index.scss';
 
 export default {

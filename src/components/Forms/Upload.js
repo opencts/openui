@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Flex from '../Containers/Flex'
 import Dialog from '../Dialogs/Dialog'
 import Icon from '../Fonts/Icon'
@@ -9,12 +9,16 @@ function Upload({
     btnText = 'Browse',
     color = 'primary',
     dropText = 'Drop Here or click to upload',
-    finishText = 'Finish'
+    finishText = 'Finish',
+    multiple = true,
+    uploadFunction = null,
+    onUploadEnd = () => { }
 }) {
 
     const [files, setFiles] = useState([]);
     const [curOpened, setCurOpened] = useState(null);
     const [opened, setOpened] = useState(false);
+    const fileRef = useRef(null);
 
     function handleDrop(ev) {
         ev.preventDefault();
@@ -70,6 +74,29 @@ function Upload({
         </div>
     }
 
+    function handleFileChange(e) {
+        console.log(e)
+        setFiles([...files, ...e.target.files]);
+    }
+
+    async function doUpload() {
+        if (!uploadFunction) {
+            const promises = [];
+            for (const el of files) {
+                const p = new Promise(r => {
+                    const fr = new FileReader();
+                    fr.readAsDataURL(el);
+                    fr.onloadend = _ => r(fr.result);
+                });
+                promises.push(p);
+            }
+            onUploadEnd(await Promise.all(promises));
+        } else {
+            onUploadEnd(await uploadFunction(files));
+        }
+        setOpened(false);
+    }
+
     return (
         <div>
             <div className={'upload border-' + color}>
@@ -82,30 +109,32 @@ function Upload({
                             </div>
                         </Flex>
                     </div>
-                    <Button color={color} onClick={_ => {
-                        console.log('opening');
-                        setOpened(true);
-                    }}>{btnText}</Button>
+                    <Button color={color} onClick={_ => setOpened(true)}>{btnText}</Button>
                 </Flex>
-            </div> :
-            {opened && <Dialog title="Upload" titleIcon="cloudDownloadAlt" onClose={_ => setOpened(false)}>
+            </div>
+            {opened && <Dialog
+                title="Upload"
+                titleIcon="cloudDownloadAlt"
+                actions={_ => curOpened ? <div className="mt-2">
+                    <Button expand color="danger" onClick={_ => setCurOpened(null)}>Back</Button>
+                </div> : (
+                        files.length > 0 ? <div className="mt-2">
+                            <Button expand onClick={doUpload}>{finishText}</Button>
+                        </div> : null
+                    )}
+                onClose={_ => setOpened(false)}>
                 {!curOpened ? <div>
-                    <div className="drop-zone">
+                    <div className="drop-zone" onClick={_ => fileRef.current.click()}>
+                        <input multiple={multiple} ref={fileRef} style={{ display: 'none' }} type="file" onChange={handleFileChange} />
                         <Flex ai="center" jc="center" gap={10}>
                             <Icon color="dark" name="cloudDownloadAlt" />
                             <div onDrop={handleDrop} onDragOver={e => e.preventDefault()}>{dropText}</div>
                         </Flex>
                     </div>
                     {displayFiles()}
-                    {files.length > 0 && <div className="mt-2">
-                        <Button expand>{finishText}</Button>
-                    </div>}
                 </div> : <div>
                         <div style={{ overflow: 'auto' }}>
                             <embed className="embed" type={curOpened.file.type} src={curOpened.b64} />
-                        </div>
-                        <div className="mt-2">
-                            <Button expand onClick={_ => setCurOpened(null)}>Back</Button>
                         </div>
                     </div>}
             </Dialog>}
