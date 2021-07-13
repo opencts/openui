@@ -1,5 +1,5 @@
 import React from 'react'
-import Font from '../../components/Font'
+import Font from '../../components/Fonts/Font'
 import '../assets/scss/_index.scss';
 
 export default {

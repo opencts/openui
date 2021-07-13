@@ -25,7 +25,7 @@ function FloatingButton({
 
     return (
         <div className={css} style={{ ...customStyle }}>
-            <Icon color="light" name={icon} />
+            <Icon color="dark" name={icon} />
         </div>
     )
 }
