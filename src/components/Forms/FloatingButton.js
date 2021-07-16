@@ -1,4 +1,5 @@
 import React from 'react'
+import _THEME_COLORS from '../../services/_colors';
 import Icon from '../Fonts/Icon'
 
 function FloatingButton({
@@ -6,13 +7,15 @@ function FloatingButton({
     icon,
     size = '30',
     position = null,
+    elevation = 9,
     circled = true
 }) {
 
     let css = 'floating bg-' + color;
     const customStyle = {
         width: size + 'px',
-        height: size + 'px'
+        height: size + 'px',
+        boxShadow: `0 0 ${elevation}px 0 ${_THEME_COLORS.$gray}`
     }
 
     if (position) {

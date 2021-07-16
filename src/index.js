@@ -3,11 +3,23 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './assets/scss/_index.scss';
+import DialogProvider from './services/DialogProvider';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Admin from './views/Admin';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <DialogProvider>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact>
+          <App />
+        </Route>
+        <Route path="/admin">
+          <Admin />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  </DialogProvider>,
   document.getElementById('root')
 );
 

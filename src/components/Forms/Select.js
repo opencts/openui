@@ -32,7 +32,6 @@ function Select({
 
     function selectItem(item, index) {
         const v = JSON.parse(JSON.stringify(values));
-        console.log(index)
         if (!multiple) {
             setValues([item]);
             onChange(item);
