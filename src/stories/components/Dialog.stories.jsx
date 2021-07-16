@@ -4,7 +4,7 @@ import '../assets/scss/_index.scss';
 import '../assets/scss/_dialogs.scss';
 
 export default {
-    title: 'Forms/Dialog',
+    title: 'Dialogs/Dialog',
     component: Dialog
 }
 

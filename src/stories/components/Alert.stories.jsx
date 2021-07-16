@@ -4,7 +4,7 @@ import '../assets/scss/_index.scss';
 import '../assets/scss/_alerts.scss';
 
 export default {
-    title: 'Forms/Alert',
+    title: 'Dialogs/Alert',
     component: Alert
 }
 

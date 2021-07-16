@@ -6,7 +6,7 @@ function FloatingButton({
     color = 'primary',
     icon,
     size = '30',
-    position = null,
+    position = '',
     elevation = 9,
     circled = true
 }) {
