@@ -75,7 +75,6 @@ function Upload({
     }
 
     function handleFileChange(e) {
-        console.log(e)
         setFiles([...files, ...e.target.files]);
     }
 

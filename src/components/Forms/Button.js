@@ -24,7 +24,7 @@ function Button({
         raised: false,
         expand: false
     };
-    if (raised) {
+    if (raised && !rounded) {
         css += ' raised';
         rippleAttrs.raised = true;
     }
@@ -50,17 +50,19 @@ function Button({
         rippleAttrs.expand = true;
     }
 
+    delete props.style;
+
     return (
-        <Ripple {...rippleAttrs}>
-            <button className={css} {...props} style={{ ...props.style, ...style }}>
-                <Flex jc="center" ai="center" gap={5}>
-                    {icon && iconLeft && <Icon color={outlined ? color : null} name={icon} className="icon-left" />}
+        <button className={css} {...props} style={{ width: style.width }}>
+            <Ripple {...rippleAttrs}>
+                <Flex jc="center" ai="center" gap={5} className="pt-1 pr-2 pb-1 pl-2" style={style}>
+                    {icon && iconLeft && !loading && <Icon color={outlined ? color : null} name={icon} className="icon-left" />}
                     {loading && <Icon color={outlined ? color : null} name="spinner" className="spin icon-left" />}
                     {children}
-                    {icon && iconRight && <Icon color={outlined ? color : null} name={icon} className="icon-right" />}
+                    {icon && iconRight && !loading && <Icon color={outlined ? color : null} name={icon} className="icon-right" />}
                 </Flex>
-            </button>
-        </Ripple>
+            </Ripple>
+        </button>
     )
 }
 
