@@ -1,6 +1,7 @@
 import React from 'react'
 import FloatingButton from '../../components/Forms/FloatingButton';
 import '../assets/scss/_index.scss';
+import '../assets/scss/_buttons.scss';
 
 export default {
     title: 'General/FloatingButton',
@@ -15,7 +16,7 @@ Default.args = {
     color :'light',
     icon: 'question',
     size : '30',
-    position : null,
+    position : '',
     circled : true
 }
 
@@ -24,6 +25,6 @@ Primary.args = {
     color : 'primary',
     icon: 'plus',
     size : '30',
-    position : null,
+    position : '',
     circled : true
 }

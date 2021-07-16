@@ -5,7 +5,7 @@ function FloatingButton({
     color = 'primary',
     icon,
     size = '30',
-    position = null,
+    position = '',
     circled = true
 }) {
 
@@ -15,7 +15,7 @@ function FloatingButton({
         height: size + 'px'
     }
 
-    if (position) {
+    if (position !== '') {
         css += ' pos-' + position.split(/[ -,]/).join('-');
     }
 

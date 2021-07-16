@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../../components/Forms/Button';
 import '../assets/scss/_index.scss';
-import '../assets/scss/_inputs.scss';
+import '../assets/scss/_buttons.scss';
 
 export default {
     title: 'Forms/Button',
@@ -17,8 +17,8 @@ Default.args = {
     outlined: false,
     flatted: false,
     raised: true,
-    expand: true,
-    icon: 'user',
+    expand: false,
+    icon: '',
     iconLeft: true,
     iconRight: false,
     loading: false,
