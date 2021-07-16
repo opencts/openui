@@ -19,11 +19,22 @@ import Birthday from "./components/Forms/Birthday";
 import Alert from './components/Dialogs/Alert';
 import Upload from "./components/Forms/Upload";
 import Dialog from "./components/Dialogs/Dialog";
+import Avatar from "./components/Tips/Avatar";
+import avatar from './assets/img/avatar.jpg';
+import Badge from "./components/Tips/Badge";
+import Tab from "./components/Tabs/Tab";
+import TabItem from "./components/Tabs/TabItem";
+import { useDialog } from "./services/DialogProvider";
+import ListItem from "./components/List/ListItem";
+import ListGroup from "./components/List/ListGroup";
+import List from "./components/List/List";
+import Breadcrumbs from "./components/List/Breadcrumbs";
 
 function App() {
 
   const [v, setV] = useState('');
   const [s, setS] = useState(false);
+  const { confirm, alert } = useDialog();
 
   return (
     <div className="pb-5">
@@ -105,22 +116,23 @@ function App() {
       <br /><br /><br />
 
       <Container>
-        <Button>Primary</Button> <br />
-        <Button flatted>Primary</Button> <br />
-        <Button outlined icon="check">Primary</Button> <br />
-        <Button raised>Primary</Button> <br />
-        <Button rounded>Primary</Button> <br />
-        <Button color="secondary">Primary</Button> <br />
-        <Button color="success">Primary</Button> <br />
-        <Button color="danger">Primary</Button> <br />
-        <Button disabled>Primary</Button> <br />
-        <Button rounded icon="coffee" iconRight>Primary</Button> <br />
-        <Button rounded icon="camera" color="dark">Primary</Button> <br />
-        <Button loading>Primary</Button> <br />
-        <Button raised loading color="light">Primary</Button> <br />
+        <Button style={{ padding: '12px 30px' }}>Primary</Button> <br /> <br />
+        <Button flatted>Primary</Button> <br /> <br />
+        <Button outlined>Primary</Button> <br /> <br />
+        <Button raised>Primary</Button> <br /> <br />
+        <Button rounded>Primary</Button> <br /> <br />
+        <Button color="secondary">Primary</Button> <br /> <br />
+        <Button color="success">Primary</Button> <br /> <br />
+        <Button color="danger">Primary</Button> <br /> <br />
+        <Button disabled>Primary</Button> <br /> <br />
+        <Button rounded icon="coffee" iconRight>Primary</Button> <br /> <br />
+        <Button rounded icon="camera" color="dark">Primary</Button> <br /> <br />
+        <Button loading>Primary</Button> <br /> <br />
+        <Button raised loading color="light">Primary</Button> <br /> <br />
+        <Button color="light">Light</Button> <br /> <br />
         <br /><br />
 
-        <Flex jc="space-between">
+        <Flex jc="space-between" style={{ padding: '30px' }}>
           <FloatingButton icon="plus" />
           <FloatingButton size="45" icon="camera" color="secondary" circled={false} />
           <FloatingButton size="20" icon="times" color="danger" />
@@ -215,6 +227,130 @@ function App() {
       {s && <Dialog title="Test" titleIcon="plus" color="danger" onClose={_ => setS(false)}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ratione minus nam deserunt eos dolorum voluptatem amet hic similique sunt corrupti quod laudantium, quas quibusdam voluptates eum, nemo non expedita?
       </Dialog>}
+
+      <Container style={{ marginTop: "50px" }}>
+        <Flex gap={10}>
+          <Avatar letter="O" />
+          <Avatar letter="A" color="dark" />
+          <Avatar letter="J" color="light" />
+          <Avatar letter="OF" size={50} />
+          <Avatar img={avatar} size={50} />
+        </Flex>
+        <br /><br />
+
+      </Container>
+
+      <Container>
+        <Avatar letter="S" />
+        <Avatar letter="S" />
+        <Avatar letter="S" />
+        <Badge />
+        <Badge>3</Badge>
+        <Badge>379</Badge>
+
+        <br />
+
+        <Icon name="user" /><Badge>3</Badge> <br /><br />
+        <Icon name="user" /><Badge vpos="top"></Badge> <br /><br />
+        <Badge vpos="top">379</Badge> <Icon name="user" /> <br /><br />
+
+        <Tab direction="v">
+          <TabItem title="Tab1">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, facere. Repellat eveniet culpa autem? Labore vero numquam quas itaque officia! Dolores assumenda, dignissimos quisquam obcaecati cum reprehenderit repudiandae modi explicabo?
+        </TabItem>
+          <TabItem title="Tab2">
+            Lorem2
+        </TabItem>
+          <TabItem title="Tab3">
+            Lorem3
+        </TabItem>
+          <TabItem title="Tab4" icon="times">
+            Lorem4
+        </TabItem>
+          <TabItem title="Tab5" icon="times">
+            Lorem5
+        </TabItem>
+          <TabItem title="Tab6" icon="times">
+            Lorem6
+        </TabItem>
+          <TabItem title="Tab7" icon="times">
+            Lorem7
+        </TabItem>
+          <TabItem title="Tab8" icon="times">
+            Lorem8
+        </TabItem>
+          <TabItem title="Tab9" icon="times">
+            Lorem9
+        </TabItem>
+          <TabItem title="Tab10" icon="times">
+            Lorem10
+        </TabItem>
+
+        </Tab>
+
+        <Button onClick={_ => confirm('Yo les bros !', {
+          onConfirm: _ => window.alert('Done!')
+        })}>Open Confirm</Button>
+
+        <Button onClick={_ => alert('error', 'Oups !', {
+          finishText: 'Quitter'
+        })}>Open alert Error</Button>
+
+        <Button onClick={_ => alert('success', 'Yo les bros !')}>Open alert success</Button> <br />
+
+
+        <List>
+          <ListGroup title="Group 1">
+            <ListItem>
+              This is an item
+          </ListItem>
+            <ListItem>
+              This is an item
+          </ListItem>
+          </ListGroup>
+
+          <ListGroup title="Group 2">
+            <ListItem
+              avatar
+              avatarLetter="S"
+              actions={[
+                { icon: 'edit', color: 'primary' },
+                { icon: 'trash', color: 'danger' },
+              ]}>
+              <div>
+                <h5>Title</h5>
+                <span>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque tempore dolore aliquid, tempora quasi repellat unde rerum laboriosam, aspernatur ipsam ut officiis accusamus voluptas, suscipit voluptates amet. Explicabo, ab doloribus!
+              </span>
+              </div>
+            </ListItem>
+          </ListGroup>
+
+          <ListGroup title="Group 3">
+            <ListItem
+              avatar
+              avatarImg={avatar}
+              avatarSize={30}
+              actions={[
+                { icon: 'infoCircle', color: 'gray' }
+              ]}>
+              Jane Doe
+            </ListItem>
+            <ListItem
+              avatar
+              avatarImg={avatar}
+              avatarSize={30}
+              actions={[
+                { icon: 'infoCircle', color: 'gray' }
+              ]}>
+              Jonathan Joester
+            </ListItem>
+          </ListGroup>
+        </List>
+
+        <Breadcrumbs />
+      </Container>
+
 
       <br /> <br />
     </div>
