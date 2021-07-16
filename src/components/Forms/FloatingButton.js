@@ -6,7 +6,7 @@ function FloatingButton({
     color = 'primary',
     icon,
     size = '30',
-    position = null,
+    position = '',
     elevation = 9,
     circled = true
 }) {
@@ -18,7 +18,7 @@ function FloatingButton({
         boxShadow: `0 0 ${elevation}px 0 ${_THEME_COLORS.$gray}`
     }
 
-    if (position) {
+    if (position !== '') {
         css += ' pos-' + position.split(/[ -,]/).join('-');
     }
 

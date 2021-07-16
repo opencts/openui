@@ -13,7 +13,7 @@ export const Default = Template.bind({})
 Default.args = {
     color: '',
     background: '',
-    size: 'regular',
+    size: 'lv5',
     lineHeight: 2,
     weight: '',
     inline: false

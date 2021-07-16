@@ -8,7 +8,7 @@ function Select({
     label = 'Select',
     color = 'primary',
     searcheable = true,
-    data,
+    data = [],
     onChange = _ => { },
     valueId = 'id',
     valueLabel = 'name',

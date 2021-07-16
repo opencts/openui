@@ -5,7 +5,7 @@ function Divider({
     color = 'light-gray'
 }) {
     return (
-        <div className={'mt-2 mb-2 bg-' + color} style={{ height: size + 'px' }}></div>
+        <div className={'mt-2 mb-2 bg-' + color} style={{ height: size + 'px' }}/>
     )
 }
 

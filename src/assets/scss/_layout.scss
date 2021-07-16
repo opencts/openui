@@ -5,7 +5,7 @@
 }
 
 .container {
-    width: 72%;
+    width : 72%;
     margin: auto;
 
     @media screen and (max-width: 1000px) {
@@ -19,58 +19,59 @@
 
 /* ---------- Ripple effect --------------------*/
 .ripple-container {
-    position: relative;
-    width: fit-content;
-    overflow: hidden;
+    position        : relative;
+    width           : fit-content;
+    overflow        : hidden;
     background-color: transparent;
-    padding-top: 2px;
+    padding-top     : 2px;
 }
 
 .ripple-container-raised {
-    position: relative;
-    width: fit-content;
-    overflow: hidden;
+    position        : relative;
+    width           : fit-content;
+    overflow        : hidden;
     background-color: transparent;
-    padding: 2px 2px 3px 2px;
+    padding         : 2px 2px 3px 2px;
 }
 
 .ripple {
-    transform: translateX(-50%) translateY(-50%);
+    transform       : translateX(-50%) translateY(-50%);
     background-color: #00000025;
-    animation: rippleAnimation 0.3s ease-out;
+    animation       : rippleAnimation 0.3s ease-out;
 }
 
 .ripple-center {
-    border-radius: 100px;
+    border-radius   : 100px;
     background-color: #00000025;
-    animation: rippleCircleAnimation 0.3s;
+    animation       : rippleCircleAnimation 0.3s;
 }
 
 @keyframes rippleAnimation {
     from {
-        width: 0;
+        width : 0;
         height: 0;
     }
 
     to {
-        width: 10vw;
+        width : 10vw;
         height: 10vh;
     }
 }
 
 @keyframes rippleCircleAnimation {
     from {
-        width: 100%;
-        height: 100%;
+        width    : 100%;
+        height   : 100%;
         transform: scale(0);
     }
 
     to {
-        width: 100%;
-        height: 100%;
+        width    : 100%;
+        height   : 100%;
         transform: scale(1);
     }
 }
+
 /* ------------------------------*/
 
 /* ---------- Animations effect --------------------*/
@@ -79,62 +80,67 @@
 }
 
 .fade-in {
-    width: fit-content;
+    width         : fit-content;
     animation-name: fadein;
 }
 
 .fade-out {
-    width: fit-content;
+    width         : fit-content;
     animation-name: fadeout;
 }
 
 .slide-down {
-    width: fit-content;
+    width         : fit-content;
     animation-name: slidedown;
 }
 
 .slide-up {
-    width: fit-content;
+    width         : fit-content;
     animation-name: slideup;
+
     &:hover {
         animation: fadein 0.3s;
     }
 }
 
 .slide-in {
-    width: fit-content;
+    width         : fit-content;
     animation-name: slidein;
+
     &:hover {
         animation: fadein 0.3s;
     }
 }
 
 .slide-out {
-    width: fit-content;
+    width         : fit-content;
     animation-name: slideout;
+
     &:hover {
         animation: fadein 0.3s;
     }
 }
 
 .zoom-in {
-    width: fit-content;
+    width         : fit-content;
     animation-name: zoomin;
+
     &:hover {
         animation: fadein 0.3s;
     }
 }
 
 .zoom-out {
-    width: fit-content;
+    width         : fit-content;
     animation-name: zoomout;
+
     &:hover {
         animation: fadein 0.3s;
     }
 }
 
 .shake {
-    width: fit-content;
+    width         : fit-content;
     animation-name: shake;
 }
 
@@ -142,6 +148,7 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -151,6 +158,7 @@
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }
@@ -160,6 +168,7 @@
     from {
         transform: translateY(-100vh);
     }
+
     to {
         transform: translateY(0);
     }
@@ -169,6 +178,7 @@
     from {
         transform: translateY(100vh);
     }
+
     to {
         transform: translateY(0);
     }
@@ -178,6 +188,7 @@
     from {
         transform: translateX(-100vw);
     }
+
     to {
         transform: translateX(0);
     }
@@ -187,6 +198,7 @@
     from {
         transform: translateX(0);
     }
+
     to {
         transform: translateX(100vw);
     }
@@ -196,6 +208,7 @@
     from {
         transform: scale(0.5);
     }
+
     to {
         transform: scale(1);
     }
@@ -205,6 +218,7 @@
     from {
         transform: scale(1.25);
     }
+
     to {
         transform: scale(1);
     }
@@ -214,28 +228,36 @@
     0% {
         transform: skew(3deg, 3deg);
     }
+
     50% {
         transform: skew(-3deg, -3deg);
     }
+
     to {
         transform: skew(0deg, 0deg);
     }
 }
 
 @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
+
 /* ------------------------------*/
 
 /* ---------- Flexbox --------------------*/
 .flex {
-    display: flex;
+    display   : flex;
     overflow-x: auto;
 }
 
 .flex-wrap {
-    display: flex;
+    display  : flex;
     flex-wrap: wrap;
 }
 
@@ -286,6 +308,7 @@
 .f-ai-space-around {
     align-items: space-around;
 }
+
 /* ------------------------------*/
 
 /* ---------- Grid --------------------*/
@@ -295,14 +318,16 @@
 
 @for $i from 1 to 20 {
     .grid-cols-#{$i} {
-        grid-template-columns: repeat(auto-fit, minmax(100% / $i, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(100% / ($i+1), 1fr));
     }
 }
+
 /* ------------------------------*/
 
 /* ---------- Tab --------------------*/
 .tab-v {
-    display: grid;
+    display              : grid;
     grid-template-columns: 1fr 9fr;
 }
+
 /* ------------------------------*/

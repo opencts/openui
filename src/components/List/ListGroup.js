@@ -2,6 +2,7 @@ import React from 'react'
 import Flex from '../Containers/Flex'
 import Icon from '../Fonts/Icon'
 import Divider from './Divider'
+import '../../assets/scss/_index.scss';
 
 function ListGroup({
     title = '',

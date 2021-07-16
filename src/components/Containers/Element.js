@@ -1,7 +1,7 @@
 import { Children } from 'react'
 import { cloneElement } from 'react';
 
-function Border({
+function Element({
     margin = '0',
     padding = '0',
     radius = '0',
@@ -84,4 +84,4 @@ function Border({
     return newChildren;
 }
 
-export default Border;
+export default Element;

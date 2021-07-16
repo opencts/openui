@@ -2,9 +2,23 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
-import { validate, _ERROR_MSGS } from '../../services/validators'
+import { validate } from '../../services/validators'
 import Flex from '../Containers/Flex'
 import Icon from '../Fonts/Icon'
+
+const _ERROR_MSGS = {
+    email: 'Need a valid email address',
+    min: value => `Your value must be greater than ${value - 1}`,
+    max: value => `Your value must be less than ${value + 1}`,
+    minLength: value => `${value} characters at least`,
+    maxLength: value => `${value} characters at most`,
+    pattern: 'Invalid format',
+    required: 'This field is required',
+    password: ({ min, strong }) => strong ?
+        '8 characters at least - Lowercase, upperCase, number and character among -- !@#%^&*_ = -- are required' :
+        `${min} characters at least`,
+    date: 'Year is required'
+};
 
 function Input({
     color = 'primary',

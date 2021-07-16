@@ -170,11 +170,7 @@ function App() {
 
         <Search /> <br /><br />
 
-        <Select color="danger" data={[
-          { id: 1, name: 'John Doe' },
-          { id: 2, name: 'Jane Doe' },
-          { id: 3, name: 'Foo Bar' }
-        ]} valueId="id" valueLabel="name" required />
+        <Select />
 
         <Select multiple color="danger" data={[
           { id: 1, name: 'John Doe' },
@@ -309,7 +305,7 @@ function App() {
           </ListItem>
           </ListGroup>
 
-          <ListGroup title="Group 2">
+          <ListGroup title="Group 2" titleColor="primary">
             <ListItem
               avatar
               avatarLetter="S"
