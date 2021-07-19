@@ -55,9 +55,9 @@ function ListItem({
                 <div style={{ width: '100%' }} className="mt-1">
                     <Flex ai="center" jc="space-between">
                         {children}
-                        <div className="mr-2 ml-1">
+                        {actions.length > 0 && <div className="mr-2 ml-1">
                             {renderActions()}
-                        </div>
+                        </div>}
                     </Flex>
                     {separatorAfter && <Divider size={separatorSize} color={separatorColor} />}
                 </div>

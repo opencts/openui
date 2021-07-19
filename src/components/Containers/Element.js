@@ -74,14 +74,11 @@ function Element({
     css += ' ' + handleMargin(padding, 'p');
     css += ' ' + position;
     css += (props.className ? ' ' + props.className : '');
+    css += ' fit-content'
 
-    const newChildren = Children.map(children, child => cloneElement(child, {
-        className: css,
-        style: { ...customStyle, ...props.style },
-        ...props
-    }));
-
-    return newChildren;
+    return <div className={css} style={{ ...customStyle, ...props.style }} {...props}>
+        children
+    </div>;
 }
 
 export default Element;

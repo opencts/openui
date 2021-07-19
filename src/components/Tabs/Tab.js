@@ -8,8 +8,8 @@ function Tab({
 }) {
 
     const [headers, setHeaders] = useState([]);
-    const cssDefault = 'bg-light-gray text-dark p-2 pl-3 pr-3';
-    const cssCurrent = 'effect p-2 pl-3 pr-3 bg-' + color;
+    const cssDefault = 'bg-light-gray text-dark p-1 pl-3 pr-3';
+    const cssCurrent = 'effect p-1 pl-3 pr-3 bg-' + color;
     const [loading, setLoading] = useState(true);
 
     function extractChildrenInfo() {
@@ -51,7 +51,7 @@ function Tab({
                 style={{ marginRight: '1px', cursor: 'pointer' }}
                 onClick={_ => changeCurrent(h)}>
                 <Flex key={index} ai="center" jc="center" gap={10}>
-                    {h.icon && <Icon name={h.icon} />}
+                    {h.icon && <Icon style={{ fontSize: '0.65rem' }} name={h.icon} />}
                     <div>{h.title}</div>
                 </Flex>
             </div>)}

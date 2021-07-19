@@ -253,7 +253,11 @@
 /* ---------- Flexbox --------------------*/
 .flex {
     display   : flex;
-    overflow-x: auto;
+}
+
+.flex-auto {
+    display: flex;
+    overflow: auto;
 }
 
 .flex-wrap {
