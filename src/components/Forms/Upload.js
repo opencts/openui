@@ -98,7 +98,7 @@ function Upload({
 
     return (
         <div>
-            <div className={'upload border-' + color}>
+            <div className={'upload border-' + color} style={{ overflow: 'hidden' }}>
                 <Flex ai="center" jc="space-between">
                     <div className="ml-2">
                         <Flex ai="center" gap={10}>
@@ -112,13 +112,14 @@ function Upload({
                 </Flex>
             </div>
             {opened && <Dialog
+                color={color}
                 title="Upload"
                 titleIcon="cloudDownloadAlt"
                 actions={_ => curOpened ? <div className="mt-2">
-                    <Button expand color="danger" onClick={_ => setCurOpened(null)}>Back</Button>
+                    <Button expand color={color} onClick={_ => setCurOpened(null)}>Back</Button>
                 </div> : (
                         files.length > 0 ? <div className="mt-2">
-                            <Button expand onClick={doUpload}>{finishText}</Button>
+                            <Button color={color} expand onClick={doUpload}>{finishText}</Button>
                         </div> : null
                     )}
                 onClose={_ => setOpened(false)}>

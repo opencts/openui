@@ -29,6 +29,10 @@ import ListItem from "./components/List/ListItem";
 import ListGroup from "./components/List/ListGroup";
 import List from "./components/List/List";
 import Breadcrumbs from "./components/List/Breadcrumbs";
+import Card from "./components/Cards/Card";
+import Tooltip from "./components/Tips/Tooltip";
+import Dropdown from "./components/Tips/Dropdown";
+import Accordeon from "./components/Tips/Accordeon";
 
 function App() {
 
@@ -195,7 +199,7 @@ function App() {
 
         <Birthday onChange={v => console.log(v)} />
 
-        <Upload onUploadEnd={files => console.log(files)} />
+        <Upload onUploadEnd={files => console.log(files)} color="secondary" />
       </Container>
 
 
@@ -253,35 +257,22 @@ function App() {
         <Tab direction="v">
           <TabItem title="Tab1">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, facere. Repellat eveniet culpa autem? Labore vero numquam quas itaque officia! Dolores assumenda, dignissimos quisquam obcaecati cum reprehenderit repudiandae modi explicabo?
-        </TabItem>
+          </TabItem>
           <TabItem title="Tab2">
             Lorem2
-        </TabItem>
+          </TabItem>
           <TabItem title="Tab3">
             Lorem3
-        </TabItem>
+          </TabItem>
           <TabItem title="Tab4" icon="times">
             Lorem4
-        </TabItem>
+          </TabItem>
           <TabItem title="Tab5" icon="times">
             Lorem5
-        </TabItem>
+          </TabItem>
           <TabItem title="Tab6" icon="times">
             Lorem6
-        </TabItem>
-          <TabItem title="Tab7" icon="times">
-            Lorem7
-        </TabItem>
-          <TabItem title="Tab8" icon="times">
-            Lorem8
-        </TabItem>
-          <TabItem title="Tab9" icon="times">
-            Lorem9
-        </TabItem>
-          <TabItem title="Tab10" icon="times">
-            Lorem10
-        </TabItem>
-
+          </TabItem>
         </Tab>
 
         <Button onClick={_ => confirm('Yo les bros !', {
@@ -345,10 +336,115 @@ function App() {
         </List>
 
         <Breadcrumbs />
+
+
+        <Card padding={5} color="primary">
+          Lorem
+        </Card>
+
+        <Tooltip title="This is a help text with a  very long content">
+          <Button>Hover me, please</Button>
+        </Tooltip> <br />
+
+        <Tooltip title="This is a help text with a  very long content" position="bottom">
+          <Button>Hover me, please</Button>
+        </Tooltip> <br />
+
+        <Tooltip title="This is a help text with a  very long content" position="left">
+          <Button>Hover me, please</Button>
+        </Tooltip> <br />
+
+        <Tooltip title="This is a help text with a  very long content" position="right">
+          <Button>Hover me, please</Button>
+        </Tooltip>
+        <br /><br />
+
+        <Dropdown component={() => <Button>Click me</Button>}>
+          <ListItem separatorAfter={false}>My custom very long Item 1</ListItem>
+          <ListItem separatorAfter={false}>Item 3</ListItem>
+          <Dropdown component={() => <ListItem>Item 3</ListItem>} position="right">
+            <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            </Dropdown>
+            <ListItem separatorAfter={false}>Sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub Item 3</ListItem>
+          </Dropdown>
+        </Dropdown> <br /> <br />
+
+        <Dropdown color="secondary" component={() => <Button>Click me</Button>} position="top">
+          <ListItem separatorAfter={false}>My custom very long Item 1</ListItem>
+          <ListItem separatorAfter={false}>Item 3</ListItem>
+          <Dropdown component={() => <ListItem>Item 3</ListItem>}>
+            <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            </Dropdown>
+            <ListItem separatorAfter={false}>Sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub Item 3</ListItem>
+          </Dropdown>
+        </Dropdown> <br /> <br />
+
+        <Dropdown component={() => <Button>Click me</Button>} position="right">
+          <ListItem separatorAfter={false}>My custom very long Item 1</ListItem>
+          <ListItem separatorAfter={false}>Item 3</ListItem>
+          <Dropdown component={() => <ListItem>Item 3</ListItem>}>
+            <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            </Dropdown>
+            <ListItem separatorAfter={false}>Sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub Item 3</ListItem>
+          </Dropdown>
+        </Dropdown> <br /> <br />
+
+        <Dropdown component={() => <Button>Click me</Button>} position="right">
+          <ListItem separatorAfter={false}>My custom very long Item 1</ListItem>
+          <ListItem separatorAfter={false}>Item 3</ListItem>
+          <Dropdown component={() => <ListItem>Item 3</ListItem>}>
+            <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            </Dropdown>
+            <ListItem separatorAfter={false}>Sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub Item 3</ListItem>
+          </Dropdown>
+        </Dropdown>
+        <br /> <br /> <br />
+
+        <div className="bg-light m-3">
+          <Accordeon title="This is an accordeon" icon="angleDown" negativeIcon="angleUp">
+            <Accordeon title="Sub item" icon="angleDown" negativeIcon="angleUp">
+              <div>Sub sub Item 2</div>
+              <div>Sub sub Item 3</div>
+            </Accordeon>
+            <div className="p-2">Sub Item 2</div>
+            <div className="p-2">Sub Item 3</div>
+          </Accordeon>
+        </div>
+
+        <div className="bg-light m-3">
+          <Accordeon title="This is an accordeon" icon="plusCircle" negativeIcon="minusCircle">
+            <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            <ListItem separatorAfter={false}>Sub sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub sub Item 3</ListItem>
+          </Accordeon>
+        </div>
+
+        <div className="bg-light m-3">
+          <Accordeon title="This is an accordeon" icon="plusCircle">
+            <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            <ListItem separatorAfter={false}>Sub sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub sub Item 3</ListItem>
+          </Accordeon>
+        </div>
       </Container>
 
-
-      <br /> <br />
+      <br /> <br /> <br /> <br />
     </div>
   );
 }
