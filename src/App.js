@@ -33,6 +33,15 @@ import Card from "./components/Cards/Card";
 import Tooltip from "./components/Tips/Tooltip";
 import Dropdown from "./components/Tips/Dropdown";
 import Accordeon from "./components/Tips/Accordeon";
+import CircularLoader from "./components/Progress/CircularLoader";
+import CircularDotsLoader from "./components/Progress/CircularDotsLoader";
+import DotsLoader from "./components/Progress/DotsLoader";
+import BarsLoader from "./components/Progress/BarsLoader";
+import Carousel from "./components/Cards/Carousel";
+import CarouselItem from "./components/Cards/CarouselItem";
+import img1 from './assets/img/jane.jpg';
+import img2 from './assets/img/girl_hat.jpg';
+import img3 from './assets/img/man_hat.jpg';
 
 function App() {
 
@@ -442,7 +451,45 @@ function App() {
             <ListItem separatorAfter={false}>Sub sub Item 3</ListItem>
           </Accordeon>
         </div>
+
+        <br /> <br /> <br /> <br />
+
+        <Carousel>
+          <CarouselItem img={img1}>
+            Lorem 1 ipsum dolor sit amet consectetur adipisicing elit. Delectus, dolorum!
+          </CarouselItem>
+          <CarouselItem img={img2}>
+            Lorem 2 ipsum dolor sit amet consectetur adipisicing elit. Unde, dicta.
+          </CarouselItem>
+          <CarouselItem img={img3}>
+            Lorem 3 ipsum dolor sit amet consectetur adipisicing elit. Voluptates, tempore!
+          </CarouselItem>
+        </Carousel>
+
+        <br /> <br /> <br /> <br />
+        <CircularLoader size={15} borderSize={1} /> <br /> <br />
+        <CircularLoader size={40} borderSize={3} color="danger" /> <br /> <br />
+        <CircularLoader size={75} borderSize={5} color="secondary" />
+
+        <br /> <br /> <br /> <br />
+        <CircularDotsLoader size={15} /> <br /> <br />
+        <CircularDotsLoader size={40} color="secondary" /> <br /> <br />
+        <CircularDotsLoader size={75} color="success" />
+
+        <br /> <br /> <br /> <br />
+        <DotsLoader /> <br /> <br />
+        <DotsLoader size={20} color="secondary" /> <br /> <br />
+        <DotsLoader size={35} color="dark" />
+
+        <br /> <br /> <br /> <br />
+        <BarsLoader /> <br /> <br />
+        <BarsLoader size={20} color="secondary" /> <br /> <br />
+        <BarsLoader size={35} color="dark" />
+
+        <br /> <br /> <br /> <br />
       </Container>
+
+
 
       <br /> <br /> <br /> <br />
     </div>
