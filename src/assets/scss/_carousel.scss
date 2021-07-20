@@ -1,0 +1,46 @@
+.carousel {
+    background-color: rgba($color: $dark, $alpha: 0.68);
+    background-size: 100% 100%;
+    background-blend-mode: multiply;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    animation: zoomin 0.3s ease-in-out;
+    position: relative;
+
+    .carousel-content {
+        max-width: 70%;
+        text-align: center;
+    }
+
+    .control {
+        padding: 5px 10px;
+        color: $light;
+        background-color: $dark;
+        border-radius: 10px;
+    }
+
+    .carousel-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        padding: 10px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgba($color: $dark, $alpha: 0.38);
+        background-blend-mode: multiply;
+
+        .carousel-dot, .carousel-dot-active {
+            border-radius: 50%;
+            background-color: $light;
+        }
+
+        .carousel-dot-active {
+            box-shadow:0 0 3px 0 $light-gray, 0 0 6px 0 $gray, 0 0 12px 0 $dark-gray;
+        }
+    }
+}
