@@ -12,6 +12,7 @@ const Template = (args) => <Element {...args}>
 </Element>
 
 export const Default = Template.bind({});
+
 Default.args = {
   margin: '0',
   padding: '0',
