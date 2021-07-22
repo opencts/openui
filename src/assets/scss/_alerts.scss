@@ -25,11 +25,6 @@ $alert_colors: (
         border: 1px solid #ffff;
         background-color: $color;
     }
-
-    .alert-content-dense-#{$key} {
-        @extend .alert-content;
-        color: $light;
-    }
 }
 
 @each $key, $color in $alert_colors {
@@ -47,11 +42,6 @@ $alert_colors: (
             background-color: rgba(173, 50, 13, 0.35);
         }
     }
-
-    .alert-content-text-#{$key} {
-        @extend .alert-content;
-        color: $color;
-    }
 }
 
 @each $key, $color in $alert_colors {
@@ -59,12 +49,10 @@ $alert_colors: (
         @extend .alert;
         border: 1px solid $color;
     }
-
-    .alert-content-outline-#{$key} {
-        @extend .alert-content;
-        background-color: rgba(247, 248, 250, 1);
-        color: $color;
-    }
+}
+ 
+.alert-content-outline{
+    background-color: rgba(247, 248, 250, 1);
 }
 
 .alert-message {

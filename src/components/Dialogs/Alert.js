@@ -1,16 +1,23 @@
 import { useState } from "react";
 import Icon from "../Fonts/Icon";
 
+const ICON_COLORS = {
+    'info': 'primary',
+    'success': 'success',
+    'warning': 'secondary',
+    'danger': 'danger'
+}
+
+
 function makeStyle(type, color) {
-    let style = { icone: '', container: '', content: '' }
-    let iconeName = ''
-    if (color === 'info') iconeName = 'infoCircle';
-    if (color === 'success') iconeName = 'checkCircle';
-    if (color === 'danger') iconeName = 'timesCircle';
-    if (color === 'warning') iconeName = 'exclamationTriangle';
-    style.icone = iconeName;
+    let style = { icon: '', container: ''}
+    let iconName = ''
+    if (color === 'info') iconName = 'infoCircle';
+    if (color === 'success') iconName = 'checkCircle';
+    if (color === 'danger') iconName = 'timesCircle';
+    if (color === 'warning') iconName = 'exclamationTriangle';
+    style.icon = iconName;
     style.container = `alert-${type}-${color}`
-    style.content = `alert-content-${type}-${color}`
 
     return style;
 }
@@ -32,9 +39,16 @@ function Alert({
 }) {
 
 
-    let { icone, container, content } = makeStyle(type, color)
+    let { icon, container } = makeStyle(type, color)
+    let contentClasseName =  classeName+' alert-content'
+    contentClasseName = type === 'outline' ? contentClasseName+' alert-content-outline' : contentClasseName;
     let postitionStyle = { ...style }
+
     const [display, setDisplay] = useState(true)
+
+    //get icon color from a type
+    const trueIconColor = type === 'dense' ? 'white' : ICON_COLORS[color];
+    const messageClasseName = `alert-message text-${trueIconColor}`;
 
     if (fixed) {
         postitionStyle.width = 'inherit'
@@ -58,13 +72,15 @@ function Alert({
         setDisplay(false)
     }
 
+  
+
     if (display) {
         return (
             <div className={container} style={{ ...postitionStyle }}>
-                <div className={content}>
-                    <span><Icon name={icone} /></span>
-                    <span className="alert-message">{children}</span>
-                    {closable && <span className='alert-close' onClick={handleCloseAlert}> <Icon name="times" /> </span>}
+                <div className={contentClasseName}>
+                    <span><Icon color={trueIconColor} name={icon} /></span>
+                    <span className={messageClasseName} >{children}</span>
+                    {closable && <span className='alert-close' onClick={handleCloseAlert}> <Icon name="times" color={trueIconColor} /> </span>}
                 </div>
             </div>
         )

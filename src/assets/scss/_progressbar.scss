@@ -1,0 +1,24 @@
+.progress-container {
+    position: relative;
+    background-color: gray;
+    border-radius: 30px;
+    justify-content: center;
+    width: 100%;
+    height: 30px;
+}
+
+.progress-bar {
+    background-color: $primary;
+    border-radius: 30px;
+    width: 99%;
+    height: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.progress-text {
+    position: absolute;
+    top: 5px;
+    right: 50%;
+    color: $light;
+}
