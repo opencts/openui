@@ -1,22 +1,40 @@
-import React from 'react'
-import Flex from '../Containers/Flex'
+import CardHeader from "./CardHeader";
+import CardAvatar from './CardAvatar';
+import CardSubTitle from "./CardSubTitle";
+import CardTitle from "./CardTitle";
+import CardAction from "./CardAction";
+import CardContent from "./CardContent";
+import Icon from "../Fonts/Icon";
+import Button from "../Forms/Button";
+import { useState } from "react";
 
 function Card({
-    color = 'light', // 
-    padding = 0, // 0 - 5
-    children,
+    avatar, title, subtitle, closable = false, action = () => { }, style, children, classeName = ''
 }) {
 
-    const css = `t p-${padding} bg-${color}`;
-    console.log(css)
+    const [cloose, setCloose] = useState(false)
 
-    return (
-        <div className={css}>
-            <Flex jc="center" ai="center">
-                {children}
-            </Flex>
-        </div>
-    )
+    function handleCloose() {
+        setCloose(true)
+    }
+
+    if (!cloose) {
+        return (
+            <div className={`card ${classeName}`} style={{ ...style }}>
+                {
+                    (avatar || title || subtitle || closable) ?
+                        <CardHeader avatar={avatar} title={title} subtitle={subtitle} closable={closable} handleCloose={handleCloose} />
+                        : ''
+                }
+                 {children}
+            </div>
+        )
+    }
+
+    return ''
+
+
 }
 
-export default Card
+
+export default Card;

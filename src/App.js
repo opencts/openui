@@ -45,12 +45,38 @@ import img3 from './assets/img/man_hat.jpg';
 import Table from "./components/Tables/Table";
 import Paginator from "./components/Tables/Paginator";
 import DoubleCircularLoader from "./components/Progress/DoubleCircularLoader";
+import ProgressBar from "./components/Progress/ProgressBar";
+import Card from "./components/Cards/Card";
+import CardContent from "./components/Cards/CardContent";
+import CardMedia from "./components/Cards/CardMedia";
+import CardTitle from "./components/Cards/CardTitle";
+import CardSubTitle from "./components/Cards/CardSubTitle";
+import CardAvatar from "./components/Cards/CardAvatar";
+import CardAction from "./components/Cards/CardAction";
+
+const contentText = `Lorem Ipsum is simply dummy text of 
+the printing and typesetting industry. Lorem Ipsum has 
+been the industry's standard dummy text ever since the 1500s, 
+when an unknown printer took a galley of type and scrambled it to 
+make a type specimen book. It has survived not only five centuries, 
+but also the leap into electronic typesetting, remaining essentially 
+unchanged. It was popularised in the 1960s with the release of 
+Letraset sheets containing Lorem Ipsum passages, and more recently 
+with desktop publishing 
+software like Aldus PageMaker including versions of Lorem Ipsum.`
 
 function App() {
 
   const [v, setV] = useState('');
   const [s, setS] = useState(false);
   const { confirm, alert } = useDialog();
+
+  const musicCard = {
+    cardSize: { width: "400px", height: "250px" },
+    content: { display: "flex", flexWrap: "nowrap", justifyContent: "center" },
+    musicButton: {display: "flex", justifyContent: "space-between", marginTop: "30px"},
+    media: { height: "200px", width: "200px" }
+  }
 
   return (
     <div className="pb-5">
@@ -214,9 +240,9 @@ function App() {
         <Upload onUploadEnd={files => console.log(files)} color="secondary" />
       </Container>
 
-
+      {/* 
       <Container style={{ marginTop: "50px" }}>
-        <Alert>User added successfully</Alert>
+        <Alert >User added successfully</Alert>
         <Alert color='warning' type='dense' closable>Are you sure ?</Alert>
         <Alert color='success' type='dense' closable>You're logging successfully !</Alert>
         <Alert color='danger' type='dense' closable>An error occurred !</Alert>
@@ -230,7 +256,7 @@ function App() {
       </Container> */}
 
       <Container style={{ marginTop: "50px" }}>
-        <Alert color='info' type='outline'>User added successfully</Alert>
+        <Alert color='info' type='outline' closable>User added successfully</Alert>
         <Alert color='warning' type='outline'>Are you sure ?</Alert>
         <Alert color='success' type='outline'>You're logging successfully !</Alert>
         <Alert color='danger' type='outline'>An error occurred !</Alert>
@@ -530,6 +556,56 @@ function App() {
 
 
       <br /> <br /> <br /> <br />
+      <br /> <br />
+
+      {/* <Container>
+        <Card closable />
+      </Container> */}
+
+
+      <Container>
+        <Card style={musicCard.cardSize} closable>
+          <div style={musicCard.content}>
+            <CardContent>
+              <div style={{ margin: "10px" }}>
+                <CardTitle title="HMagnum Dog" />
+                <CardSubTitle subtitle="Vas dire a ton ex" />
+              </div>
+              <div style={musicCard.musicButton}>
+                <FloatingButton circled="false" icon="stepBackward" color="gray" />
+                <FloatingButton circled="false" size="50" icon="play" color="gray" />
+                <FloatingButton circled="false" icon="stepForward" color="gray" />
+              </div>
+            </CardContent>
+            <CardMedia style={musicCard.media} image="https://picsum.photos/200/150" />
+          </div>
+        </Card>
+      </Container>
+
+      {/* <Container style={{ marginTop: '30px' }}>
+        <Card avatar="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+          title="This is the title of my card" closable
+          subtitle="this is subtitle">
+          <CardAction>
+            <Button outlined color="secondary" >
+              Submit
+            </Button>
+          </CardAction>
+        </Card>
+      </Container> */}
+
+      {/*
+      <Container style={{ marginTop: '130px', width: '50%' }}>
+        <Card closable > 
+          <CardContent>
+            <CardMedia image="http://lorempixel.com/400/200/nature/" />
+            {contentText}
+          </CardContent>
+        </Card>
+      </Container> */}
+
+
+
     </div>
   );
 }
