@@ -1,3 +1,33 @@
+.progress-container
+{
+    height: 25px;
+    border: 1px solid #ccc;
+    background-color: #ccc;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.move
+{
+    width: 0%;
+    animation-name: moving;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+}
+@keyframes moving {
+    0% 
+    {
+        width: 0%;
+    }
+    50% 
+    {
+        width: 100%;
+    }
+    100%
+    {
+        width: 0%;
+    }
+}
 .loader {
     .circular {
         border-radius: 50%;

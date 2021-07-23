@@ -18,6 +18,10 @@ import Checkbox from "./components/Forms/Checkbox";
 import Birthday from "./components/Forms/Birthday";
 import Alert from './components/Dialogs/Alert';
 import Upload from "./components/Forms/Upload";
+import ProgressBar from "./components/Progress/ProgressBar";
+import Radio from "./components/Forms/Radio";
+import Switch from "./components/Forms/Switch";
+
 import Dialog from "./components/Dialogs/Dialog";
 import Avatar from "./components/Tips/Avatar";
 import avatar from './assets/img/avatar.jpg';
@@ -248,12 +252,12 @@ function App() {
         <Alert color='danger' type='dense' closable>An error occurred !</Alert>
       </Container>
 
-      {/* <Container style={{ marginTop: "50px" }}>
-        <Alert color='info'    type='text' fixed vpos='bottom' hpos='left'>User added successfully</Alert>
-        <Alert color='warning' type='text' fixed vpos='top' closable hpos='right'>Are you sure ?</Alert>
-        <Alert color='success' type='text' fixed hpos='center'>You're logging successfully !</Alert>
+      <Container style={{ marginTop: "50px" }}>
+        <Alert color='info'    type='text' vpos='bottom' hpos='left'>User added successfully</Alert>
+        <Alert color='warning' type='text' vpos='top' closable hpos='right'>Are you sure ?</Alert>
+        <Alert color='success' type='text' hpos='center'>You're logging successfully !</Alert>
         <Alert color='danger'  type='text'>An error occurred !</Alert>
-      </Container> */}
+      </Container>
 
       <Container style={{ marginTop: "50px" }}>
         <Alert color='info' type='outline' closable>User added successfully</Alert>
@@ -262,6 +266,15 @@ function App() {
         <Alert color='danger' type='outline'>An error occurred !</Alert>
       </Container>
 
+      <br />
+
+      <Container>
+        <ProgressBar color = "primary" indeterminate></ProgressBar>
+      </Container>
+
+      <Radio></Radio>
+
+      <Switch color='primary'></Switch>
       {s && <Dialog title="Test" titleIcon="plus" color="danger" onClose={_ => setS(false)}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ratione minus nam deserunt eos dolorum voluptatem amet hic similique sunt corrupti quod laudantium, quas quibusdam voluptates eum, nemo non expedita?
       </Dialog>}
