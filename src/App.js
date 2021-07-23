@@ -46,13 +46,13 @@ import Table from "./components/Tables/Table";
 import Paginator from "./components/Tables/Paginator";
 import DoubleCircularLoader from "./components/Progress/DoubleCircularLoader";
 import ProgressBar from "./components/Progress/ProgressBar";
-import Card from "./components/Cards/Card";
 import CardContent from "./components/Cards/CardContent";
 import CardMedia from "./components/Cards/CardMedia";
 import CardTitle from "./components/Cards/CardTitle";
 import CardSubTitle from "./components/Cards/CardSubTitle";
 import CardAvatar from "./components/Cards/CardAvatar";
 import CardAction from "./components/Cards/CardAction";
+import Paper from "./components/Containers/Paper";
 
 const contentText = `Lorem Ipsum is simply dummy text of 
 the printing and typesetting industry. Lorem Ipsum has 
@@ -74,8 +74,8 @@ function App() {
   const musicCard = {
     cardSize: { width: "400px", height: "250px" },
     content: { display: "flex", flexWrap: "nowrap", justifyContent: "center" },
-    musicButton: {display: "flex", justifyContent: "space-between", marginTop: "30px"},
-    media: { height: "200px", width: "200px" }
+    musicButton: { display: "flex", justifyContent: "space-between", marginTop: "30px" },
+    media: { height: "100%", width: "200px" }
   }
 
   return (
@@ -564,25 +564,27 @@ function App() {
 
 
       <Container>
-        <Card style={musicCard.cardSize} closable>
-          <div style={musicCard.content}>
+        <Flex gap={0}>
+          <Card closable>
             <CardContent>
               <div style={{ margin: "10px" }}>
                 <CardTitle title="HMagnum Dog" />
                 <CardSubTitle subtitle="Vas dire a ton ex" />
               </div>
-              <div style={musicCard.musicButton}>
-                <FloatingButton circled="false" icon="stepBackward" color="gray" />
-                <FloatingButton circled="false" size="50" icon="play" color="gray" />
-                <FloatingButton circled="false" icon="stepForward" color="gray" />
-              </div>
+              <Flex ai="center" jc="center" gap={30}>
+                <Icon color="dark" name="stepBackward" />
+                <Icon color="dark" name="play" style={{ fontSize: '30px' }} />
+                <Icon color="dark" name="stepForward" />
+              </Flex>
             </CardContent>
+          </Card>
+          <Element elevation="3">
             <CardMedia style={musicCard.media} image="https://picsum.photos/200/150" />
-          </div>
-        </Card>
+          </Element>
+        </Flex>
       </Container>
 
-      {/* <Container style={{ marginTop: '30px' }}>
+      <Container style={{ marginTop: '30px' }}>
         <Card avatar="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
           title="This is the title of my card" closable
           subtitle="this is subtitle">
@@ -592,19 +594,16 @@ function App() {
             </Button>
           </CardAction>
         </Card>
-      </Container> */}
+      </Container>
 
-      {/*
       <Container style={{ marginTop: '130px', width: '50%' }}>
-        <Card closable > 
+        <Card closable >
           <CardContent>
             <CardMedia image="http://lorempixel.com/400/200/nature/" />
             {contentText}
           </CardContent>
         </Card>
-      </Container> */}
-
-
+      </Container>
 
     </div>
   );

@@ -42,7 +42,7 @@ function Element({
         left,
         bottom,
         right,
-        boxShadow: `0 ${elevation}px ${elevation}px 0 ${elevationColor}`
+        boxShadow: `0 ${Number(elevation) * 2}px ${Number(elevation) * 2}px 0 ${elevationColor}`
     };
 
     if (bTop !== 'none' || bLeft !== 'none' || bRight !== 'none' || bBottom !== 'none') {
@@ -74,7 +74,7 @@ function Element({
     css += ' fit-content'
 
     return <div className={css} style={{ ...customStyle, ...props.style }} {...props}>
-        children
+        {children}
     </div>;
 }
 
