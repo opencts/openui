@@ -1,5 +1,4 @@
 import React from "react"
-import Flex from "../Containers/Flex";
 
 function ProgressBar({
     color = "primary",
