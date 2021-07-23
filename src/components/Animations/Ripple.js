@@ -13,9 +13,8 @@ function Ripple({
     const ref = useRef(null);
 
     function handleClick(event) {
-        /* const ripples = ref.current.querySelectorAll('.ripple'); */
-        // for
-        const { x, y } = ref.current.getBoundingClientRect();
+        const { x, y, width, height } = ref.current.getBoundingClientRect();
+        console.log(width, height);
         const ripple = document.createElement('div');
         ripple.style.position = 'absolute';
         if (fromCenter) {
@@ -23,10 +22,18 @@ function Ripple({
         } else {
             ripple.style.top = (event.clientY - y) + 'px';
             ripple.style.left = (event.clientX - x) + 'px';
-            ripple.style.borderRadius = '100px';
+            const size = Math.round(width > height ? width * 10 : height * 10);
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            ripple.style.borderRadius = '50%';
+            console.log(ripple.style, size)
             ripple.classList.toggle('ripple');
         }
         ref.current.appendChild(ripple);
+        setTimeout(() => {
+            if (ref.current)
+                ref.current.removeChild(ripple);
+        }, 300);
     }
 
     const newChildren = Children.map(children, child => {

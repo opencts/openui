@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
+import Flex from '../Containers/Flex';
+import Icon from '../Fonts/Icon';
 import Input from './Input'
 import Search from './Search'
 
@@ -6,22 +8,21 @@ function Select({
     label = 'Select',
     color = 'primary',
     searcheable = true,
-    data,
+    data = [],
     onChange = _ => { },
     valueId = 'id',
     valueLabel = 'name',
+    multiple = false,
     ...props
 }) {
 
     const optionsRef = useRef(null);
     const selectRef = useRef(null);
 
-    const [value, setValue] = useState({
-        [valueId]: '',
-        [valueLabel]: ''
-    });
     const [disabled, setDisabled] = useState(false);
-    const [values, setValues] = useState(data);
+    const [values, setValues] = useState([]);
+    const [vdata, setVdata] = useState(data);
+    const [selected, setSelected] = useState(data.map(it => false));
 
     function openSelect(event) {
         optionsRef.current.classList.toggle('options-show');
@@ -29,10 +30,25 @@ function Select({
         setDisabled(true);
     }
 
-    function selectItem(item) {
-        setValue(item);
-        onChange(item[valueId]);
-        optionsRef.current.className = 'options';
+    function selectItem(item, index) {
+        const v = JSON.parse(JSON.stringify(values));
+        if (!multiple) {
+            setValues([item]);
+            onChange(item);
+            optionsRef.current.className = 'options';
+        }
+        else {
+            if (!selected[index]) {
+                setValues([...v, item]);
+                onChange([...v, item].map(it => it[valueId]));
+            } else {
+                setValues(v.filter(el => el[valueId] !== item[valueId]));
+                onChange(v.filter(el => el[valueId] !== item[valueId]));
+            }
+            selected[index] = !selected[index];
+            setSelected([...selected]);
+        }
+        console.log(v)
     }
 
     function searchValue(value) {
@@ -44,7 +60,7 @@ function Select({
                 s.push(data[i]);
             }
         }
-        setValues(s);
+        setVdata(s);
     }
 
     useEffect(() => {
@@ -61,8 +77,11 @@ function Select({
 
     function renderOptions() {
         return <div className="mt-2">
-            {values.map((item, index) => <div className="options-item" key={index} onClick={_ => selectItem(item)}>
-                {item[valueLabel]}
+            {vdata.map((item, index) => <div className="options-item" key={index} onClick={_ => selectItem(item, index)}>
+                <Flex ai="center" jc="space-between">
+                    <div>{item[valueLabel]}</div>
+                    {selected[index] && <Icon name="check" color={color} />}
+                </Flex>
             </div>)}
         </div>
     }
@@ -70,7 +89,7 @@ function Select({
     return (
         <div ref={selectRef} className="select" onClick={openSelect}>
             <Input
-                value={value[valueLabel]}
+                value={values.map(it => it[valueLabel])}
                 color={color}
                 label={label}
                 disabled={disabled}

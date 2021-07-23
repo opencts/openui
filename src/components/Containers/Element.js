@@ -1,7 +1,7 @@
 import { Children } from 'react'
 import { cloneElement } from 'react';
 
-function Border({
+function Element({
     margin = '0',
     padding = '0',
     radius = '0',
@@ -74,14 +74,11 @@ function Border({
     css += ' ' + handleMargin(padding, 'p');
     css += ' ' + position;
     css += (props.className ? ' ' + props.className : '');
+    css += ' fit-content'
 
-    const newChildren = Children.map(children, child => cloneElement(child, {
-        className: css,
-        style: { ...customStyle, ...props.style },
-        ...props
-    }));
-
-    return newChildren;
+    return <div className={css} style={{ ...customStyle, ...props.style }} {...props}>
+        children
+    </div>;
 }
 
-export default Border;
+export default Element;

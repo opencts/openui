@@ -1,3 +1,5 @@
+@import './theme';
+
 /** INPUT **/
 .form-field-container {
     margin: 20px 0;
@@ -10,7 +12,7 @@
     label {
         position: absolute;
         bottom: 0;
-        line-height: 2.5;
+        line-height: 2.5 !important;
         z-index: 0;
         left: 10px;
         background-color: transparent;
@@ -167,7 +169,11 @@
 }
 
 .drop-zone {
-    padding: 50px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
     border: dashed 1px;
     box-shadow: $shadow;
     background-color: transparent;

@@ -8,10 +8,10 @@ function Dialog({
     titleIcon = 'info',
     titleIconColor = 'light',
     title = '',
-    actionIcon = 'windowClose',
-    actionIconColor = 'light',
+    closable = true,
     children,
-    onClose = _ => {}
+    onClose = _ => { },
+    actions = null
 }) {
     return (
         <div className="dialog">
@@ -25,12 +25,15 @@ function Dialog({
                                     {title}
                                 </h5>
                             </Flex>
-                            <Icon name={actionIcon} onClick={onClose()} color={actionIconColor} />
+                            {closable && <Icon name="windowClose" onClick={onClose} />}
                         </Flex>
                     </div>
                     <div className="dialog-subcontent">
                         {children}
                     </div>
+                    {actions && <div className="dialog-actions p-2">
+                        {actions()}
+                    </div>}
                 </div>
             </Transition>
         </div>

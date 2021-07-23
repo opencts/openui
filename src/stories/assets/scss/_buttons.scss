@@ -1,0 +1,116 @@
+@import './theme';
+
+.icon,
+button {
+    cursor: pointer;
+}
+
+.btn {
+    border: none;
+    padding: 8px 12px;
+    font-weight: bold;
+
+    .icon-left {
+        margin-right: 5px;
+    }
+
+    .icon-right {
+        margin-left: 5px;
+    }
+
+    &:disabled {
+        background-color: $gray;
+        color: $dark-gray;
+    }
+
+    &:hover {
+        transform: translateY(-2px);
+        // animation: shake 0.3s;
+    }
+}
+
+.raised {
+    z-index: 2;
+    box-shadow: 0 4px 4px 0 $gray;
+}
+
+.normal {
+    border-radius: 3px;
+}
+
+.flatted {
+    border-radius: 0;
+}
+
+.rounded {
+    border-radius: 100px;
+}
+
+.spin {
+    animation: rotate infinite 1s linear;
+}
+
+.circled {
+    border-radius: 50% !important;
+}
+
+.floating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 9px 0 $dark-gray;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+}
+
+.pos-t-l {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
+
+.pos-t-c {
+    position: fixed;
+    top: 20px;
+    left: 0px;
+    transform: translateX(50vw);
+
+    &:hover {
+        transform: translateX(50vw) scale(1.2);
+    }
+}
+
+.pos-t-r {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
+.pos-b-l {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
+
+.pos-b-c {
+    position: fixed;
+    left: 0px;
+    bottom: 20px;
+    transform: translateX(50vw);
+
+    &:hover {
+        transform: translateX(50vw) scale(1.2);
+    }
+}
+
+.pos-b-r {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}

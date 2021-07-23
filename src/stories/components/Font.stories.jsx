@@ -1,5 +1,5 @@
 import React from 'react'
-import Font from '../../components/Font'
+import Font from '../../components/Fonts/Font'
 import '../assets/scss/_index.scss';
 
 export default {
@@ -13,7 +13,7 @@ export const Default = Template.bind({})
 Default.args = {
     color: '',
     background: '',
-    size: 'regular',
+    size: 'lv5',
     lineHeight: 2,
     weight: '',
     inline: false

@@ -3,9 +3,9 @@ import { useState } from "react";
 
 function Container({
     fluid = false,
-    sm = null,
-    md = null,
-    lg = null,
+    sm = '92',
+    md = '82',
+    lg = '72',
     children,
     ...props
 }) {
@@ -29,6 +29,7 @@ function Container({
     }, []);
 
     css += props.className ? (' ' + props.className) : '';
+    console.log(css)
     return (
         <div className={css} style={{ ...customStyle, ...props.style }} {...props}>
             {children}

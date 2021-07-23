@@ -3,7 +3,7 @@ import React from 'react'
 function Font({
     color = null,
     background = null,
-    size = 'regular',
+    size = 'lv5',
     lineHeight = 2,
     weight = null,
     inline = false,

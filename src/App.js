@@ -22,10 +22,36 @@ import ProgressBar from "./components/Progress/ProgressBar";
 import Radio from "./components/Forms/Radio";
 import Switch from "./components/Forms/Switch";
 
+import Dialog from "./components/Dialogs/Dialog";
+import Avatar from "./components/Tips/Avatar";
+import avatar from './assets/img/avatar.jpg';
+import Badge from "./components/Tips/Badge";
+import Tab from "./components/Tabs/Tab";
+import TabItem from "./components/Tabs/TabItem";
+import { useDialog } from "./services/DialogProvider";
+import ListItem from "./components/List/ListItem";
+import ListGroup from "./components/List/ListGroup";
+import List from "./components/List/List";
+import Breadcrumbs from "./components/List/Breadcrumbs";
+import Card from "./components/Cards/Card";
+import Tooltip from "./components/Tips/Tooltip";
+import Dropdown from "./components/Tips/Dropdown";
+import Accordeon from "./components/Tips/Accordeon";
+import CircularLoader from "./components/Progress/CircularLoader";
+import CircularDotsLoader from "./components/Progress/CircularDotsLoader";
+import DotsLoader from "./components/Progress/DotsLoader";
+import BarsLoader from "./components/Progress/BarsLoader";
+import Carousel from "./components/Cards/Carousel";
+import CarouselItem from "./components/Cards/CarouselItem";
+import img1 from './assets/img/jane.jpg';
+import img2 from './assets/img/girl_hat.jpg';
+import img3 from './assets/img/man_hat.jpg';
 
 function App() {
 
   const [v, setV] = useState('');
+  const [s, setS] = useState(false);
+  const { confirm, alert } = useDialog();
 
   return (
     <div className="pb-5">
@@ -107,26 +133,28 @@ function App() {
       <br /><br /><br />
 
       <Container>
-        <Button>Primary</Button> <br />
-        <Button flatted>Primary</Button> <br />
-        <Button outlined icon="check">Primary</Button> <br />
-        <Button raised>Primary</Button> <br />
-        <Button rounded>Primary</Button> <br />
-        <Button color="secondary">Primary</Button> <br />
-        <Button color="success">Primary</Button> <br />
-        <Button color="danger">Primary</Button> <br />
-        <Button disabled>Primary</Button> <br />
-        <Button rounded icon="coffee" iconRight>Primary</Button> <br />
-        <Button rounded icon="camera" color="dark">Primary</Button> <br />
-        <Button loading>Primary</Button> <br />
+        <Button style={{ padding: '12px 30px' }}>Primary</Button> <br /> <br />
+        <Button flatted>Primary</Button> <br /> <br />
+        <Button outlined>Primary</Button> <br /> <br />
+        <Button raised>Primary</Button> <br /> <br />
+        <Button rounded>Primary</Button> <br /> <br />
+        <Button color="secondary">Primary</Button> <br /> <br />
+        <Button color="success">Primary</Button> <br /> <br />
+        <Button color="danger">Primary</Button> <br /> <br />
+        <Button disabled>Primary</Button> <br /> <br />
+        <Button rounded icon="coffee" iconRight>Primary</Button> <br /> <br />
+        <Button rounded icon="camera" color="dark">Primary</Button> <br /> <br />
+        <Button loading>Primary</Button> <br /> <br />
+        <Button raised loading color="light">Primary</Button> <br /> <br />
+        <Button color="light">Light</Button> <br /> <br />
         <br /><br />
 
-        <Flex jc="space-between">
+        <Flex jc="space-between" style={{ padding: '30px' }}>
           <FloatingButton icon="plus" />
           <FloatingButton size="45" icon="camera" color="secondary" circled={false} />
           <FloatingButton size="20" icon="times" color="danger" />
           <FloatingButton size="60" icon="question" color="success" />
-          <FloatingButton size="30" icon="minus" color="danger" />
+          <FloatingButton size="30" icon="minus" color="light" />
           <FloatingButton size="60" icon="question" color="success" circled={false} />
         </Flex>
 
@@ -154,12 +182,14 @@ function App() {
 
         {v}
 
-        <Button onClick={_ => setV('')}>Clear</Button>
+        <Button onClick={_ => setS(true)}>Clear</Button>
 
 
         <Search /> <br /><br />
 
-        <Select color="danger" data={[
+        <Select />
+
+        <Select multiple color="danger" data={[
           { id: 1, name: 'John Doe' },
           { id: 2, name: 'Jane Doe' },
           { id: 3, name: 'Foo Bar' }
@@ -182,7 +212,7 @@ function App() {
 
         <Birthday onChange={v => console.log(v)} />
 
-        <Upload />
+        <Upload onUploadEnd={files => console.log(files)} color="secondary" />
       </Container>
 
 
@@ -216,6 +246,265 @@ function App() {
       <Radio></Radio>
 
       <Switch color='primary'></Switch>
+      {s && <Dialog title="Test" titleIcon="plus" color="danger" onClose={_ => setS(false)}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ratione minus nam deserunt eos dolorum voluptatem amet hic similique sunt corrupti quod laudantium, quas quibusdam voluptates eum, nemo non expedita?
+      </Dialog>}
+
+      <Container style={{ marginTop: "50px" }}>
+        <Flex gap={10}>
+          <Avatar letter="O" />
+          <Avatar letter="A" color="dark" />
+          <Avatar letter="J" color="light" />
+          <Avatar letter="OF" size={50} />
+          <Avatar img={avatar} size={50} />
+        </Flex>
+        <br /><br />
+
+      </Container>
+
+      <Container>
+        <Avatar letter="S" />
+        <Avatar letter="S" />
+        <Avatar letter="S" />
+        <Badge />
+        <Badge>3</Badge>
+        <Badge>379</Badge>
+
+        <br />
+
+        <Icon name="user" /><Badge>3</Badge> <br /><br />
+        <Icon name="user" /><Badge vpos="top"></Badge> <br /><br />
+        <Badge vpos="top">379</Badge> <Icon name="user" /> <br /><br />
+
+        <Tab direction="v">
+          <TabItem title="Tab1">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, facere. Repellat eveniet culpa autem? Labore vero numquam quas itaque officia! Dolores assumenda, dignissimos quisquam obcaecati cum reprehenderit repudiandae modi explicabo?
+          </TabItem>
+          <TabItem title="Tab2">
+            Lorem2
+          </TabItem>
+          <TabItem title="Tab3">
+            Lorem3
+          </TabItem>
+          <TabItem title="Tab4" icon="times">
+            Lorem4
+          </TabItem>
+          <TabItem title="Tab5" icon="times">
+            Lorem5
+          </TabItem>
+          <TabItem title="Tab6" icon="times">
+            Lorem6
+          </TabItem>
+        </Tab>
+
+        <Button onClick={_ => confirm('Yo les bros !', {
+          onConfirm: _ => window.alert('Done!')
+        })}>Open Confirm</Button>
+
+        <Button onClick={_ => alert('error', 'Oups !', {
+          finishText: 'Quitter'
+        })}>Open alert Error</Button>
+
+        <Button onClick={_ => alert('success', 'Yo les bros !')}>Open alert success</Button> <br />
+
+
+        <List>
+          <ListGroup title="Group 1">
+            <ListItem>
+              This is an item
+          </ListItem>
+            <ListItem>
+              This is an item
+          </ListItem>
+          </ListGroup>
+
+          <ListGroup title="Group 2" titleColor="primary">
+            <ListItem
+              avatar
+              avatarLetter="S"
+              actions={[
+                { icon: 'edit', color: 'primary' },
+                { icon: 'trash', color: 'danger' },
+              ]}>
+              <div>
+                <h5>Title</h5>
+                <span>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque tempore dolore aliquid, tempora quasi repellat unde rerum laboriosam, aspernatur ipsam ut officiis accusamus voluptas, suscipit voluptates amet. Explicabo, ab doloribus!
+              </span>
+              </div>
+            </ListItem>
+          </ListGroup>
+
+          <ListGroup title="Group 3">
+            <ListItem
+              avatar
+              avatarImg={avatar}
+              avatarSize={30}
+              actions={[
+                { icon: 'infoCircle', color: 'gray' }
+              ]}>
+              Jane Doe
+            </ListItem>
+            <ListItem
+              avatar
+              avatarImg={avatar}
+              avatarSize={30}
+              actions={[
+                { icon: 'infoCircle', color: 'gray' }
+              ]}>
+              Jonathan Joester
+            </ListItem>
+          </ListGroup>
+        </List>
+
+        <Breadcrumbs />
+
+
+        <Card padding={5} color="primary">
+          Lorem
+        </Card>
+
+        <Tooltip title="This is a help text with a  very long content">
+          <Button>Hover me, please</Button>
+        </Tooltip> <br />
+
+        <Tooltip title="This is a help text with a  very long content" position="bottom">
+          <Button>Hover me, please</Button>
+        </Tooltip> <br />
+
+        <Tooltip title="This is a help text with a  very long content" position="left">
+          <Button>Hover me, please</Button>
+        </Tooltip> <br />
+
+        <Tooltip title="This is a help text with a  very long content" position="right">
+          <Button>Hover me, please</Button>
+        </Tooltip>
+        <br /><br />
+
+        <Dropdown component={() => <Button>Click me</Button>}>
+          <ListItem separatorAfter={false}>My custom very long Item 1</ListItem>
+          <ListItem separatorAfter={false}>Item 3</ListItem>
+          <Dropdown component={() => <ListItem>Item 3</ListItem>} position="right">
+            <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            </Dropdown>
+            <ListItem separatorAfter={false}>Sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub Item 3</ListItem>
+          </Dropdown>
+        </Dropdown> <br /> <br />
+
+        <Dropdown color="secondary" component={() => <Button>Click me</Button>} position="top">
+          <ListItem separatorAfter={false}>My custom very long Item 1</ListItem>
+          <ListItem separatorAfter={false}>Item 3</ListItem>
+          <Dropdown component={() => <ListItem>Item 3</ListItem>}>
+            <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            </Dropdown>
+            <ListItem separatorAfter={false}>Sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub Item 3</ListItem>
+          </Dropdown>
+        </Dropdown> <br /> <br />
+
+        <Dropdown component={() => <Button>Click me</Button>} position="right">
+          <ListItem separatorAfter={false}>My custom very long Item 1</ListItem>
+          <ListItem separatorAfter={false}>Item 3</ListItem>
+          <Dropdown component={() => <ListItem>Item 3</ListItem>}>
+            <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            </Dropdown>
+            <ListItem separatorAfter={false}>Sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub Item 3</ListItem>
+          </Dropdown>
+        </Dropdown> <br /> <br />
+
+        <Dropdown component={() => <Button>Click me</Button>} position="right">
+          <ListItem separatorAfter={false}>My custom very long Item 1</ListItem>
+          <ListItem separatorAfter={false}>Item 3</ListItem>
+          <Dropdown component={() => <ListItem>Item 3</ListItem>}>
+            <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+              <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            </Dropdown>
+            <ListItem separatorAfter={false}>Sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub Item 3</ListItem>
+          </Dropdown>
+        </Dropdown>
+        <br /> <br /> <br />
+
+        <div className="bg-light m-3">
+          <Accordeon title="This is an accordeon" icon="angleDown" negativeIcon="angleUp">
+            <Accordeon title="Sub item" icon="angleDown" negativeIcon="angleUp">
+              <div>Sub sub Item 2</div>
+              <div>Sub sub Item 3</div>
+            </Accordeon>
+            <div className="p-2">Sub Item 2</div>
+            <div className="p-2">Sub Item 3</div>
+          </Accordeon>
+        </div>
+
+        <div className="bg-light m-3">
+          <Accordeon title="This is an accordeon" icon="plusCircle" negativeIcon="minusCircle">
+            <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            <ListItem separatorAfter={false}>Sub sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub sub Item 3</ListItem>
+          </Accordeon>
+        </div>
+
+        <div className="bg-light m-3">
+          <Accordeon title="This is an accordeon" icon="plusCircle">
+            <ListItem separatorAfter={false}>Sub sub Item 1</ListItem>
+            <ListItem separatorAfter={false}>Sub sub Item 2</ListItem>
+            <ListItem separatorAfter={false}>Sub sub Item 3</ListItem>
+          </Accordeon>
+        </div>
+
+        <br /> <br /> <br /> <br />
+
+        <Carousel>
+          <CarouselItem img={img1}>
+            Lorem 1 ipsum dolor sit amet consectetur adipisicing elit. Delectus, dolorum!
+          </CarouselItem>
+          <CarouselItem img={img2}>
+            Lorem 2 ipsum dolor sit amet consectetur adipisicing elit. Unde, dicta.
+          </CarouselItem>
+          <CarouselItem img={img3}>
+            Lorem 3 ipsum dolor sit amet consectetur adipisicing elit. Voluptates, tempore!
+          </CarouselItem>
+        </Carousel>
+
+        <br /> <br /> <br /> <br />
+        <CircularLoader size={15} borderSize={1} /> <br /> <br />
+        <CircularLoader size={40} borderSize={3} color="danger" /> <br /> <br />
+        <CircularLoader size={75} borderSize={5} color="secondary" />
+
+        <br /> <br /> <br /> <br />
+        <CircularDotsLoader size={15} /> <br /> <br />
+        <CircularDotsLoader size={40} color="secondary" /> <br /> <br />
+        <CircularDotsLoader size={75} color="success" />
+
+        <br /> <br /> <br /> <br />
+        <DotsLoader /> <br /> <br />
+        <DotsLoader size={20} color="secondary" /> <br /> <br />
+        <DotsLoader size={35} color="dark" />
+
+        <br /> <br /> <br /> <br />
+        <BarsLoader /> <br /> <br />
+        <BarsLoader size={20} color="secondary" /> <br /> <br />
+        <BarsLoader size={35} color="dark" />
+
+        <br /> <br /> <br /> <br />
+      </Container>
+
+
+
+      <br /> <br /> <br /> <br />
     </div>
   );
 }
