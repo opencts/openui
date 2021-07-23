@@ -10,4 +10,8 @@ const _THEME_COLORS = {
     $danger: '#AD320D'
 };
 
+export function reverseColor(color) {
+    return ['gray', 'light-gray', 'light'].includes(color) ? 'dark' : 'light';
+}
+
 export default _THEME_COLORS;

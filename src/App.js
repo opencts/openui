@@ -42,6 +42,9 @@ import CarouselItem from "./components/Cards/CarouselItem";
 import img1 from './assets/img/jane.jpg';
 import img2 from './assets/img/girl_hat.jpg';
 import img3 from './assets/img/man_hat.jpg';
+import Table from "./components/Tables/Table";
+import Paginator from "./components/Tables/Paginator";
+import DoubleCircularLoader from "./components/Progress/DoubleCircularLoader";
 
 function App() {
 
@@ -299,10 +302,10 @@ function App() {
           <ListGroup title="Group 1">
             <ListItem>
               This is an item
-          </ListItem>
+            </ListItem>
             <ListItem>
               This is an item
-          </ListItem>
+            </ListItem>
           </ListGroup>
 
           <ListGroup title="Group 2" titleColor="primary">
@@ -317,7 +320,7 @@ function App() {
                 <h5>Title</h5>
                 <span>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque tempore dolore aliquid, tempora quasi repellat unde rerum laboriosam, aspernatur ipsam ut officiis accusamus voluptas, suscipit voluptates amet. Explicabo, ab doloribus!
-              </span>
+                </span>
               </div>
             </ListItem>
           </ListGroup>
@@ -487,6 +490,41 @@ function App() {
         <BarsLoader size={35} color="dark" />
 
         <br /> <br /> <br /> <br />
+
+        <br /> <br /> <br /> <br />
+        <CircularLoader size={15} borderSize={15} /> <br /> <br />
+        <CircularLoader size={40} borderSize={3} color="danger" /> <br /> <br />
+        <CircularLoader size={75} borderSize={5} color="secondary" />
+
+        <br /> <br /> <br /> <br />
+        <DoubleCircularLoader size={15} borderSize={15} /> <br /> <br />
+        <DoubleCircularLoader size={40} borderSize={3} color="danger" /> <br /> <br />
+
+        <br /> <br /> <br /> <br />
+        <CircularDotsLoader size={15} /> <br /> <br />
+        <CircularDotsLoader size={40} color="secondary" /> <br /> <br />
+        <CircularDotsLoader size={75} color="success" />
+
+        <br /> <br /> <br /> <br />
+        <DotsLoader /> <br /> <br />
+        <DotsLoader size={20} color="secondary" /> <br /> <br />
+        <DotsLoader size={35} color="dark" />
+
+        <br /> <br /> <br /> <br />
+        <BarsLoader /> <br /> <br />
+        <BarsLoader size={20} color="secondary" /> <br /> <br />
+        <BarsLoader size={35} color="dark" />
+
+        <br /> <br /> <br /> <br />
+
+        <Paginator />
+        <Paginator circled />
+        <br /> <br /> <br /> <br />
+
+        <Table checkable onSelectionChange={v => console.log(v)} color="danger" />
+        <Table checkable onSelectionChange={v => console.log(v)} color="success" actions={null} />
+
+        <Table />
       </Container>
 
 

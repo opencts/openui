@@ -1,5 +1,4 @@
 import React, { Children, useCallback, useEffect, useState } from 'react'
-import Transition from '../Animations/Transition';
 import Icon from '../Fonts/Icon';
 
 function Carousel({

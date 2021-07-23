@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { reverseColor } from '../../services/_colors';
 import Icon from '../Fonts/Icon';
 
 function Checkbox({
@@ -23,9 +24,9 @@ function Checkbox({
 
     return (
         <div onClick={handleChange} className="checkbox">
-            <div className={value ? 'checkmark border-' + color + ' bg-' + color + ' text-light': 'checkmark border-' + color}>
+            <div className={value ? 'checkmark border-' + color + ' bg-' + color : 'checkmark border-' + color}>
                 <Icon
-                    color={value ? 'light' : color}
+                    color={value ? reverseColor(color) : color}
                     style={{
                         visibility: value ? 'visible' : 'hidden',
                         fontSize: size + 'px',

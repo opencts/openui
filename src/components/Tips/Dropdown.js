@@ -5,7 +5,7 @@ function Dropdown({
     component,
     color = 'light',
     position = 'bottom',
-    width = '200',
+    width = '100',
     children,
     ...props
 }) {
@@ -15,12 +15,8 @@ function Dropdown({
     const [visible, setVisible] = useState(false);
     const childrenRef = useRef(null);
 
-    const show = useCallback((e) => {
-        setVisible(true);
-    }, []);
-
-    const hide = useCallback((e) => {
-        setVisible(false);
+    const toggle = useCallback((e) => {
+        setVisible(!visible);
     }, []);
 
     useEffect(() => {
@@ -34,15 +30,21 @@ function Dropdown({
         s.width = ([...childrenRef.current.parentElement.classList].includes('dropdown') ? (Number(width) - 10) : width) + 'px';
         setStyle(style => ({ ...style, ...s }));
 
-        actions.onClick = e => show(e);
+        actions.onClick = e => toggle(e);
         setActions(actions => ({ ...actions }));
 
         // Handle hide event
         const newChildren = Children.map(children, child => {
-            return cloneElement(child, { onClick: e => hide(e), style });
+            return cloneElement(child, {
+                onClick: (event) => {
+                    if (String(child.type).indexOf('Dropdown') === -1) {
+                        toggle();
+                    }
+                }, style
+            });
         });
         setDropdownContent(newChildren);
-    }, [color, position, width, children, show, hide]);
+    }, [color, position, width, children, toggle]);
 
     useEffect(() => {
         const cb = (event) => {

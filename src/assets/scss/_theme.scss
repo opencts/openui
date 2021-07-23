@@ -1,11 +1,10 @@
 // Font sizes
-$h1: 64px;
-$h2: 36px;
-$h3: 30px;
-$h4: 24px;
-$h5: 20px;
-$h6: 18px;
-$h7: 14px;
+$h1: 48px;
+$h2: 30px;
+$h3: 24px;
+$h4: 20px;
+$h5: 18px;
+$h6: 14px;
 
 $regular-size: 18px;
 
@@ -40,7 +39,6 @@ $titles: (
     h4: $h4,
     h5: $h5,
     h6: $h6,
-    h7: $h7
 );
 @each $key, $val in $titles {
     #{$key} {
@@ -60,9 +58,8 @@ $dark-gray: #686c75;
 $gray: #9b9ea3;
 $light-gray: #e4e6eb;
 $light: #f7f8fa;
-$success: #00841D;
-$danger: #AD320D;
-
+$success: #00841d;
+$danger: #ad320d;
 
 $_COLORS: (
     primary: $primary,
@@ -73,7 +70,7 @@ $_COLORS: (
     light-gray: $light-gray,
     light: $light,
     success: $success,
-    danger: $danger
+    danger: $danger,
 );
 
 @each $key, $val in $_COLORS {
@@ -89,10 +86,31 @@ $_COLORS: (
             color: $dark-gray;
             border: solid 1px $val;
         }
+
+        .bg-hover-#{$key} {
+            transition: 0.5s;
+            &:hover {
+                transition: 0.5s;
+                background-color: $val;
+                color: $dark-gray;
+                border: solid 1px $val;
+            }
+        }
     } @else {
         .bg-#{$key} {
             background-color: $val;
             color: $light;
+            border: solid 1px $val;
+        }
+
+        .bg-hover-#{$key} {
+            transition: 0.5s;
+            &:hover {
+                transition: 0.5s;
+                background-color: $val;
+                color: $light;
+                border: solid 1px $val;
+            }
         }
     }
 
@@ -223,4 +241,12 @@ $shadow: 0 0 5px 0 $gray;
 
 .fit-content {
     width: fit-content;
+}
+
+.circled {
+    border-radius: 50%;
+}
+
+.pointer {
+    cursor: pointer;
 }

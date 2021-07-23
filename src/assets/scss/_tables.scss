@@ -1,0 +1,28 @@
+.table {
+    overflow: auto;
+
+    table {
+        position: relative;
+        border-collapse: collapse;
+        width: 100%;
+        background-color: $light;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+        th {
+            position: sticky;
+            top: -1px;
+            text-align: left;
+            z-index: 10;
+        }
+
+        th, td {
+            padding: 10px;
+            border: none;
+        }
+
+        tr:nth-child(2n) {
+            background-color: $light-gray;
+        }
+    }
+}
