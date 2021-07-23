@@ -90,7 +90,7 @@ function Carousel({
                 <div className="control" onClick={_ => move('right')}>
                     <Icon name="angleRight" />
                 </div>
-                <div className="carousel-dots">
+                {dots && <div className="carousel-dots">
                     {items.map((item, index) => <div
                         key={index}
                         className={current.index === index ? 'carousel-dot-active' : 'carousel-dot'}
@@ -99,7 +99,7 @@ function Carousel({
                             height: dotSize + 'px'
                         }}
                         onClick={_ => move(index)}></div>)}
-                </div>
+                </div>}
             </div>
         </div>
     )

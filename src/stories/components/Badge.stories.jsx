@@ -1,5 +1,4 @@
 import React from 'react'
-import Element from '../../components/Containers/Element';
 import Icon from '../../components/Fonts/Icon';
 import Badge from '../../components/Tips/Badge';
 import '../assets/scss/_index.scss';

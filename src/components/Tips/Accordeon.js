@@ -11,8 +11,6 @@ function Accordeon({
     children
 }) {
 
-    console.log(negativeIcon)
-
     const [visible, setVisible] = useState(false);
 
     function toogleAccordeon() {
@@ -24,9 +22,11 @@ function Accordeon({
             <div className={`p-${padding}`}>
                 <Flex ai="center" jc="space-between">
                     <div>{title}</div>
-                    {visible ? (negativeIcon ? <Icon name={negativeIcon} />
-                        : <Icon name={icon} />)
-                        : <Icon name={icon} />}
+                    {icon !== '' && <div>
+                        {visible ? (negativeIcon ? <Icon name={negativeIcon} />
+                            : <Icon name={icon} />)
+                            : <Icon name={icon} />}
+                    </div>}
                 </Flex>
             </div>
             {visible && <div onClick={e => e.stopPropagation()}>
