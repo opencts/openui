@@ -1,0 +1,16 @@
+.container-fluid {
+    width: 100%;
+}
+
+.container {
+    width: 72%;
+    margin: auto;
+
+    @media screen and (max-width: 1000px) {
+        width: 82%;
+    }
+
+    @media screen and (max-width: 600px) {
+        width: 92%;
+    }
+}
