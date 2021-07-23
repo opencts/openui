@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React from "react"
 import Flex from "../Containers/Flex";
 
 function ProgressBar({
@@ -6,20 +6,21 @@ function ProgressBar({
     height = 25,
     indeterminate = false,
     value = 57,
+    radius = 50,
     showValue = false,
 }) {
 
     let bg = 'bg-' + color;
-    let css = { height: height, width: value + '%', borderRadius: 50 + 'px' }
-    let getValue = showValue ? value+'%' : null;
-    bg = indeterminate ? (bg + ' ' + 'move') : bg;
+    let css = { height: height, width: value + '%', borderRadius: radius + 'px' }
+    let getValue = showValue ? value + '%' : null;
+    bg = indeterminate ? (bg + ' move') : bg;
 
     return (
-        <div className="progress-container">
+        <div className="progress-container" style={{ height: height }}>
             <div className={bg} style={{ ...css }}>
-                <Flex jc="center" ai="center">
+                <div className="progress-text">
                     {getValue}
-                </Flex>
+                </div>
             </div>
         </div>
     )

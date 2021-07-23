@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { reverseColor } from '../../services/_colors';
 import Icon from '../Fonts/Icon';
 
 function Radio({
@@ -26,7 +27,7 @@ function Radio({
             <div className={value ? 'radiomark border-' + color + ' bg-' + color + ' text-light': 'radiomark border-' + color}>
                 <Icon
                     className={'radioIcon bg-' + color }
-                    color={value ? 'light' : color}
+                    color={value ? reverseColor(color) : color}
                     style={{
                         visibility: value ? 'visible' : 'hidden',
                         fontSize: size + 'px',

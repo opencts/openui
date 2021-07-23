@@ -95,6 +95,7 @@
     .options-item {
         padding: 7px;
         transition: 0.3s;
+
         &:hover {
             background-color: $primary;
             border-radius: 3px;
@@ -107,43 +108,39 @@
 .checkbox {
     width: fit-content;
     position: relative;
-    .checkmark {
+
+    .checkmark, .radiomark {
         border: none;
         width: fit-content;
         padding: 0 4px;
         border-radius: 2px;
         transition: 0.3s ease-in-out;
     }
-}
 
-/* RADIO */
-.radiomark {
-    border: none;
-    width: fit-content;
-    padding: 0 4px;
-    border-radius: 70px;
-    transition: 0.3s ease-in-out;
-}
-.radioIcon 
-{
-    background-color: white;
-    height: 10px;
-    width: 10px;
-    border: 1px solid transparent;
-    border-radius: 50%;
+    /* RADIO */
+    .radiomark {
+        border-radius: 100% !important;
+    }
+
+    .radioIcon {
+        background-color: white;
+        height: 10px;
+        width: 10px;
+        border: 1px solid transparent;
+        border-radius: 50%;
+    }
 }
 
 /* SWITCH */
 
-.switch-bar
-{
+.switch-bar {
     height: 25px;
     width: 50px;
     border-radius: 40px;
     position: relative;
 }
-.switch 
-{
+
+.switch {
     height: 24px;
     width: 24px;
     position: absolute;
@@ -152,6 +149,7 @@
     border-radius: 50%;
     background-color: white;
 }
+
 /** UPLOAD **/
 .upload {
     padding: 2px;

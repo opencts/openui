@@ -1,9 +1,7 @@
-import CardTitle from "./CardTitle";
-
-function CardMedia({ image, title, style, className }) {
+function CardMedia({ image, style, ...props }) {
     return (
-        <div className="card-media" style={{...style}}>
-            <img src={image} />
+        <div className="card-media" style={{...style}} {...props} >
+            <img src={image} alt="card-media" />
         </div>
     )
 

@@ -18,7 +18,6 @@ import Checkbox from "./components/Forms/Checkbox";
 import Birthday from "./components/Forms/Birthday";
 import Alert from './components/Dialogs/Alert';
 import Upload from "./components/Forms/Upload";
-import ProgressBar from "./components/Progress/ProgressBar";
 import Radio from "./components/Forms/Radio";
 import Switch from "./components/Forms/Switch";
 
@@ -54,9 +53,7 @@ import CardContent from "./components/Cards/CardContent";
 import CardMedia from "./components/Cards/CardMedia";
 import CardTitle from "./components/Cards/CardTitle";
 import CardSubTitle from "./components/Cards/CardSubTitle";
-import CardAvatar from "./components/Cards/CardAvatar";
 import CardAction from "./components/Cards/CardAction";
-import Paper from "./components/Containers/Paper";
 
 const contentText = `Lorem Ipsum is simply dummy text of 
 the printing and typesetting industry. Lorem Ipsum has 
@@ -244,7 +241,6 @@ function App() {
         <Upload onUploadEnd={files => console.log(files)} color="secondary" />
       </Container>
 
-      {/* 
       <Container style={{ marginTop: "50px" }}>
         <Alert >User added successfully</Alert>
         <Alert color='warning' type='dense' closable>Are you sure ?</Alert>
@@ -253,10 +249,10 @@ function App() {
       </Container>
 
       <Container style={{ marginTop: "50px" }}>
-        <Alert color='info'    type='text' vpos='bottom' hpos='left'>User added successfully</Alert>
+        <Alert color='info' type='text' vpos='bottom' hpos='left'>User added successfully</Alert>
         <Alert color='warning' type='text' vpos='top' closable hpos='right'>Are you sure ?</Alert>
         <Alert color='success' type='text' hpos='center'>You're logging successfully !</Alert>
-        <Alert color='danger'  type='text'>An error occurred !</Alert>
+        <Alert color='danger' type='text'>An error occurred !</Alert>
       </Container>
 
       <Container style={{ marginTop: "50px" }}>
@@ -268,13 +264,6 @@ function App() {
 
       <br />
 
-      <Container>
-        <ProgressBar color = "primary" indeterminate></ProgressBar>
-      </Container>
-
-      <Radio></Radio>
-
-      <Switch color='primary'></Switch>
       {s && <Dialog title="Test" titleIcon="plus" color="danger" onClose={_ => setS(false)}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae ratione minus nam deserunt eos dolorum voluptatem amet hic similique sunt corrupti quod laudantium, quas quibusdam voluptates eum, nemo non expedita?
       </Dialog>}
@@ -616,6 +605,15 @@ function App() {
             {contentText}
           </CardContent>
         </Card>
+
+        <br /><br /><br /><br />
+        <Radio /> <br />
+
+        <Switch color='primary'></Switch> <br />
+ 
+        <ProgressBar color="primary" indeterminate /> <br /><br /><br />
+        <ProgressBar color="primary" value={88} height={10} /> <br /><br /><br />
+        <ProgressBar color="primary" value={58} showValue /> <br /><br /><br />
       </Container>
 
     </div>
