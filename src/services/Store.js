@@ -32,10 +32,10 @@ export default function Store({ children }) {
     }
 
     async function save(route, data, _id) {
-        const reqMethod = _id === ''? "POST" : "PUT";
+        const reqMethod = _id === '' ? "POST" : "PUT";
         if (route in data) {
             const response = fetch(_SERVER_URL + '/' + _id,
-                { 
+                {
                     method: reqMethod,
                     headers: {
                         'Accept': 'application/json',
@@ -51,8 +51,8 @@ export default function Store({ children }) {
         }
     }
 
-   return <StoreContext.Provider value={data}>
-       {children}
-   </StoreContext.Provider>
+    return <StoreContext.Provider value={data}>
+        {children}
+    </StoreContext.Provider>
 
 }
