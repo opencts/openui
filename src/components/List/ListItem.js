@@ -52,7 +52,7 @@ function ListItem({
         <div className="p-1">
             <Flex ai={align} gap={20} jc="space-between">
                 {avatar && <Avatar {...avatarOptions} />}
-                <div style={{ width: '100%' }} className="mt-1">
+                <div style={{ width: '100%' }}>
                     <Flex ai="center" jc="space-between">
                         {children}
                         {actions.length > 0 && <div className="mr-2 ml-1">

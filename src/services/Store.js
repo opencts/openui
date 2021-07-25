@@ -27,14 +27,14 @@ export default function Store({ children }) {
         const value = await fetch(_SERVER_URL + route + "/" + _id, {
             method: 'GET'
         }).then(res => res.json());
-        setData({ ...data, [route]: value })
+        setData({ ...data, [route]: value });
         return value;
     }
 
     async function save(route, data, _id) {
-        const reqMethod = _id === '' ? "POST" : "PUT";
+        const reqMethod = !_id ? "POST" : "PUT";
         if (route in data) {
-            const response = fetch(_SERVER_URL + '/' + _id,
+            const response = fetch(_SERVER_URL + '/' + (!_id ? '' : _id),
                 {
                     method: reqMethod,
                     headers: {
