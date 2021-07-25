@@ -73,6 +73,7 @@
 .dropdown-container {
     position: relative;
     width: fit-content;
+    z-index: 12;
 
     .dropdown {
         position: absolute;

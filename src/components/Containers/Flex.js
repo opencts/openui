@@ -6,6 +6,7 @@ function Flex({
     children,
     direction = 'row',
     autoScroll = false,
+    wrap = false,
     gap = 0,
     ...props
 }) {
@@ -14,6 +15,7 @@ function Flex({
 
     useEffect(() => {
         let c = 'flex' + (autoScroll ? '-auto' : '') + (jc ? (' f-jc-' + jc) : '') + (ai ? (' f-ai-' + ai) : '') + ' f-' + direction;
+        c += wrap ? ' flex-wrap' : '';
         c = c + (props.className ? (' ' + props.className) : '');
         setCss(c);
     }, [jc, ai, direction, autoScroll, props]);
@@ -21,7 +23,7 @@ function Flex({
 
     return (
         <div className={css} style={{
-            gap: `0px ${gap}px`,
+            gap: `${wrap ? gap : 0}px ${gap}px`,
             ...props.style
         }} {...props}>
             {children}

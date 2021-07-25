@@ -12,8 +12,8 @@ function Font({
 }) {
 
     // Get default color and background's classes
-    const trueColor = !color ? 'text-dark' : 'text-' + color;
-    const trueBg = !background ? 'bg-light' : 'bg-' + background;
+    const trueColor = !color ? '' : 'text-' + color;
+    const trueBg = !background ? '' : 'bg-' + background;
 
     // Global custom style
     let customStyle = {};

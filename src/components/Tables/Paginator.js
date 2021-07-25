@@ -14,6 +14,7 @@ function Paginator({
     defaultSize = 5,
     circled = false,
     of = "of",
+    onChange = () => { },
     simplified = false,
     rowsPerPageLabel = 'Rows/page',
 }) {
@@ -53,6 +54,10 @@ function Paginator({
     function changePage(item) {
         if (item !== '...') {
             setValue(item);
+            onChange({
+                size,
+                current: item
+            });
         }
     }
 
@@ -63,50 +68,75 @@ function Paginator({
                     <Select
                         label={rowsPerPageLabel}
                         searcheable={false}
+                        color={hoverColor}
                         valueId="id"
                         valueLabel="value"
-                        defaultValue={pageSizes[0]}
-                        onChange={v => setSize(v.value)}
+                        // defaultValue={pageSizes[0]}
+                        onChange={v => {
+                            setSize(v.value);
+                            onChange({
+                                size: v.value,
+                                current: 1
+                            });
+                        }}
                         data={pageSizes.map(value => ({ id: value, value: value }))} />
-                    <Hidden up="1000px">
-                        <Flex ai="center" gap={20}>
-                            {paginatorValues.map((item, index) => <div
-                                className="pointer"
-                                onClick={_ => changePage(item)}
-                                key={index}>
-                                <Paper
-                                    width="36px"
-                                    height="36px"
-                                    color={item === value ? hoverColor : color}
-                                    hoverColor={hoverColor}
-                                    rounded={circled}>
-                                    <Flex ai="center" jc="center" style={{ height: '100%' }}>
-                                        {item}
-                                    </Flex>
-                                </Paper>
-                            </div>
-                            )}
-                        </Flex>
-                    </Hidden>
-                    <Hidden down="1000px">
-                        <Flex ai="center" jc="space-between" gap={30}>
-                            <span>
-                                {value} - {value + size - 1} {of} {length} 
-                            </span>
-                            <Flex gap={15}>
-                                <Icon name="angleLeft" color={value !== 1 ? 'dark': 'gray'} onClick={_ => {
-                                    if (value !== 1) {
-                                        setValue(value - size);
-                                    }
-                                }} />
-                                <Icon name="angleRight" color={value < length - size ? 'dark': 'gray'} onClick={_ => {
-                                    if (value + size < length) {
-                                        setValue(value + size)
-                                    }
-                                }} />
+                    {!simplified ? <div>
+                        <Hidden up="1000px">
+                            <Flex ai="center" gap={20}>
+                                {paginatorValues.map((item, index) => <div
+                                    className="pointer"
+                                    onClick={_ => changePage(item)}
+                                    key={index}>
+                                    <Paper
+                                        width="36px"
+                                        height="36px"
+                                        color={item === value ? hoverColor : color}
+                                        hoverColor={hoverColor}
+                                        rounded={circled}>
+                                        <Flex ai="center" jc="center" style={{ height: '100%' }}>
+                                            {item}
+                                        </Flex>
+                                    </Paper>
+                                </div>
+                                )}
                             </Flex>
+                        </Hidden>
+                        <Hidden down="1000px">
+                            <Flex ai="center" jc="space-between" gap={10} wrap>
+                                <span>
+                                    {value} - {value + size - 1} {of} {length}
+                                </span>
+                                <Flex gap={15}>
+                                    <Icon name="angleLeft" color={value !== 1 ? 'dark' : 'gray'} onClick={_ => {
+                                        if (value !== 1) {
+                                            setValue(value - size);
+                                        }
+                                    }} />
+                                    <Icon name="angleRight" color={value < length - size ? 'dark' : 'gray'} onClick={_ => {
+                                        if (value + size < length) {
+                                            setValue(value + size)
+                                        }
+                                    }} />
+                                </Flex>
+                            </Flex>
+                        </Hidden>
+                    </div> : <Flex ai="center" jc="space-between" gap={10} wrap>
+                        <span>
+                            {value} - {value + size - 1} {of} {length}
+                        </span>
+                        <Flex gap={15}>
+                            <Icon name="angleLeft" color={value !== 1 ? 'dark' : 'gray'} onClick={_ => {
+                                if (value !== 1) {
+                                    setValue(value - size);
+                                }
+                            }} />
+                            <Icon name="angleRight" color={value < length - size ? 'dark' : 'gray'} onClick={_ => {
+                                if (value + size < length) {
+                                    setValue(value + size)
+                                }
+                            }} />
                         </Flex>
-                    </Hidden>
+                    </Flex>}
                 </Flex>
             </div>
         </div >

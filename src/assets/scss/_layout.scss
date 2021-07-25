@@ -8,11 +8,11 @@
     width : 72%;
     margin: auto;
 
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: $break-md) {
         width: 82%;
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: $break-sm) {
         width: 92%;
     }
 }
@@ -253,8 +253,10 @@
 }
 
 .flex-wrap {
-    display  : flex;
     flex-wrap: wrap;
+    @media (max-width: $break-sm) {
+        justify-content: center !important;
+    }
 }
 
 .f-row {

@@ -54,6 +54,7 @@ import CardMedia from "./components/Cards/CardMedia";
 import CardTitle from "./components/Cards/CardTitle";
 import CardSubTitle from "./components/Cards/CardSubTitle";
 import CardAction from "./components/Cards/CardAction";
+import Datatable from "./components/Tables/Datatable";
 
 const contentText = `Lorem Ipsum is simply dummy text of 
 the printing and typesetting industry. Lorem Ipsum has 
@@ -548,9 +549,9 @@ function App() {
         <Paginator />
         <Paginator circled />
         <br /> <br /> <br /> <br />
-
+{/* 
         <Table checkable onSelectionChange={v => console.log(v)} color="danger" />
-        <Table checkable onSelectionChange={v => console.log(v)} color="success" actions={null} />
+        <Table checkable onSelectionChange={v => console.log(v)} color="success" actions={null} /> */}
 
         <Table />
       </Container>
@@ -610,10 +611,17 @@ function App() {
         <Radio /> <br />
 
         <Switch color='primary'></Switch> <br />
- 
+
         <ProgressBar color="primary" indeterminate /> <br /><br /><br />
         <ProgressBar color="primary" value={88} height={10} /> <br /><br /><br />
         <ProgressBar color="primary" value={58} showValue /> <br /><br /><br />
+      </Container>
+
+      <Container>
+        <div className="mt-5">
+          <Datatable /> <br /><br /><br />
+          <Datatable color="success" />
+        </div>
       </Container>
 
     </div>

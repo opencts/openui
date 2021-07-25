@@ -16,12 +16,12 @@ function ListGroup({
     return (
         <div className="mt-2 mb-2">
             <div className="ml-2 mr-2">
-                <h7 className={'text-' + titleColor}>
+                <h6 className={'text-' + titleColor}>
                     <Flex ai="center" gap={7}>
                         {icon !== '' && <Icon name={icon} />}
                         <span>{title}</span>
                     </Flex>
-                </h7>
+                </h6>
                 <div className="ml-2 mt-3">
                     {children}
                 </div>

@@ -13,7 +13,6 @@ function Checkbox({
 
     useEffect(() => {
         setValue(checked);
-        onChange(checked);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checked]);
 

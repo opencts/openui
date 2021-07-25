@@ -20,7 +20,7 @@ function Select({
     const selectRef = useRef(null);
 
     const [disabled, setDisabled] = useState(false);
-    const [values, setValues] = useState([]);
+    const [values, setValues] = useState(data.length > 0 ? [data[0]] : []);
     const [vdata, setVdata] = useState(data);
     const [selected, setSelected] = useState(data.map(it => false));
 

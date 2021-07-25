@@ -14,7 +14,6 @@ function Paper({
 }) {
 
     const css = 'bg-' + color + (rounded ? ' circled' : '') + (props.className ?  (' ' + props.className): '');
-    console.log(css);
 
     const [customStyle, setCustomStyle] = useState({});
 
