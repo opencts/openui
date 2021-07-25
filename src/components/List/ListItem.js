@@ -10,7 +10,7 @@ function ListItem({
     avatarLetter = '', // avatar letter
     avatarSize = 40, // 40
     avatarColor = 'primary', // primary - secondary ...
-    separatorAfter = true, // true | false
+    separatorAfter = false, // true | false
     separatorSize = '1',
     separatorColor = 'light-gray',
     actions = [], //  [ {icon: 'pencil', color: '', action: () => {...}} ]
@@ -49,7 +49,7 @@ function ListItem({
     if (loading) return null;
 
     return (
-        <div className="mt-1">
+        <div className="p-1">
             <Flex ai={align} gap={20} jc="space-between">
                 {avatar && <Avatar {...avatarOptions} />}
                 <div style={{ width: '100%' }} className="mt-1">

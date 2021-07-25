@@ -1,16 +1,23 @@
 import React from 'react'
+import { useEffect } from 'react';
 import { useState } from 'react';
 import Input from './Input';
 
 function Search({
     color = 'primary',
+    value = '',
     onSearch = () => { }
 }) {
 
-    const [value, setValue] = useState('');
+    const [searchValue, setValue] = useState('');
     const [actionIcon, setActionIcon] = useState('');
 
+    useEffect(() => {
+        setValue(value);
+    }, [value]);
+
     function handleChange(e) {
+        console.log(e.target.value)
         setValue(e.target.value);
         onSearch(e.target.value);
 
@@ -30,7 +37,7 @@ function Search({
     return (
         <Input
             color={color}
-            value={value}
+            value={searchValue}
             onChange={handleChange}
             labelIcon="search"
             label="Rechercher..."

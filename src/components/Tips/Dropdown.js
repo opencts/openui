@@ -60,7 +60,7 @@ function Dropdown({
 
     return (
         <div className="dropdown-container" {...actions} ref={childrenRef}>
-            {component()}
+            {typeof(component) === 'function' ? component(): component}
             {visible && <div className={`dropdown bg-${color} dropdown-${position}`} style={style} {...props}>
                 {dropdownContent}
             </div>}

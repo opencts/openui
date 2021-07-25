@@ -47,7 +47,6 @@ function Carousel({
         setVisible(false);
         setTimeout(() => {
             setVisible(true);
-            console.log(direction, typeof direction)
             if (typeof direction === 'number') {
                 setCurrent(items[direction]);
             } else {
