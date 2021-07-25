@@ -1,4 +1,3 @@
-
 const config = {
     mode: 'dev',
     _dev_url : 'http://localhost:4200/',

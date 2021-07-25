@@ -62,6 +62,9 @@ function Input({
     useEffect(() => {
         setInputValue(value);
         inputRef.current.focus();
+        setTimeout(() => {
+            inputRef.current.blur();
+        }, 100);
     }, [value]);
 
     function handleInputBlur() {

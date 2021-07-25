@@ -14,7 +14,7 @@ function ListGroup({
     children
 }) {
     return (
-        <div className="mt-2 mb-2">
+        <div>
             <div className="ml-2 mr-2">
                 <h6 className={'text-' + titleColor}>
                     <Flex ai="center" gap={7}>
@@ -22,7 +22,7 @@ function ListGroup({
                         <span>{title}</span>
                     </Flex>
                 </h6>
-                <div className="ml-2 mt-3">
+                <div className="ml-2 mt-1">
                     {children}
                 </div>
             </div>
