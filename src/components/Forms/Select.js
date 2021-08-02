@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Flex from '../Containers/Flex';
 import Icon from '../Fonts/Icon';
 import Input from './Input'
@@ -13,6 +13,7 @@ function Select({
     valueId = 'id',
     valueLabel = 'name',
     multiple = false,
+    bgcolor = 'white',
     ...props
 }) {
 
@@ -48,7 +49,6 @@ function Select({
             selected[index] = !selected[index];
             setSelected([...selected]);
         }
-        console.log(v)
     }
 
     function searchValue(value) {
@@ -86,12 +86,15 @@ function Select({
         </div>
     }
 
+    const selectedValue = useMemo(() => values.map(it => it[valueLabel]), [values]);
+
     return (
         <div ref={selectRef} className="select" onClick={openSelect}>
             <Input
-                value={values.map(it => it[valueLabel])}
+                value={selectedValue}
                 color={color}
                 label={label}
+                bgcolor={bgcolor}
                 disabled={disabled}
                 actionIcon="angleDown"
                 {...props} />

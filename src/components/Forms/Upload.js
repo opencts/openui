@@ -10,7 +10,7 @@ function Upload({
     color = 'primary',
     dropText = 'Drop Here or click to upload',
     finishText = 'Finish',
-    multiple = true,
+    multiple = false,
     uploadFunction = null,
     onUploadEnd = () => { }
 }) {
@@ -21,22 +21,23 @@ function Upload({
     const fileRef = useRef(null);
 
     function handleDrop(ev) {
-        ev.preventDefault();
-        const f = [];
-        if (ev.dataTransfer.items) {
-            for (let i = 0; i < ev.dataTransfer.items.length; i++) {
-                if (ev.dataTransfer.items[i].kind === 'file') {
-                    const file = ev.dataTransfer.items[i].getAsFile();
-                    f.push(file);
+        if ((!multiple && files.length === 0) || multiple) {
+            ev.preventDefault();
+            const f = [];
+            if (ev.dataTransfer.items) {
+                for (let i = 0; i < ev.dataTransfer.items.length; i++) {
+                    if (ev.dataTransfer.items[i].kind === 'file') {
+                        const file = ev.dataTransfer.items[i].getAsFile();
+                        f.push(file);
+                    }
+                }
+            } else {
+                for (let i = 0; i < ev.dataTransfer.files.length; i++) {
+                    f.push(ev.dataTransfer.files[i]);
                 }
             }
-        } else {
-            for (let i = 0; i < ev.dataTransfer.files.length; i++) {
-                f.push(ev.dataTransfer.files[i]);
-            }
+            setFiles([...files, ...f]);
         }
-        console.log(f);
-        setFiles([...files, ...f]);
     }
 
     function removeFile(index) {
@@ -75,7 +76,9 @@ function Upload({
     }
 
     function handleFileChange(e) {
-        setFiles([...files, ...e.target.files]);
+        if ((!multiple && files.length === 0) || multiple) {
+            setFiles([...files, ...e.target.files]);
+        }
     }
 
     async function doUpload() {
@@ -89,9 +92,9 @@ function Upload({
                 });
                 promises.push(p);
             }
-            onUploadEnd(await Promise.all(promises));
+            onUploadEnd(multiple ? await Promise.all(promises) : (await Promise.all(promises))[0]);
         } else {
-            onUploadEnd(await uploadFunction(files));
+            onUploadEnd(multiple ? await uploadFunction(files): (await uploadFunction(files))[0]);
         }
         setOpened(false);
     }
@@ -108,7 +111,7 @@ function Upload({
                             </div>
                         </Flex>
                     </div>
-                    <Button color={color} onClick={_ => setOpened(true)}>{btnText}</Button>
+                    <Button type="button" color={color} onClick={_ => setOpened(true)}>{btnText}</Button>
                 </Flex>
             </div>
             {opened && <Dialog
@@ -116,27 +119,30 @@ function Upload({
                 title="Upload"
                 titleIcon="cloudDownloadAlt"
                 actions={_ => curOpened ? <div className="mt-2">
-                    <Button expand color={color} onClick={_ => setCurOpened(null)}>Back</Button>
+                    <Button type="button" expand color={color} onClick={_ => setCurOpened(null)}>Back</Button>
                 </div> : (
-                        files.length > 0 ? <div className="mt-2">
-                            <Button color={color} expand onClick={doUpload}>{finishText}</Button>
-                        </div> : null
-                    )}
+                    files.length > 0 ? <div className="mt-2">
+                        <Button type="button" color={color} expand onClick={doUpload}>{finishText}</Button>
+                    </div> : null
+                )}
                 onClose={_ => setOpened(false)}>
                 {!curOpened ? <div>
                     <div className="drop-zone" onClick={_ => fileRef.current.click()}>
                         <input multiple={multiple} ref={fileRef} style={{ display: 'none' }} type="file" onChange={handleFileChange} />
                         <Flex ai="center" jc="center" gap={10}>
                             <Icon color="dark" name="cloudDownloadAlt" />
-                            <div onDrop={handleDrop} onDragOver={e => e.preventDefault()}>{dropText}</div>
+                            <div
+                                onDrop={handleDrop}
+                                onDragOver={e => e.preventDefault()}
+                                style={{ textAlign: 'center' }}>{dropText}</div>
                         </Flex>
                     </div>
                     {displayFiles()}
                 </div> : <div>
-                        <div style={{ overflow: 'auto' }}>
-                            <embed className="embed" type={curOpened.file.type} src={curOpened.b64} />
-                        </div>
-                    </div>}
+                    <div style={{ overflow: 'auto' }}>
+                        <embed className="embed" type={curOpened.file.type} src={curOpened.b64} />
+                    </div>
+                </div>}
             </Dialog>}
         </div>
     )

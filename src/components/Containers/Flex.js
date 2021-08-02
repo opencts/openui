@@ -12,14 +12,17 @@ function Flex({
 }) {
 
     const [css, setCss] = useState();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let c = 'flex' + (autoScroll ? '-auto' : '') + (jc ? (' f-jc-' + jc) : '') + (ai ? (' f-ai-' + ai) : '') + ' f-' + direction;
         c += wrap ? ' flex-wrap' : '';
         c = c + (props.className ? (' ' + props.className) : '');
         setCss(c);
-    }, [jc, ai, direction, autoScroll, props]);
+        setLoading(false);
+    }, [jc, ai, direction, autoScroll, props, wrap]);
 
+    if (loading) return null;
 
     return (
         <div className={css} style={{

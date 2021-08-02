@@ -9,7 +9,7 @@ $h6: 14px;
 $regular-size: 18px;
 
 // Line height
-$line-height: 2;
+$line-height: 1;
 
 // Default font
 @font-face {
@@ -24,6 +24,7 @@ $line-height: 2;
     box-sizing: border-box;
     font-family: "Tenor";
     letter-spacing: 1px;
+    line-height: $line-height;
 }
 
 // HO definition
@@ -64,6 +65,7 @@ $light-gray: #e4e6eb;
 $light: #f7f8fa;
 $success: #00841d;
 $danger: #ad320d;
+$white: #ffffff;
 
 $_COLORS: (
     primary: $primary,
@@ -75,6 +77,7 @@ $_COLORS: (
     light: $light,
     success: $success,
     danger: $danger,
+    white: $white
 );
 
 @each $key, $val in $_COLORS {
@@ -84,7 +87,7 @@ $_COLORS: (
     }
 
     // Background color's generation
-    @if $key == gray or $key == light-gray or $key == light {
+    @if $key == gray or $key == light-gray or $key == light or $key == white  {
         .bg-#{$key} {
             background-color: $val;
             color: $dark-gray;
