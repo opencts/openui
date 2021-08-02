@@ -34,7 +34,7 @@ export function deepCopie(value) {
 }
 
 export function reformatDate(date) {
-    const [d, m, y] = date.split(/[\/-]/);
+    const [d, m, y] = date.split(/[/-]/);
     const td = Number(d) < 10 ? ('0' + d) : d;
     const tm = Number(m) < 10 ? ('0' + m) : m;
     return td + '/' + tm + '/' + y;

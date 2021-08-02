@@ -2,10 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react'
 import Flex from '../Containers/Flex';
 import Select from './Select'
 import { _ERROR_MSGS } from '../../services/validators';
+import Font from '../Fonts/Font';
 
 function Birthday({
     onChange = _ => { },
     errorMsg = _ERROR_MSGS.date,
+    color = 'primary',
+    label = '',
     required = true
 }) {
 
@@ -61,10 +64,14 @@ function Birthday({
 
     return (
         <div className="birthday">
+            <Font color={color} style={{
+                transform: 'translateY(6px)'
+            }}>{label}</Font>
             <Flex gap={10}>
                 <Select
                     searcheable={false}
                     label="Day"
+                    color={color}
                     data={days}
                     onChange={v => setValue({ ...value, day: v })}
                     valueId="value"
@@ -74,6 +81,7 @@ function Birthday({
                     searcheable={false}
                     label="Month"
                     data={months}
+                    color={color}
                     onChange={v => setValue({ ...value, month: v })}
                     valueId="value"
                     valueLabel="name" />
@@ -81,6 +89,7 @@ function Birthday({
                     searcheable={false}
                     label="Year"
                     data={years}
+                    color={color}
                     onChange={v => setValue({ ...value, year: v })}
                     valueId="value"
                     valueLabel="value" />

@@ -77,6 +77,7 @@
 /* ---------- Animations effect --------------------*/
 .effect {
     transition: .7s;
+    overflow: hidden;
 }
 
 .fade-in {

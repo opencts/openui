@@ -1,24 +1,17 @@
 import React from 'react'
-import { useEffect } from 'react';
 import { useState } from 'react';
 import Input from './Input';
 
 function Search({
     color = 'primary',
-    value = '',
+    bgcolor = 'white',
     onSearch = () => { }
 }) {
 
-    const [searchValue, setValue] = useState('');
     const [actionIcon, setActionIcon] = useState('');
-
-    useEffect(() => {
-        setValue(value);
-    }, [value]);
+    const [reset, setReset] = useState(null);
 
     function handleChange(e) {
-        console.log(e.target.value)
-        setValue(e.target.value);
         onSearch(e.target.value);
 
         if (e.target.value.length === 0) {
@@ -29,18 +22,22 @@ function Search({
     }
 
     function handleAction() {
-        setValue('');
         onSearch('');
         setActionIcon('');
+        setReset(true);
+        setTimeout(() => {
+            setReset(null);
+        }, 500);
     }
 
     return (
         <Input
             color={color}
-            value={searchValue}
             onChange={handleChange}
+            bgcolor={bgcolor}
             labelIcon="search"
             label="Rechercher..."
+            resetInput={reset}
             actionIcon={actionIcon}
             onAction={handleAction}
         />

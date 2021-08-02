@@ -14,7 +14,6 @@ function Ripple({
 
     function handleClick(event) {
         const { x, y, width, height } = ref.current.getBoundingClientRect();
-        console.log(width, height);
         const ripple = document.createElement('div');
         ripple.style.position = 'absolute';
         if (fromCenter) {
@@ -26,7 +25,6 @@ function Ripple({
             ripple.style.width = size + 'px';
             ripple.style.height = size + 'px';
             ripple.style.borderRadius = '50%';
-            console.log(ripple.style, size)
             ripple.classList.toggle('ripple');
         }
         ref.current.appendChild(ripple);

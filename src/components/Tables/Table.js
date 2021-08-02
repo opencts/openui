@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useMemo } from 'react';
-import { generateFakeData, generateUniqueKey, reformatData } from '../../services/utils';
+import { generateUniqueKey } from '../../services/utils';
 import Flex from '../Containers/Flex';
 import Icon from '../Fonts/Icon';
 import Checkbox from '../Forms/Checkbox';
@@ -27,7 +27,7 @@ function Table({
         index: -1
     });
 
-    const headers = useMemo(_ => data.length > 0 ? Object.keys(data[0]).filter(it => !hiddens.includes(it)) : [], [hiddens]);
+    const headers = useMemo(_ => data.length > 0 ? Object.keys(data[0]).filter(it => !hiddens.includes(it)) : [], [hiddens, data]);
 
     useEffect(() => {
         data.sort((a, b) => {
@@ -39,6 +39,7 @@ function Table({
                 return 0;
             }
         });
+        // eslint-disable-next-line
     }, [sorter.direction, sorter.index]);
 
     return (
@@ -87,7 +88,7 @@ function Table({
                             </td>}
                             {headers.map(col => <td key={generateUniqueKey('dt-td-' + col)}>{item[col]}</td>)}
                             {actions && <td>
-                                <Dropdown width="150" component={() => <Icon name="ellipsisV" />} position="left">
+                                <Dropdown width="150" component={() => <Icon name="ellipsisV" color={color} />} position="left">
                                     {actions.map((elt, id) => <div className={'p-1 pt-2 pb-2 bg-hover-light-gray'} key={id}>
                                         <Flex
                                             ai="center"
