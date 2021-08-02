@@ -72,6 +72,11 @@ function App() {
   const [v, setV] = useState('');
   const [s, setS] = useState(false);
   const { confirm, alert } = useDialog();
+  const [values, setValues] = useState({
+    nom: '',
+    prenom: '',
+    tel: ''
+  });
 
   const musicCard = {
     cardSize: { width: "400px", height: "250px" },
@@ -80,8 +85,36 @@ function App() {
     media: { height: "100%", width: "200px" }
   }
 
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    console.log(values);
+    setValues({
+      nom: '',
+      prenom: '',
+      tel: ''
+    })
+  }
   return (
     <div className="pb-5">
+      <Element margin='60px' >
+        <h3>Informations</h3>
+        <form onSubmit={handleSubmit}>
+          <Input label="Nom" color='secondary' required value={values.nom} onChange={(e)=>{
+            const value = e.target.value;
+            setValues({...values, nom: value})
+          }}/>
+          <Input label="Prenom" color='secondary' required value={values.prenom} onChange={(e)=>{
+            const value = e.target.value;
+            setValues({...values, prenom: value})
+          }}/>
+          <Input label="Téléphone" color='secondary' type="number" required value={values.tel} onChange={(e)=>{
+            const value = e.target.value;
+            setValues({...values, tel: value})
+          }} />
+          <Button color="secondary" icon="plus" rounded>Enregistrer</Button>
+        </form>
+      </Element>
+      {/* 
       <Container lg="70%" md="80%" sm="95%">
         <Font color="light" background="secondary">
           <h2>Toto</h2>
@@ -91,7 +124,7 @@ function App() {
           <p>Lorem ipsum dolor sit amet <Font inline weight="bold">consectetur</Font> adipisicing elit. Magni numquam, amet doloribus nisi non inventore, quaerat, eos ea saepe dolorum qui magnam consectetur ad illo dolore nulla delectus similique cupiditate!</p>
         </Font>
 
-        <Element margin="2" radius="25px" padding="0 2" bTop="solid 1px green" width=".7" position="fixed" top="0">
+        <Element margin="2" radius="25px" padding="0 2" bTop="solid 1px green" width=".7">
           <div>Hello world</div>
         </Element>
 
@@ -240,8 +273,8 @@ function App() {
         <Birthday onChange={v => console.log(v)} />
 
         <Upload onUploadEnd={files => console.log(files)} color="secondary" />
-      </Container>
-
+      </Container> */}
+      {/* 
       <Container style={{ marginTop: "50px" }}>
         <Alert >User added successfully</Alert>
         <Alert color='warning' type='dense' closable>Are you sure ?</Alert>
@@ -504,35 +537,14 @@ function App() {
         <CircularLoader size={75} borderSize={5} color="secondary" />
 
         <br /> <br /> <br /> <br />
-        <CircularDotsLoader size={15} /> <br /> <br />
-        <CircularDotsLoader size={40} color="secondary" /> <br /> <br />
-        <CircularDotsLoader size={75} color="success" />
-
-        <br /> <br /> <br /> <br />
-        <DotsLoader /> <br /> <br />
-        <DotsLoader size={20} color="secondary" /> <br /> <br />
-        <DotsLoader size={35} color="dark" />
-
-        <br /> <br /> <br /> <br />
-        <BarsLoader /> <br /> <br />
-        <BarsLoader size={20} color="secondary" /> <br /> <br />
-        <BarsLoader size={35} color="dark" />
-
-        <br /> <br /> <br /> <br />
-
-        <br /> <br /> <br /> <br />
         <CircularLoader size={15} borderSize={15} /> <br /> <br />
         <CircularLoader size={40} borderSize={3} color="danger" /> <br /> <br />
         <CircularLoader size={75} borderSize={5} color="secondary" />
 
         <br /> <br /> <br /> <br />
-        <DoubleCircularLoader size={15} borderSize={15} /> <br /> <br />
-        <DoubleCircularLoader size={40} borderSize={3} color="danger" /> <br /> <br />
-
-        <br /> <br /> <br /> <br />
-        <CircularDotsLoader size={15} /> <br /> <br />
-        <CircularDotsLoader size={40} color="secondary" /> <br /> <br />
-        <CircularDotsLoader size={75} color="success" />
+        <DotsLoader /> <br /> <br />
+        <DotsLoader size={20} color="secondary" /> <br /> <br />
+        <DotsLoader size={35} color="dark" />
 
         <br /> <br /> <br /> <br />
         <DotsLoader /> <br /> <br />
@@ -543,30 +555,39 @@ function App() {
         <BarsLoader /> <br /> <br />
         <BarsLoader size={20} color="secondary" /> <br /> <br />
         <BarsLoader size={35} color="dark" />
+        <br /> <br /> <br /> <br />
+
 
         <br /> <br /> <br /> <br />
+        <BarsLoader /> <br /> <br />
+        <BarsLoader size={20} color="secondary" /> <br /> <br />
+        <BarsLoader size={35} color="dark" />
+
+        <br /> <br /> <br /> <br />
+
+        <br /> <br /> <br /> <br />
+        <CircularDotsLoader size={15} /> <br /> <br />
+        <CircularDotsLoader size={40} color="secondary" /> <br /> <br />
+        <CircularDotsLoader size={75} color="success" />
+
+        <br /> <br /> <br /> <br />
+        <CircularDotsLoader size={15} /> <br /> <br />
+        <CircularDotsLoader size={40} color="secondary" /> <br /> <br />
+        <CircularDotsLoader size={75} color="success" />
+
+        <br /> <br /> <br /> <br />
+        <DoubleCircularLoader size={15} borderSize={15} /> <br /> <br />
+        <DoubleCircularLoader size={40} borderSize={3} color="danger" /> <br /> <br />
 
         <Paginator />
         <Paginator circled />
         <br /> <br /> <br /> <br />
-{/* 
+        {/* 
         <Table checkable onSelectionChange={v => console.log(v)} color="danger" />
-        <Table checkable onSelectionChange={v => console.log(v)} color="success" actions={null} /> */}
-
-        <Table />
-      </Container>
-
-
-
-      <br /> <br /> <br /> <br />
-      <br /> <br />
-
+        <Table checkable onSelectionChange={v => console.log(v)} color="success" actions={null} />  <Table />
+      </Container>*/}
+      <br /><br />
       {/* <Container>
-        <Card closable />
-      </Container> */}
-
-
-      <Container>
         <Flex gap={0}>
           <Card closable>
             <CardContent>
@@ -599,7 +620,7 @@ function App() {
         </Card>
       </Container>
 
-      <Container style={{ marginTop: '130px', width: '50%' }}>
+      <Container style={{ marginTop: '130px', width: '50%' }}> 
         <Card closable >
           <CardContent>
             <CardMedia image="http://lorempixel.com/400/200/nature/" />
@@ -622,7 +643,7 @@ function App() {
           <Datatable /> <br /><br /><br />
           <Datatable color="success" />
         </div>
-      </Container>
+      </Container> */}
 
     </div>
   );
