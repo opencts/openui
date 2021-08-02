@@ -1,18 +1,23 @@
 import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
+import useSchema from '../../hooks/useSchema'
+import { useStore } from '../../services/Store'
 import { capitalize, deepCopie, generateFakeData, generateUniqueKey, reformatData } from '../../services/utils'
 import _THEME_COLORS from '../../services/_colors'
 import Element from '../Containers/Element'
 import Flex from '../Containers/Flex'
 import Hidden from '../Containers/Hidden'
+import Modal from '../Dialogs/Modal'
 import Font from '../Fonts/Font'
 import Icon from '../Fonts/Icon'
 import Button from '../Forms/Button'
 import Checkbox from '../Forms/Checkbox'
+import Form from '../Forms/Form'
 import Search from '../Forms/Search'
 import List from '../List/List'
 import ListGroup from '../List/ListGroup'
 import ListItem from '../List/ListItem'
+import BarsLoader from '../Progress/BarsLoader'
 import Dropdown from '../Tips/Dropdown'
 import Paginator from './Paginator'
 import Table from './Table'
@@ -29,17 +34,44 @@ function Datatable({
     of = "of",
     simplified = false,
     rowsPerPageLabel = 'Rows/page',
-    data = _DATA_
+    collection = '',
 }) {
 
-    const [values, setValues] = useState(reformatData(data));
-    const [valuesCopie] = useState(reformatData(data));
+    const [values, setValues] = useState([]);
+    const [valuesCopie, setValuesCopie] = useState([]);
     const [size, setSize] = useState(defaultSize);
     const [curPage, setCurPage] = useState(currentPage);
     const [searching, setSearching] = useState(false);
     const [vHiddens, setVHiddens] = useState([...hiddens]);
-    const [vFilter, setVFilter] = useState(Object.keys(data[0]));
+    const [vFilter, setVFilter] = useState([]);
     const [actions, setActions] = useState({});
+    const [openAddDialog, setOpenAddDialog] = useState(false);
+    const [loadingData, setLoadingData] = useState(true);
+
+    const { wsSave, all, getSchema } = useStore();
+
+    const [collectionSchema, setCollectionSchema] = useState({});
+    const [collectionData, setCollectionData] = useState({});
+
+    useEffect(() => {
+        setCollectionSchema(getSchema(collection));
+    }, [getSchema]);
+
+    useEffect(() => {
+        const cb = async _ => {
+            const data = await all(collection);
+            console.log(data);
+            setValues(data);
+            setValuesCopie(data);
+            if (data.length > 0) {
+                setVFilter(Object.keys(data[0]));
+            }
+            setLoadingData(false);
+        }
+        cb();
+
+        return _ => { };
+    }, [all]);
 
     useEffect(() => {
         const start = size * (curPage - 1);
@@ -137,91 +169,117 @@ function Datatable({
     }
 
     return (
-        <Element padding="2" elevation="2" bTop={'solid 3px ' + _THEME_COLORS['$' + color]} radius="5px">
-            <Flex ai="center" jc="space-between" wrap gap={20}>
-                <Flex gap={10}>
-                    <Dropdown width="200" component={<Button color={color} outlined icon="filter">Filter</Button>}>
-                        <List>
-                            {data.length > 0 && Object
-                                .keys(data[0])
-                                .map(it => <ListItem key={generateUniqueKey('col-pick-' + it)}>
-                                    <Flex gap={15} ai="center">
-                                        <Checkbox
-                                            onChange={_ => toggleColumnFilter(it)}
-                                            color={color}
-                                            checked={vFilter.includes(it)} />
-                                        <Font>{capitalize(it)}</Font>
-                                    </Flex>
-                                </ListItem>)}
-                        </List>
-                    </Dropdown>
-                    <Dropdown width="200" component={<Button color={color} outlined icon="crosshairs">Columns picker</Button>}>
-                        <List>
-                            {data.length > 0 && <div>
-                                {Object
-                                    .keys(data[0])
+        <div>
+            <Element padding="2" elevation="2" bTop={'solid 3px ' + _THEME_COLORS['$' + color]} radius="5px">
+                <Flex ai="center" jc="space-between" wrap gap={20}>
+                    <Flex gap={10}>
+                        <Dropdown width="200" component={<Button color={color} outlined icon="filter">Filter</Button>}>
+                            <List>
+                                {vFilter?.length > 0 && vFilter
                                     .map(it => <ListItem key={generateUniqueKey('col-pick-' + it)}>
                                         <Flex gap={15} ai="center">
                                             <Checkbox
-                                                onChange={_ => toggleColumnVisibility(it)}
+                                                onChange={_ => toggleColumnFilter(it)}
                                                 color={color}
-                                                checked={!vHiddens.includes(it)} />
+                                                checked={vFilter.includes(it)} />
                                             <Font>{capitalize(it)}</Font>
                                         </Flex>
                                     </ListItem>)}
-                                <ListItem>
-                                    <Flex gap={15} ai="center">
-                                        <Checkbox
-                                            onChange={_ => toggleActionVisibility()}
-                                            color={color}
-                                            checked={Object.keys(actions).length === 0} />
-                                        <Font>Actions</Font>
-                                    </Flex>
-                                </ListItem>
-                            </div>}
-                        </List>
-                    </Dropdown>
-                    <Hidden up="600px">
-                        {renderImportExportMenu('bottom')}
-                    </Hidden>
-                    <Hidden down="600px">
-                        {renderImportExportMenu('left')}
-                    </Hidden>
+                            </List>
+                        </Dropdown>
+                        <Dropdown width="200" component={<Button color={color} outlined icon="crosshairs">Columns picker</Button>}>
+                            <List>
+                                {vFilter?.length > 0 && <div>
+                                    {vFilter
+                                        .map(it => <ListItem key={generateUniqueKey('col-pick-' + it)}>
+                                            <Flex gap={15} ai="center">
+                                                <Checkbox
+                                                    onChange={_ => toggleColumnVisibility(it)}
+                                                    color={color}
+                                                    checked={!vHiddens.includes(it)} />
+                                                <Font>{capitalize(it)}</Font>
+                                            </Flex>
+                                        </ListItem>)}
+                                    <ListItem>
+                                        <Flex gap={15} ai="center">
+                                            <Checkbox
+                                                onChange={_ => toggleActionVisibility()}
+                                                color={color}
+                                                checked={Object.keys(actions).length === 0} />
+                                            <Font>Actions</Font>
+                                        </Flex>
+                                    </ListItem>
+                                </div>}
+                            </List>
+                        </Dropdown>
+                        <Hidden up="600px">
+                            {renderImportExportMenu('bottom')}
+                        </Hidden>
+                        <Hidden down="600px">
+                            {renderImportExportMenu('left')}
+                        </Hidden>
+                    </Flex>
+                    <Button color={color} icon="plus" onClick={_ => {
+                        setOpenAddDialog(true);
+                    }}>Add new item</Button>
                 </Flex>
-                <Button color={color} icon="plus">Add new item</Button>
-            </Flex>
-            <Search color={color} onSearch={v => search(v)} />
-            {searching && <Font color={color} weight="bold">{values.length} items founded!</Font>}
-            {values.length === 0 ?
-                <Element elevation="3" className="bg-danger">
-                    <div className="m-3 p-2 text-center">
-                        <Font weight="bold">No data founded!</Font>
+                <Search color={color} bgcolor="white" onSearch={v => search(v)} />
+                {searching && <Font color={color} weight="bold">{values.length} items founded!</Font>}
+                {values.length === 0 ?
+                    <div>
+                        {loadingData ? <Element elevation="3" className="bg-light" padding="20px">
+                            <Flex jc="center" ai="center" direction="column" gap={20}>
+                                <BarsLoader /> <br />
+                                <Font weight="bold">Loading data!</Font>
+                            </Flex>
+                        </Element> : <Element elevation="3" className="bg-danger">
+                            <div className="m-3 p-2 text-center">
+                                <Font weight="bold">No data founded!</Font>
+                            </div>
+                        </Element>
+                        }
                     </div>
-                </Element>
-                : <div>
-                    <Table
-                        data={values}
-                        setData={setValues}
-                        hiddens={vHiddens}
-                        color={color}
-                        {...actions} />
-                    {!searching && <Paginator
-                        color="light"
-                        hoverColor={color}
-                        currentPage={curPage}
-                        pageSizes={pageSizes}
-                        defaultSize={size}
-                        circled={circled}
-                        of={of}
-                        length={valuesCopie.length}
-                        simplified={simplified}
-                        rowsPerPageLabel={rowsPerPageLabel}
-                        onChange={v => {
-                            setCurPage(v.current);
-                            setSize(v.size);
-                        }} />}
-                </div>}
-        </Element>
+                    : <div>
+                        <Table
+                            data={values}
+                            setData={setValues}
+                            hiddens={vHiddens}
+                            color={color}
+                            {...actions} />
+                        {!searching && <Paginator
+                            color="light"
+                            hoverColor={color}
+                            currentPage={curPage}
+                            pageSizes={pageSizes}
+                            defaultSize={size}
+                            circled={circled}
+                            of={of}
+                            length={valuesCopie.length}
+                            simplified={simplified}
+                            rowsPerPageLabel={rowsPerPageLabel}
+                            onChange={v => {
+                                setCurPage(v.current);
+                                setSize(v.size);
+                            }} />}
+                    </div>}
+            </Element >
+            {openAddDialog && <Modal
+                color={color}
+                title="Add new item"
+                onClose={_ => setOpenAddDialog(false)}
+                actions={<Button
+                    onClick={_ => {
+                        console.log(collectionData);
+                        wsSave(collection, collectionData);
+                    }}>Add item</Button>}>
+                <div className="p-3">
+                    <Form
+                        schema={collectionSchema}
+                        bgcolor="light"
+                        onChange={v => setCollectionData(v)} />
+                </div>
+            </Modal>}
+        </div >
     )
 }
 

@@ -22,6 +22,7 @@ const _ERROR_MSGS = {
 
 function Input({
     color = 'primary',
+    bgcolor = 'white',
     labelIcon,
     actionIcon,
     actionIconFlip,
@@ -39,6 +40,7 @@ function Input({
     specialChars = false,
     numericChars = false,
     min = '8',
+    resetInput = null,
     onChange = () => { },
     onAction = () => { },
     onActionChange = () => { },
@@ -50,28 +52,45 @@ function Input({
     const [inputValue, setInputValue] = useState(value);
     const [flipAction, setFlipAction] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [reset, setReset] = useState(resetInput);
+
+    const fieldRef = useRef(null);
+
+    useEffect(() => {
+        setReset(resetInput);
+    }, [resetInput]);
+
+    useEffect(() => {
+        if (reset) {
+            setInputValue('');
+            setReset(null);
+            labelRef.current.classList.toggle('label-animation');
+        } 
+    }, [reset]);
+
+    useEffect(() => {
+        if (inputRef.current !== null) {
+            setInputValue(value);
+            inputRef.current.focus();
+            setTimeout(() => {
+                inputRef.current.blur();
+            }, 500);
+        }
+    }, [value]);
 
     function handleInputFocus() {
         if (inputValue.length === 0) {
             labelRef.current.classList.toggle('label-animation');
         } else {
-            labelRef.current.className = 'label-animation';
+            labelRef.current.className = 'label-animation bg-' + bgcolor;
         }
     }
-
-    useEffect(() => {
-        setInputValue(value);
-        inputRef.current.focus();
-        setTimeout(() => {
-            inputRef.current.blur();
-        }, 100);
-    }, [value]);
 
     function handleInputBlur() {
         if (inputValue.length === 0) {
             labelRef.current.classList.toggle('label-animation');
         } else {
-            labelRef.current.className = 'label-animation';
+            labelRef.current.className = 'label-animation bg-' + bgcolor;
         }
     }
 
@@ -106,7 +125,6 @@ function Input({
         const errorState = validate(value, conditions);
         if (!errorState.valid) {
             const error = errorState.errors[0];
-            console.log(error, conditions[error], errorMsgs[error])
             if (typeof (errorMsgs[error]) === 'function') {
                 setErrorMsg(errorMsgs[error](conditions[error]));
             } else {
@@ -131,7 +149,7 @@ function Input({
     }
 
     return (
-        <div className="form-field-container">
+        <div className="form-field-container" ref={fieldRef}>
             <div className={'form-field text-' + color}>
                 <div className={'input border-' + color}>
                     <Flex ai="center">
@@ -167,21 +185,23 @@ function Input({
                             </div>}
                     </Flex>
                 </div>
-                <label ref={labelRef}>
-                    <Flex ai="center">
-                        {labelIcon && <Icon color={color} name={labelIcon} className="icon-left" />}
-                        <span className="label-message">
-                            {label}
-                            {required &&
-                                <span className="text-danger">
-                                    <Icon
-                                        color={color}
-                                        name="asterisk"
-                                        style={{ fontSize: '7px', transform: 'translateY(-5px) translateX(5px)' }} />
-                                </span>}
-                        </span>
-                    </Flex>
-                </label>
+                <div className="label">
+                    <label ref={labelRef} className={'bg-' + bgcolor}>
+                        <Flex ai="center" gap={0}>
+                            {labelIcon && <Icon color={color} name={labelIcon} className="icon-left" />}
+                            <span className={'label-message text-' + color}>
+                                {label}
+                                {required &&
+                                    <span className="text-danger">
+                                        <Icon
+                                            color={color}
+                                            name="asterisk"
+                                            style={{ fontSize: '7px', transform: 'translateY(-5px) translateX(5px)' }} />
+                                    </span>}
+                            </span>
+                        </Flex>
+                    </label>
+                </div>
             </div>
             <span className="hint">{errorMsg}</span>
         </div>

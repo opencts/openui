@@ -1,71 +1,5 @@
-import Element from "./components/Containers/Element";
 import Container from "./components/Containers/Container";
-import Font from "./components/Fonts/Font";
-import Hidden from "./components/Containers/Hidden";
-import Ripple from "./components/Animations/Ripple";
-import Transition from "./components/Animations/Transition";
-import Flex from "./components/Containers/Flex";
-import Grid from "./components/Containers/Grid";
-import Icon from "./components/Fonts/Icon";
-import Button from "./components/Forms/Button";
-import FloatingButton from "./components/Forms/FloatingButton";
-import Input from "./components/Forms/Input";
-import Search from "./components/Forms/Search";
-import { useState } from "react";
-import Select from "./components/Forms/Select";
-import Password from "./components/Forms/Password";
-import Checkbox from "./components/Forms/Checkbox";
-import Birthday from "./components/Forms/Birthday";
-import Alert from './components/Dialogs/Alert';
-import Upload from "./components/Forms/Upload";
-import Radio from "./components/Forms/Radio";
-import Switch from "./components/Forms/Switch";
-
-import Dialog from "./components/Dialogs/Dialog";
-import Avatar from "./components/Tips/Avatar";
-import avatar from './assets/img/avatar.jpg';
-import Badge from "./components/Tips/Badge";
-import Tab from "./components/Tabs/Tab";
-import TabItem from "./components/Tabs/TabItem";
-import { useDialog } from "./services/DialogProvider";
-import ListItem from "./components/List/ListItem";
-import ListGroup from "./components/List/ListGroup";
-import List from "./components/List/List";
-import Breadcrumbs from "./components/List/Breadcrumbs";
-import Card from "./components/Cards/Card";
-import Tooltip from "./components/Tips/Tooltip";
-import Dropdown from "./components/Tips/Dropdown";
-import Accordeon from "./components/Tips/Accordeon";
-import CircularLoader from "./components/Progress/CircularLoader";
-import CircularDotsLoader from "./components/Progress/CircularDotsLoader";
-import DotsLoader from "./components/Progress/DotsLoader";
-import BarsLoader from "./components/Progress/BarsLoader";
-import Carousel from "./components/Cards/Carousel";
-import CarouselItem from "./components/Cards/CarouselItem";
-import img1 from './assets/img/jane.jpg';
-import img2 from './assets/img/girl_hat.jpg';
-import img3 from './assets/img/man_hat.jpg';
-import Table from "./components/Tables/Table";
-import Paginator from "./components/Tables/Paginator";
-import DoubleCircularLoader from "./components/Progress/DoubleCircularLoader";
-import ProgressBar from "./components/Progress/ProgressBar";
-import CardContent from "./components/Cards/CardContent";
-import CardMedia from "./components/Cards/CardMedia";
-import CardTitle from "./components/Cards/CardTitle";
-import CardSubTitle from "./components/Cards/CardSubTitle";
-import CardAction from "./components/Cards/CardAction";
 import Datatable from "./components/Tables/Datatable";
-
-const contentText = `Lorem Ipsum is simply dummy text of 
-the printing and typesetting industry. Lorem Ipsum has 
-been the industry's standard dummy text ever since the 1500s, 
-when an unknown printer took a galley of type and scrambled it to 
-make a type specimen book. It has survived not only five centuries, 
-but also the leap into electronic typesetting, remaining essentially 
-unchanged. It was popularised in the 1960s with the release of 
-Letraset sheets containing Lorem Ipsum passages, and more recently 
-with desktop publishing 
-software like Aldus PageMaker including versions of Lorem Ipsum.`
 
 function App() {
 
@@ -638,10 +572,11 @@ function App() {
         <ProgressBar color="primary" value={58} showValue /> <br /><br /><br />
       </Container>
 
+  return (
+    <div className="pb-5">
       <Container>
         <div className="mt-5">
-          <Datatable /> <br /><br /><br />
-          <Datatable color="success" />
+          <Datatable collection="users" /> 
         </div>
       </Container> */}
 
