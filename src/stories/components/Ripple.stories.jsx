@@ -13,5 +13,7 @@ const Template = (args) => <Ripple {...args}>
 
 export const Default = Template.bind({})
 Default.args = {
-    fromCenter: false
+    fromCenter: false,
+    raised : false,
+    expand : false
 }

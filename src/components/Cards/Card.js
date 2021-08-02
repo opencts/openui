@@ -2,7 +2,14 @@ import CardHeader from "./CardHeader";
 import { useState } from "react";
 
 function Card({
-    avatar, title, subtitle, closable = false, action = () => { }, style, children, classeName = ''
+    avatar,
+    title,
+    subtitle,
+    closable = false,
+    action = () => { },
+    style,
+    children,
+    classeName = ''
 }) {
 
     const [cloose, setCloose] = useState(false)
@@ -19,7 +26,7 @@ function Card({
                         <CardHeader avatar={avatar} title={title} subtitle={subtitle} closable={closable} handleCloose={handleCloose} />
                         : ''
                 }
-                 {children}
+                {children}
             </div>
         )
     }
