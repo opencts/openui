@@ -1,5 +1,11 @@
+import { useState } from "react";
 import Container from "./components/Containers/Container";
+import Element from "./components/Containers/Element";
+import Button from "./components/Forms/Button";
+import Input from "./components/Forms/Input";
 import Datatable from "./components/Tables/Datatable";
+import Table from "./components/Tables/Table";
+import { useDialog } from "./services/DialogProvider";
 
 function App() {
 
@@ -19,7 +25,7 @@ function App() {
     media: { height: "100%", width: "200px" }
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log(values);
     setValues({
@@ -30,24 +36,28 @@ function App() {
   }
   return (
     <div className="pb-5">
-      <Element margin='60px' >
-        <h3>Informations</h3>
-        <form onSubmit={handleSubmit}>
-          <Input label="Nom" color='secondary' required value={values.nom} onChange={(e)=>{
-            const value = e.target.value;
-            setValues({...values, nom: value})
-          }}/>
-          <Input label="Prenom" color='secondary' required value={values.prenom} onChange={(e)=>{
-            const value = e.target.value;
-            setValues({...values, prenom: value})
-          }}/>
-          <Input label="Téléphone" color='secondary' type="number" required value={values.tel} onChange={(e)=>{
-            const value = e.target.value;
-            setValues({...values, tel: value})
-          }} />
-          <Button color="secondary" icon="plus" rounded>Enregistrer</Button>
-        </form>
+      <Element>
+        <Container>
+          <h3>Informations</h3>
+          <form onSubmit={handleSubmit}>
+            <Input label="Nom" color='secondary' required value={values.nom} onChange={(e) => {
+              const value = e.target.value;
+              setValues({ ...values, nom: value })
+            }} />
+            <Input label="Prenom" color='secondary' required value={values.prenom} onChange={(e) => {
+              const value = e.target.value;
+              setValues({ ...values, prenom: value })
+            }} />
+            <Input label="Téléphone" color='secondary' type="number" required value={values.tel} onChange={(e) => {
+              const value = e.target.value;
+              setValues({ ...values, tel: value })
+            }} />
+            <Button color="secondary" icon="plus" rounded>Enregistrer</Button>
+          </form>
+        </Container>
       </Element>
+      <br />
+      <Table color='secondary'></Table>
       {/* 
       <Container lg="70%" md="80%" sm="95%">
         <Font color="light" background="secondary">
@@ -572,14 +582,14 @@ function App() {
         <ProgressBar color="primary" value={58} showValue /> <br /><br /><br />
       </Container>
 
-  return (
-    <div className="pb-5">
-      <Container>
-        <div className="mt-5">
-          <Datatable collection="users" /> 
-        </div>
-      </Container> */}
-
+    */}
+      <div className="pb-5">
+        <Container>
+          <div className="mt-5">
+            <Datatable collection="users" color='secondary' />
+          </div>
+        </Container>
+      </div>
     </div>
   );
 }
