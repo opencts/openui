@@ -55,6 +55,8 @@ import CardTitle from "./components/Cards/CardTitle";
 import CardSubTitle from "./components/Cards/CardSubTitle";
 import CardAction from "./components/Cards/CardAction";
 import Datatable from "./components/Tables/Datatable";
+import NavBar from "./components/Menu/NavBar";
+import SideBar from "./components/Menu/SideBar";
 
 const contentText = `Lorem Ipsum is simply dummy text of 
 the printing and typesetting industry. Lorem Ipsum has 
@@ -463,6 +465,10 @@ function App() {
               <div>Sub sub Item 2</div>
               <div>Sub sub Item 3</div>
             </Accordeon>
+            <Accordeon title="Sub item2" icon="angleDown" negativeIcon="angleUp">
+              <div>Sub sub Item 4</div>
+              <div>Sub sub Item 5</div>
+            </Accordeon>
             <div className="p-2">Sub Item 2</div>
             <div className="p-2">Sub Item 3</div>
           </Accordeon>
@@ -623,6 +629,19 @@ function App() {
           <Datatable color="success" />
         </div>
       </Container>
+
+     
+        <div className="mt-5">
+        <NavBar color="primary"/>
+        <NavBar color="secondary"/>
+        <NavBar color="dark"/>
+        <NavBar color="danger"/>
+        </div>
+
+        <Container style={{position:"relative"}} className="mt-5">
+            <SideBar/>
+        </Container>
+     
 
     </div>
   );
