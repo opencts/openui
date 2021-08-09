@@ -9,10 +9,11 @@ function Search({
 }) {
 
     const [actionIcon, setActionIcon] = useState('');
-    const [reset, setReset] = useState(null);
+    const [searchValue, setSearchValue] = useState('');
 
     function handleChange(e) {
         onSearch(e.target.value);
+        setSearchValue(e.target.value);
 
         if (e.target.value.length === 0) {
             setActionIcon('');
@@ -24,10 +25,7 @@ function Search({
     function handleAction() {
         onSearch('');
         setActionIcon('');
-        setReset(true);
-        setTimeout(() => {
-            setReset(null);
-        }, 500);
+        setSearchValue('');
     }
 
     return (
@@ -36,8 +34,8 @@ function Search({
             onChange={handleChange}
             bgcolor={bgcolor}
             labelIcon="search"
+            value={searchValue}
             label="Rechercher..."
-            resetInput={reset}
             actionIcon={actionIcon}
             onAction={handleAction}
         />

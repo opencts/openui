@@ -6,10 +6,12 @@ $h4: 20px;
 $h5: 18px;
 $h6: 14px;
 
-$regular-size: 18px;
+$regular-size: 14px;
+$regular-size-mobile: 10px;
 
 // Line height
-$line-height: 1;
+$line-height: 1.4;
+$line-height-mobile: 1.1;
 
 // Default font
 @font-face {
@@ -25,6 +27,12 @@ $line-height: 1;
     font-family: "Tenor";
     letter-spacing: 1px;
     line-height: $line-height;
+    font-size: $regular-size;
+
+    @media (max-width: 601) {
+        line-height: $line-height-mobile;
+        font-size: $regular-size-mobile;
+    }
 }
 
 // HO definition
@@ -33,15 +41,16 @@ $line-height: 1;
 }
 
 // H1 ... H5 definitions
-$titles: (
-    h1: $h1,
+$titles: (h1: $h1,
     h2: $h2,
     h3: $h3,
     h4: $h4,
     h5: $h5,
     h6: $h6,
 );
-@each $key, $val in $titles {
+
+@each $key,
+$val in $titles {
     #{$key} {
         font-size: $val;
     }
@@ -67,8 +76,7 @@ $success: #00841d;
 $danger: #ad320d;
 $white: #ffffff;
 
-$_COLORS: (
-    primary: $primary,
+$_COLORS: (primary: $primary,
     secondary: $secondary,
     dark: $dark,
     dark-gray: $dark-gray,
@@ -77,59 +85,64 @@ $_COLORS: (
     light: $light,
     success: $success,
     danger: $danger,
-    white: $white
-);
+    white: $white);
 
-@each $key, $val in $_COLORS {
+@each $key,
+$val in $_COLORS {
+
     // Text color's generation
-    .text-#{$key} {
+    .text-#{""+$key} {
         color: $val !important;
     }
 
     // Background color's generation
-    @if $key == gray or $key == light-gray or $key == light or $key == white  {
-        .bg-#{$key} {
+    @if $key==gray or $key==light-gray or $key==light or $key==white {
+        .bg-#{""+$key} {
             background-color: $val;
             color: $dark-gray;
             border: solid 1px $val;
         }
 
-        .bg-hover-#{$key} {
+        .bg-hover-#{""+$key} {
             transition: 0.5s;
+
             &:hover {
                 transition: 0.5s;
                 background-color: $val;
                 color: $dark-gray;
-                border: solid 1px $val;
+                cursor: pointer;
             }
         }
-    } @else {
-        .bg-#{$key} {
+    }
+
+    @else {
+        .bg-#{""+$key} {
             background-color: $val;
             color: $light;
             border: solid 1px $val;
         }
 
-        .bg-hover-#{$key} {
+        .bg-hover-#{""+$key} {
             transition: 0.5s;
+
             &:hover {
                 transition: 0.5s;
                 background-color: $val;
                 color: $light;
-                border: solid 1px $val;
+                cursor: pointer;
             }
         }
     }
 
     // Outlined features generation
-    .bg-#{$key}-outlined {
+    .bg-#{""+$key}-outlined {
         background-color: $light;
         color: $val;
         border: solid 1px $val !important;
     }
 
     // Borders
-    .border-#{$key} {
+    .border-#{""+$key} {
         border: solid 1px $val !important;
     }
 }
@@ -142,8 +155,7 @@ $medium: 500;
 $bold: 700;
 $x-bold: 900;
 
-$_WEIGHT: (
-    thin: $thin,
+$_WEIGHT: (thin: $thin,
     light: $lighter,
     regular: $regular,
     medium: $medium,
@@ -151,7 +163,8 @@ $_WEIGHT: (
     x-bold: $x-bold,
 );
 
-@each $key, $val in $_WEIGHT {
+@each $key,
+$val in $_WEIGHT {
     .#{$key} {
         font-weight: $val;
     }
@@ -166,7 +179,12 @@ $_WEIGHT: (
 // Default spacing
 $spacing: 20px;
 
-$spacings: 0, 0.25, 0.5, 1, 1.5, 3;
+$spacings: 0,
+0.25,
+0.5,
+1,
+1.5,
+3;
 
 @for $i from 1 to 7 {
     .m-#{($i - 1)} {
@@ -256,4 +274,21 @@ $shadow: 0 0 5px 0 $gray;
 
 .pointer {
     cursor: pointer;
+}
+
+// Scrollbars style
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: $light;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $primary;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: $secondary;
 }

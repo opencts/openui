@@ -1,70 +1,65 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { Children, cloneElement, useCallback, useEffect, useRef, useState } from 'react'
-
-function Dropdown({
-    component,
+import React, { useMemo, useRef, useState } from 'react'
+import ClickAwayListener from '../Containers/ClickAwayListener';
+import { createPortal } from 'react-dom';
+const Dropdown = ({
+    component = null,
     color = 'light',
+    maxHeight = '250px',
     position = 'bottom',
-    width = '100',
-    children,
-    ...props
-}) {
-    const [style, setStyle] = useState({ ...props.style });
-    const [dropdownContent, setDropdownContent] = useState(null);
-    const [actions, setActions] = useState({});
-    const [visible, setVisible] = useState(false);
-    const childrenRef = useRef(null);
+    children
+}) => {
 
-    const toggle = useCallback((e) => {
-        setVisible(!visible);
-    }, []);
+    const [open, setOpen] = useState(false);
+    const [computedStyle, setComputedStyle] = useState({});
+    const parentRef = useRef();
 
-    useEffect(() => {
-
-        if ([...childrenRef.current.parentElement.classList].includes('dropdown')) {
-            childrenRef.current.style.width = (Number(width) - 10) + 'px';
-        }
-
-        // Handle style
-        const s = {};
-        s.width = ([...childrenRef.current.parentElement.classList].includes('dropdown') ? (Number(width) - 10) : width) + 'px';
-        setStyle(style => ({ ...style, ...s }));
-
-        actions.onClick = e => toggle(e);
-        setActions(actions => ({ ...actions }));
-
-        // Handle hide event
-        const newChildren = Children.map(children, child => {
-            return cloneElement(child, {
-                onClick: (event) => {
-                    if (String(child.type).indexOf('Dropdown') === -1) {
-                        toggle();
-                    }
-                }, style
-            });
-        });
-        setDropdownContent(newChildren);
-    }, [color, position, width, children, toggle]);
-
-    useEffect(() => {
-        const cb = (event) => {
-            if (childrenRef && childrenRef.current && !childrenRef.current.contains(event.target)) {
-                if (visible) {
-                    setVisible(false);
-                }
+    const handleClick = () => {
+        if (!open) {
+            const parentRect = parentRef.current.getBoundingClientRect();
+            const newStyle = { minWidth: parentRect.width };
+            console.log(parentRect, parentRef)
+            switch (position) {
+                case 'left':
+                    newStyle.right = window.innerWidth - parentRect.left;
+                    newStyle.top = parentRect.top;
+                    break;
+                case 'right':
+                    newStyle.left = parentRect.left + parentRect.width + 1;
+                    newStyle.top = parentRect.top;
+                    break;
+                case 'top':
+                    newStyle.bottom = window.innerHeight - parentRect.top + 1;
+                    break;
+                case 'bottom':
+                    newStyle.top = parentRect.top + parentRect.height + 1;
+                    newStyle.left = parentRect.left;
+                    break;
+                default:
+                    break;
             }
-        };
-        window.addEventListener('click', e => cb(e));
-        return window.removeEventListener('click', e => cb(e));
-    }, [visible]);
+            console.log(newStyle)
+            setComputedStyle(computedStyle => ({ ...computedStyle, ...newStyle }));
+        }
+        setOpen(!open);
+    }
+
+    const cusStyle = useMemo(() => ({
+        maxHeight
+    }), [maxHeight]);
+
+    const onOpen = (e) => {
+        e.stopPropagation();
+    };
 
     return (
-        <div className="dropdown-container" {...actions} ref={childrenRef}>
-            {typeof(component) === 'function' ? component(): component}
-            {visible && <div className={`dropdown bg-${color} dropdown-${position}`} style={style} {...props}>
-                {dropdownContent}
-            </div>}
-        </div>
+        <ClickAwayListener onClose={_ => setOpen(false)}>
+            <div className="dropdown-container" onClick={handleClick} ref={parentRef}>
+                {typeof component === 'function' ? component() : component}
+                {open && createPortal(<div className={'dropdown bg-' + color} style={{ ...cusStyle, ...computedStyle }} onClick={onOpen}>
+                    {children}
+                </div>, document.getElementById('portal'))}
+            </div>
+        </ClickAwayListener>
     )
 }
 

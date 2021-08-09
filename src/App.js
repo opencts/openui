@@ -1,25 +1,21 @@
+import { useState } from "react";
 import Container from "./components/Containers/Container";
+import Button from "./components/Forms/Button";
+import Input from "./components/Forms/Input";
+import ListItem from "./components/List/ListItem";
 import Datatable from "./components/Tables/Datatable";
+import Dropdown from "./components/Tips/Dropdown";
+import { useDialog } from "./services/DialogProvider";
 
 function App() {
 
-  const [v, setV] = useState('');
-  const [s, setS] = useState(false);
-  const { confirm, alert } = useDialog();
   const [values, setValues] = useState({
     nom: '',
     prenom: '',
     tel: ''
   });
 
-  const musicCard = {
-    cardSize: { width: "400px", height: "250px" },
-    content: { display: "flex", flexWrap: "nowrap", justifyContent: "center" },
-    musicButton: { display: "flex", justifyContent: "space-between", marginTop: "30px" },
-    media: { height: "100%", width: "200px" }
-  }
-
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log(values);
     setValues({
@@ -28,26 +24,59 @@ function App() {
       tel: ''
     })
   }
+
+
   return (
     <div className="pb-5">
-      <Element margin='60px' >
+
+      <Container>
         <h3>Informations</h3>
         <form onSubmit={handleSubmit}>
-          <Input label="Nom" color='secondary' required value={values.nom} onChange={(e)=>{
+          <Input label="Nom" color='secondary' required value={values.nom} onChange={(e) => {
             const value = e.target.value;
-            setValues({...values, nom: value})
-          }}/>
-          <Input label="Prenom" color='secondary' required value={values.prenom} onChange={(e)=>{
+            setValues({ ...values, nom: value })
+          }} />
+          <Input label="Prenom" color='secondary' required value={values.prenom} onChange={(e) => {
             const value = e.target.value;
-            setValues({...values, prenom: value})
-          }}/>
-          <Input label="Téléphone" color='secondary' type="number" required value={values.tel} onChange={(e)=>{
+            setValues({ ...values, prenom: value })
+          }} />
+          <Input label="Téléphone" color='secondary' type="number" required value={values.tel} onChange={(e) => {
             const value = e.target.value;
-            setValues({...values, tel: value})
+            setValues({ ...values, tel: value })
           }} />
           <Button color="secondary" icon="plus" rounded>Enregistrer</Button>
         </form>
-      </Element>
+      </Container>
+
+      <Container>
+        <div className="pt-5">
+          <Button onClick={() => {
+            setValues({ ...values, nom: 'Super' });
+          }}>Set value</Button>
+        </div>
+
+        {/* <Dropdown color="secondary" position="right" component={<Button>Click me</Button>}>
+          <ListItem>My custom very long Item 1</ListItem>
+          <ListItem>Item 3</ListItem>
+          <ListItem>
+            <Dropdown component={() => <ListItem>Item 3</ListItem>}>
+              <Dropdown component={() => <ListItem>Sub Item 3</ListItem>} position="right">
+                <ListItem>Sub sub Item 1</ListItem>
+                <ListItem>Sub sub Item 1</ListItem>
+                <ListItem>Sub sub Item 1</ListItem>
+              </Dropdown>
+              <ListItem>Sub Item 2</ListItem>
+              <ListItem>Sub Item 3</ListItem>
+            </Dropdown>
+          </ListItem>
+        </Dropdown> <br /> <br /> */}
+      </Container>
+
+      <Container>
+        <div className="mt-5">
+          <Datatable collection="users" />
+        </div>
+      </Container>
       {/* 
       <Container lg="70%" md="80%" sm="95%">
         <Font color="light" background="secondary">
@@ -576,9 +605,7 @@ function App() {
     <div className="pb-5">
       <Container>
         <div className="mt-5">
-          <Datatable collection="users" /> 
-
-          
+          <Datatable collection="users" />
         </div>
       </Container> */}
 

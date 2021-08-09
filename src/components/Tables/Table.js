@@ -89,7 +89,7 @@ function Table({
                             {headers.map(col => <td key={generateUniqueKey('dt-td-' + col)}>{item[col]}</td>)}
                             {actions && <td>
                                 <Dropdown width="150" component={() => <Icon name="ellipsisV" color={color} />} position="left">
-                                    {actions.map((elt, id) => <div className={'p-1 pt-2 pb-2 bg-hover-light-gray'} key={id}>
+                                    {actions.map((elt, id) => <div className={'p-2 bg-hover-light-gray'} key={id}>
                                         <Flex
                                             ai="center"
                                             onClick={_ => elt.action(data[index])}
