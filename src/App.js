@@ -4,14 +4,21 @@ import Element from "./components/Containers/Element";
 import Button from "./components/Forms/Button";
 import Input from "./components/Forms/Input";
 import Datatable from "./components/Tables/Datatable";
-import Table from "./components/Tables/Table";
-import { useDialog } from "./services/DialogProvider";
+import NavBar from "./components/Menu/NavBar";
+import SideBar from "./components/Menu/SideBar";
+
+const contentText = `Lorem Ipsum is simply dummy text of 
+the printing and typesetting industry. Lorem Ipsum has 
+been the industry's standard dummy text ever since the 1500s, 
+when an unknown printer took a galley of type and scrambled it to 
+make a type specimen book. It has survived not only five centuries, 
+but also the leap into electronic typesetting, remaining essentially 
+unchanged. It was popularised in the 1960s with the release of 
+Letraset sheets containing Lorem Ipsum passages, and more recently 
+with desktop publishing 
+software like Aldus PageMaker including versions of Lorem Ipsum.`
 
 function App() {
-
-  const [v, setV] = useState('');
-  const [s, setS] = useState(false);
-  const { confirm, alert } = useDialog();
   const [values, setValues] = useState({
     nom: '',
     prenom: '',
@@ -57,7 +64,7 @@ function App() {
         </Container>
       </Element>
       <br />
-      <Table color='secondary'></Table>
+      {/* <Table color='secondary'></Table> */}
       {/* 
       <Container lg="70%" md="80%" sm="95%">
         <Font color="light" background="secondary">
@@ -440,6 +447,10 @@ function App() {
               <div>Sub sub Item 2</div>
               <div>Sub sub Item 3</div>
             </Accordeon>
+            <Accordeon title="Sub item2" icon="angleDown" negativeIcon="angleUp">
+              <div>Sub sub Item 4</div>
+              <div>Sub sub Item 5</div>
+            </Accordeon>
             <div className="p-2">Sub Item 2</div>
             <div className="p-2">Sub Item 3</div>
           </Accordeon>
@@ -590,6 +601,26 @@ function App() {
           </div>
         </Container>
       </div>
+      <Container>
+        <div className="mt-5">
+          <Datatable /> <br /><br /><br />
+          <Datatable color="success" />
+        </div>
+      </Container>
+
+     
+        <div className="mt-5">
+        <NavBar color="primary"/>
+        <NavBar color="secondary"/>
+        <NavBar color="dark"/>
+        <NavBar color="danger"/>
+        </div>
+
+        <Container style={{position:"relative"}} className="mt-5">
+            <SideBar/>
+        </Container>
+     
+
     </div>
   );
 }
