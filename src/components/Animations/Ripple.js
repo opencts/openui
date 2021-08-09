@@ -59,4 +59,4 @@ function Ripple({
     )
 }
 
-export default Ripple
+export default Ripple;

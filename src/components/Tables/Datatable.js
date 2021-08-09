@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
-import useSchema from '../../hooks/useSchema'
 import { useStore } from '../../services/Store'
-import { capitalize, deepCopie, generateFakeData, generateUniqueKey, reformatData } from '../../services/utils'
+import { capitalize, deepCopie, generateUniqueKey } from '../../services/utils'
 import _THEME_COLORS from '../../services/_colors'
 import Element from '../Containers/Element'
 import Flex from '../Containers/Flex'
@@ -22,7 +21,6 @@ import Dropdown from '../Tips/Dropdown'
 import Paginator from './Paginator'
 import Table from './Table'
 
-const _DATA_ = generateFakeData(379);
 
 function Datatable({
     color = 'primary',
@@ -46,6 +44,8 @@ function Datatable({
     const [vFilter, setVFilter] = useState([]);
     const [actions, setActions] = useState({});
     const [openAddDialog, setOpenAddDialog] = useState(false);
+    const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+    const [updateValues, setUpdateValues] = useState(null);
     const [loadingData, setLoadingData] = useState(true);
 
     const { wsSave, all, getSchema } = useStore();
@@ -55,7 +55,7 @@ function Datatable({
 
     useEffect(() => {
         setCollectionSchema(getSchema(collection));
-    }, [getSchema]);
+    }, [getSchema, collection]);
 
     useEffect(() => {
         const cb = async _ => {
@@ -71,7 +71,7 @@ function Datatable({
         cb();
 
         return _ => { };
-    }, [all]);
+    }, [all, collection]);
 
     useEffect(() => {
         const start = size * (curPage - 1);
@@ -223,7 +223,9 @@ function Datatable({
                         setOpenAddDialog(true);
                     }}>Add new item</Button>
                 </Flex>
-                <Search color={color} bgcolor="white" onSearch={v => search(v)} />
+                <div className="mt-3 mb-3">
+                    <Search color={color} bgcolor="white" onSearch={v => search(v)} />
+                </div>
                 {searching && <Font color={color} weight="bold">{values.length} items founded!</Font>}
                 {values.length === 0 ?
                     <div>
@@ -244,6 +246,16 @@ function Datatable({
                             data={values}
                             setData={setValues}
                             hiddens={vHiddens}
+                            actions={[
+                                { icon: 'eye', label: 'Item details', color: 'success', action: row => alert('Displaying row' + JSON.stringify(row)) },
+                                {
+                                    icon: 'edit', label: 'Edit item', color: 'primary', action: row => {
+                                        setOpenUpdateDialog(true);
+                                        setUpdateValues(row);
+                                    }
+                                },
+                                { icon: 'trash', label: 'Delete item', color: 'danger', action: row => alert('Deleting row' + JSON.stringify(row)) },
+                            ]}
                             color={color}
                             {...actions} />
                         {!searching && <Paginator
@@ -271,12 +283,33 @@ function Datatable({
                     onClick={_ => {
                         console.log(collectionData);
                         wsSave(collection, collectionData);
+                        setOpenAddDialog(false);
                     }}>Add item</Button>}>
-                <div className="p-3">
+                <div className="pt-0 pl-3 pr-3">
                     <Form
                         schema={collectionSchema}
                         bgcolor="light"
-                        onChange={v => setCollectionData(v)} />
+                        onChange={v => setCollectionData(v)}
+                        className="grid grid-cols-min-200 grid-gap-5" />
+                </div>
+            </Modal>}
+            {openUpdateDialog && <Modal
+                color={color}
+                title="Update item"
+                onClose={_ => setOpenAddDialog(false)}
+                actions={<Button
+                    onClick={_ => {
+                        console.log(collectionData);
+                        wsSave(collection, collectionData);
+                        setOpenAddDialog(false);
+                    }}>Update item</Button>}>
+                <div className="pt-0 pl-3 pr-3">
+                    <Form
+                        schema={collectionSchema}
+                        bgcolor="light"
+                        values={updateValues}
+                        onChange={v => setCollectionData(v)}
+                        className="grid grid-cols-min-200 grid-gap-5" />
                 </div>
             </Modal>}
         </div >

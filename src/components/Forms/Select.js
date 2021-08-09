@@ -86,7 +86,7 @@ function Select({
         </div>
     }
 
-    const selectedValue = useMemo(() => values.map(it => it[valueLabel]), [values]);
+    const selectedValue = useMemo(() => values.map(it => it[valueLabel]), [values, valueLabel]);
 
     return (
         <div ref={selectRef} className="select" onClick={openSelect}>
@@ -94,6 +94,7 @@ function Select({
                 value={selectedValue}
                 color={color}
                 label={label}
+                forSelect
                 bgcolor={bgcolor}
                 disabled={disabled}
                 actionIcon="angleDown"

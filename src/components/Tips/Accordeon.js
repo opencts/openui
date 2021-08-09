@@ -4,7 +4,7 @@ import Flex from '../Containers/Flex';
 import Icon from '../Fonts/Icon';
 
 function Accordeon({
-    title = '',
+    title = _ => {},
     padding = '2', // 1-5
     icon = '',
     negativeIcon = '',
@@ -21,7 +21,7 @@ function Accordeon({
         <div onClick={toogleAccordeon}>
             <div className={`p-${padding}`}>
                 <Flex ai="center" jc="space-between">
-                    <div>{title}</div>
+                    <div>{typeof title === 'function' ? title() : title}</div>
                     {icon !== '' && <div>
                         {visible ? (negativeIcon ? <Icon name={negativeIcon} />
                             : <Icon name={icon} />)

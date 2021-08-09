@@ -10,7 +10,7 @@ const ICON_COLORS = {
 
 
 function makeStyle(type, color) {
-    let style = { icon: '', container: ''}
+    let style = { icon: '', container: '' }
     let iconName = ''
     if (color === 'info') iconName = 'infoCircle';
     if (color === 'success') iconName = 'checkCircle';
@@ -40,8 +40,8 @@ function Alert({
 
 
     let { icon, container } = makeStyle(type, color)
-    let contentClasseName =  classeName+' alert-content'
-    contentClasseName = type === 'outline' ? contentClasseName+' alert-content-outline' : contentClasseName;
+    let contentClasseName = classeName + ' alert-content'
+    contentClasseName = type === 'outline' ? contentClasseName + ' alert-content-outline' : contentClasseName;
     let postitionStyle = { ...style }
 
     const [display, setDisplay] = useState(true)
@@ -72,7 +72,7 @@ function Alert({
         setDisplay(false)
     }
 
-  
+
 
     if (display) {
         return (

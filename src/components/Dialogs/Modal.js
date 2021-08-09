@@ -1,15 +1,16 @@
 import Icon from '../Fonts/Icon'
+import { createPortal } from 'react-dom';
 
 const Modal = ({
     title,
     color = 'primary',
-    onClose = () => {},
+    onClose = () => { },
     children,
     actions = () => { }
 }) => {
 
     return (
-        <div className="modal">
+        createPortal(<div className="modal">
             <div className="modal-container">
                 <div className="modal-close-icon" onClick={onClose}>
                     <Icon name="timesCircle" color="light" />
@@ -24,7 +25,7 @@ const Modal = ({
                     </div>
                 </div>
             </div>
-        </div>
+        </div>, document.getElementById('portal'))
     )
 }
 

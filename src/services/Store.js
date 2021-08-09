@@ -45,7 +45,8 @@ export default function Store({ children }) {
             return data[route];
         }
 
-        const values = (await http.get(_SERVER_URL + route)).map(it => {
+        const getted = await http.get(_SERVER_URL + route);
+        const values = getted.data.map(it => {
             const newItem = { ...it, id: it._id };
             delete newItem._id;
             delete newItem.__v;

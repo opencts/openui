@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
@@ -40,7 +40,7 @@ function Input({
     specialChars = false,
     numericChars = false,
     min = '8',
-    resetInput = null,
+    forSelect = false,
     onChange = () => { },
     onAction = () => { },
     onActionChange = () => { },
@@ -49,52 +49,26 @@ function Input({
 
     const labelRef = useRef(null);
     const inputRef = useRef(null);
-    const [inputValue, setInputValue] = useState(value);
+    const [inputValue, setInputValue] = useState('');
     const [flipAction, setFlipAction] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
-    const [reset, setReset] = useState(resetInput);
 
     const fieldRef = useRef(null);
 
-    useEffect(() => {
-        setReset(resetInput);
-    }, [resetInput]);
-
-    useEffect(() => {
-        if (reset) {
-            setInputValue('');
-            setReset(null);
-            labelRef.current.classList.toggle('label-animation');
-        } 
-    }, [reset]);
-
-    useEffect(() => {
-        if (inputRef.current !== null) {
-            setInputValue(value);
-            inputRef.current.focus();
-            setTimeout(() => {
-                inputRef.current.blur();
-            }, 500);
-        }
-    }, [value]);
-
-    function handleInputFocus() {
-        if (inputValue.length === 0) {
-            labelRef.current.classList.toggle('label-animation');
+    const changeFocus = useCallback((target) => {
+        console.log();
+        if (target.length === 0 && document.activeElement !== inputRef.current) {
+            labelRef.current.className = 'bg-' + bgcolor;
         } else {
             labelRef.current.className = 'label-animation bg-' + bgcolor;
         }
-    }
+    }, [bgcolor]);
 
-    function handleInputBlur() {
-        if (inputValue.length === 0) {
-            labelRef.current.classList.toggle('label-animation');
-        } else {
-            labelRef.current.className = 'label-animation bg-' + bgcolor;
-        }
-    }
+    const handleInputFocus = useCallback(() => {
+        changeFocus(inputValue);
+    }, [inputValue, changeFocus]);
 
-    function handleErrors(value) {
+    const handleErrors = useCallback((value) => {
         const attrs = ['min', 'max', 'minLength', 'maxLength', 'pattern']
         const conditions = {};
 
@@ -133,9 +107,9 @@ function Input({
         } else {
             setErrorMsg('');
         }
-    }
+    }, [errorMsgs, lowerChars, min, props, required, specialChars, strong, type, upperChars]);
 
-    function handleChange(e) {
+    const handleChange = (e) => {
         let v = e.target.value;
         if (contentCase === 'lower') {
             v = v.toLowerCase();
@@ -146,7 +120,13 @@ function Input({
         setInputValue(v);
         onChange({ ...e, target: { ...e.target, value: v } });
         handleErrors(v);
+        changeFocus(v);
     }
+
+    useEffect(() => {
+        setInputValue(value);
+        changeFocus(value);
+    }, [value, changeFocus]);
 
     return (
         <div className="form-field-container" ref={fieldRef}>
@@ -160,7 +140,7 @@ function Input({
                             value={inputValue}
                             onChange={handleChange}
                             onFocus={handleInputFocus}
-                            onBlur={handleInputBlur}
+                            onBlur={handleInputFocus}
                             {...props} />
                         {actionIcon && !flipAction &&
                             <div className="pr-2">
@@ -171,6 +151,7 @@ function Input({
                                         if (actionIconFlip)
                                             setFlipAction(!flipAction);
                                         onAction();
+                                        handleInputFocus();
                                     }} />
                             </div>}
                         {actionIconFlip && flipAction &&
@@ -181,6 +162,7 @@ function Input({
                                     onClick={() => {
                                         setFlipAction(!flipAction);
                                         onActionChange();
+                                        handleInputFocus();
                                     }} />
                             </div>}
                     </Flex>

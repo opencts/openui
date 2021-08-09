@@ -4,13 +4,14 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 12;
+    top: 0;
+    right: 0;
+    z-index: 1000;
     background-color: rgba($color: #161C29, $alpha: 0.47);
     overflow: hidden;
     display: flex;
     justify-content: center;
+    opacity: 1;
 
     .dialog-content {
         background-color: $light;
@@ -19,7 +20,7 @@
         border-top-right-radius: 5px;
         margin: 10% auto;
         max-width: 80vw;
-        overflow: hidden;
+        max-height: 80vh;
 
         .dialog-header {
             width: 100%;
@@ -49,7 +50,7 @@
     width: 100vw;
     height: 100vh;
     z-index: 12;
-    background-color: rgba($color: #161C29, $alpha: 0.47);
+    background-color: rgba($color: #161C29, $alpha: 0.7);
     overflow: hidden;
 
     .modal-container {
@@ -65,7 +66,7 @@
 
         @media (max-width: 601px) {
             max-width: 90vw;
-            margin: 10% auto;
+            margin: 40vw auto;
         }
 
         .modal-close-icon {
