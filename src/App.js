@@ -2,18 +2,75 @@ import { useState } from "react";
 import Container from "./components/Containers/Container";
 import Button from "./components/Forms/Button";
 import Input from "./components/Forms/Input";
-import ListItem from "./components/List/ListItem";
 import Datatable from "./components/Tables/Datatable";
+
+import Element from "./components/Containers/Element";
+import NavBar from "./components/Menu/NavBar";
+import SideBar from "./components/Menu/SideBar";
 import Dropdown from "./components/Tips/Dropdown";
-import { useDialog } from "./services/DialogProvider";
+import ListItem from "./components/List/ListItem";
+
+const contentText = `Lorem Ipsum is simply dummy text of 
+the printing and typesetting industry. Lorem Ipsum has 
+been the industry's standard dummy text ever since the 1500s, 
+when an unknown printer took a galley of type and scrambled it to 
+make a type specimen book. It has survived not only five centuries, 
+but also the leap into electronic typesetting, remaining essentially 
+unchanged. It was popularised in the 1960s with the release of 
+Letraset sheets containing Lorem Ipsum passages, and more recently 
+with desktop publishing 
+software like Aldus PageMaker including versions of Lorem Ipsum.`
+
+const menuItems = [
+  {
+      title: 'Home',
+      href: '#',
+      cName: 'nav-link'
+  },
+  {
+      title: 'Accueil',
+      href: '#',
+      cName: 'nav-link'
+  },
+  {
+      title: <Dropdown component="Nos Actions">
+        <ListItem>Action 1</ListItem>
+        <ListItem>Action 2</ListItem>
+        <ListItem>Action 3</ListItem>
+      </Dropdown>,
+      href: '#',
+      cName: 'nav-link'
+  },
+  {
+      title: 'Nos Partenaires',
+      href: '#',
+      cName: 'nav-link'
+  },
+  {
+      title: 'Mediatheque',
+      href: '#',
+      cName: 'nav-link'
+  },
+  {
+      title: 'Sign In',
+      href: '#',
+      cName: 'nav-link nav-link-mobile'
+  }
+]
 
 function App() {
-
   const [values, setValues] = useState({
     nom: '',
     prenom: '',
     tel: ''
   });
+
+  const musicCard = {
+    cardSize: { width: "400px", height: "250px" },
+    content: { display: "flex", flexWrap: "nowrap", justifyContent: "center" },
+    musicButton: { display: "flex", justifyContent: "space-between", marginTop: "30px" },
+    media: { height: "100%", width: "200px" }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,6 +134,28 @@ function App() {
           <Datatable collection="users" />
         </div>
       </Container>
+      <Element>
+        <Container>
+          <h3>Informations</h3>
+          <form onSubmit={handleSubmit}>
+            <Input label="Nom" color='secondary' required value={values.nom} onChange={(e) => {
+              const value = e.target.value;
+              setValues({ ...values, nom: value })
+            }} />
+            <Input label="Prenom" color='secondary' required value={values.prenom} onChange={(e) => {
+              const value = e.target.value;
+              setValues({ ...values, prenom: value })
+            }} />
+            <Input label="Téléphone" color='secondary' type="number" required value={values.tel} onChange={(e) => {
+              const value = e.target.value;
+              setValues({ ...values, tel: value })
+            }} />
+            <Button color="secondary" icon="plus" rounded>Enregistrer</Button>
+          </form>
+        </Container>
+      </Element>
+      <br />
+      {/* <Table color='secondary'></Table> */}
       {/* 
       <Container lg="70%" md="80%" sm="95%">
         <Font color="light" background="secondary">
@@ -459,6 +538,10 @@ function App() {
               <div>Sub sub Item 2</div>
               <div>Sub sub Item 3</div>
             </Accordeon>
+            <Accordeon title="Sub item2" icon="angleDown" negativeIcon="angleUp">
+              <div>Sub sub Item 4</div>
+              <div>Sub sub Item 5</div>
+            </Accordeon>
             <div className="p-2">Sub Item 2</div>
             <div className="p-2">Sub Item 3</div>
           </Accordeon>
@@ -601,14 +684,32 @@ function App() {
         <ProgressBar color="primary" value={58} showValue /> <br /><br /><br />
       </Container>
 
-  return (
-    <div className="pb-5">
+    */}
+      <div className="pb-5">
+        <Container>
+          <div className="mt-5">
+            <Datatable collection="users" color='secondary' />
+          </div>
+        </Container>
+      </div>
       <Container>
         <div className="mt-5">
           <Datatable collection="users" />
         </div>
-      </Container> */}
+      </Container>
 
+     
+        <div className="mt-5">
+        <NavBar height="50px" fontSize="10px" appIconSize="10px" logoSize="10px" color="primary" menuItems={menuItems} />
+        <NavBar color="secondary" menuItems={menuItems} />
+        <NavBar color="dark" menuItems={menuItems} />
+        <NavBar color="danger" menuItems={menuItems} />
+        </div>
+
+        <Container style={{position:"relative"}} className="mt-5">
+            <SideBar/>
+        </Container>
+  
     </div>
   );
 }

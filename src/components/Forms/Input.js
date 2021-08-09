@@ -66,7 +66,7 @@ function Input({
 
     const handleInputFocus = useCallback(() => {
         changeFocus(inputValue);
-    }, [inputValue]);
+    }, [inputValue, changeFocus]);
 
     const handleErrors = useCallback((value) => {
         const attrs = ['min', 'max', 'minLength', 'maxLength', 'pattern']
@@ -126,7 +126,7 @@ function Input({
     useEffect(() => {
         setInputValue(value);
         changeFocus(value);
-    }, [value]);
+    }, [value, changeFocus]);
 
     return (
         <div className="form-field-container" ref={fieldRef}>
