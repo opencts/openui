@@ -93,7 +93,8 @@ function crudCtrl(route, wsInfo) {
                 const value = JSON.parse(msg);
                 const id = value.id;
                 delete value.id;
-                const updated = await model.updateOne({ _id: id }, value);
+                await model.updateOne({ _id: id }, value);
+                const updated = await model.findOne({ _id: id });
                 wsJsonBroadCast('put', 200, {
                     route: route.name,
                     updated

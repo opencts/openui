@@ -279,6 +279,10 @@ $shadow: 0 0 5px 0 $gray;
 // Scrollbars style
 ::-webkit-scrollbar {
     width: 3px;
+
+    @media (max-width: $break-md) {
+        width: 1px !important;
+    }
 }
 
 ::-webkit-scrollbar-track {
