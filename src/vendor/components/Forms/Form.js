@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { deepCopie } from '../../services/utils';
 import FormField from './FormField';
 
 function Form({
@@ -7,9 +8,10 @@ function Form({
     bgcolor = 'white',
     onChange = () => { },
     resetForm = null,
-    errorsLabels,
+    errorMsgs,
     values = {},
     onSubmit,
+    refs,
     ...props
 }) {
 
@@ -23,12 +25,10 @@ function Form({
     useEffect(() => {
         console.log(reset);
         if (reset) {
-            console.log(reset);
             const newValue = {};
             for (const el in schema) {
                 newValue[el] = ''
             };
-            console.log(newValue)
             setValue({ ...newValue });
             setReset(null);
         }
@@ -43,6 +43,16 @@ function Form({
         // eslint-disable-next-line
     }, [value]);
 
+    const getValidation = (key) => {
+        if (typeof schema[key] === 'object') {
+            const s = deepCopie(schema[key]);
+            delete s['type'];
+            delete s['ref'];
+            return { ...s }
+        }
+        return {}
+    };
+
     return (
         <form {...props}>
             {Object.keys(schema).map(key => <FormField
@@ -52,7 +62,10 @@ function Form({
                 label={labels && labels[key] ? labels[key] : key}
                 onChange={v => handleChange(v, key)}
                 value={schema[key]}
-                defaultValue={values[key]} />)}
+                errorMsgs={errorMsgs}
+                defaultValue={values[key]}
+                refLabel={refs ? refs[schema[key].ref] : null}
+                {...getValidation(key)} />)}
         </form>
     )
 }

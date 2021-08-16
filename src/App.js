@@ -1,10 +1,26 @@
 import React from 'react';
-import Button from './vendor/components/Forms/Button';
+import Datatable from './vendor/components/Tables/Datatable';
 
 function App() {
   return (
     <div>
-      <Button>It's war!</Button>
+      <Datatable collection="users" formLabels={{
+        email: 'Adresse email',
+        password: 'Mot de passe',
+        name: 'Nom et prénoms'
+      }} errorMsgs={{
+        minLength: v => `${v} caractères au minimum sont requis`
+      }} />
+
+      <Datatable collection="posts" formLabels={{
+        email: 'Adresse email',
+        password: 'Mot de passe',
+        name: 'Nom et prénoms'
+      }} errorMsgs={{
+        minLength: v => `${v} caractères au minimum sont requis`
+      }} refs={{
+        users: 'name'
+      }} />
     </div>
   );
 }

@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
+import { useDialog } from '../../services/DialogProvider'
 import { useStore } from '../../services/Store'
 import { capitalize, deepCopie, generateUniqueKey } from '../../services/utils'
 import _THEME_COLORS from '../../services/_colors'
@@ -33,6 +34,10 @@ function Datatable({
     simplified = false,
     rowsPerPageLabel = 'Rows/page',
     collection = '',
+    deleteText = 'Are you sure you want to continue ?',
+    formLabels = null,
+    errorMsgs = null, 
+    refs = null
 }) {
 
     const [values, setValues] = useState([]);
@@ -48,30 +53,32 @@ function Datatable({
     const [updateValues, setUpdateValues] = useState(null);
     const [loadingData, setLoadingData] = useState(true);
 
-    const { wsSave, all, getSchema } = useStore();
+    const { wsSave, all, getSchema, storeChanged, wsDelete } = useStore();
 
     const [collectionSchema, setCollectionSchema] = useState({});
     const [collectionData, setCollectionData] = useState({});
+    const { confirm } = useDialog();
 
     useEffect(() => {
         setCollectionSchema(getSchema(collection));
     }, [getSchema, collection]);
 
-    useEffect(() => {
-        const cb = async _ => {
-            const data = await all(collection);
-            console.log(data);
-            setValues(data);
-            setValuesCopie(data);
-            if (data.length > 0) {
-                setVFilter(Object.keys(data[0]));
-            }
-            setLoadingData(false);
+    const loadData = async () => {
+        const data = await all(collection);
+        console.log(data);
+        setValues(data);
+        setValuesCopie(data);
+        if (data.length > 0) {
+            setVFilter(Object.keys(data[0]));
         }
-        cb();
+        setLoadingData(false);
+    };
 
+    useEffect(() => {
+        console.log(storeChanged)
+        loadData();
         return _ => { };
-    }, [all, collection]);
+    }, [storeChanged]);
 
     useEffect(() => {
         const start = size * (curPage - 1);
@@ -254,7 +261,15 @@ function Datatable({
                                         setUpdateValues(row);
                                     }
                                 },
-                                { icon: 'trash', label: 'Delete item', color: 'danger', action: row => alert('Deleting row' + JSON.stringify(row)) },
+                                {
+                                    icon: 'trash', label: 'Delete item', color: 'danger', action: row => {
+                                        confirm(deleteText, {
+                                            onConfirm: () => {
+                                                wsDelete(collection, row.id);
+                                            }
+                                        });
+                                    }
+                                },
                             ]}
                             color={color}
                             {...actions} />
@@ -281,14 +296,17 @@ function Datatable({
                 onClose={_ => setOpenAddDialog(false)}
                 actions={<Button
                     onClick={_ => {
-                        console.log(collectionData);
                         wsSave(collection, collectionData);
+                        loadData();
                         setOpenAddDialog(false);
                     }}>Add item</Button>}>
                 <div className="pt-0 pl-3 pr-3">
                     <Form
+                        refs={refs}
                         schema={collectionSchema}
                         bgcolor="light"
+                        errorMsgs={errorMsgs}
+                        labels={formLabels}
                         onChange={v => setCollectionData(v)}
                         className="grid grid-cols-min-200 grid-gap-5" />
                 </div>
@@ -296,18 +314,21 @@ function Datatable({
             {openUpdateDialog && <Modal
                 color={color}
                 title="Update item"
-                onClose={_ => setOpenAddDialog(false)}
+                onClose={_ => setOpenUpdateDialog(false)}
                 actions={<Button
                     onClick={_ => {
-                        console.log(collectionData);
                         wsSave(collection, collectionData, collectionData.id);
+                        loadData();
                         setOpenUpdateDialog(false);
                     }}>Update item</Button>}>
                 <div className="pt-0 pl-3 pr-3">
                     <Form
+                        refs={refs}
                         schema={collectionSchema}
                         bgcolor="light"
                         values={updateValues}
+                        labels={formLabels}
+                        errorMsgs={errorMsgs}
                         onChange={v => setCollectionData(v)}
                         className="grid grid-cols-min-200 grid-gap-5" />
                 </div>

@@ -8,7 +8,8 @@ export default {
         password: Password,
         name: {
             required: true,
-            type: Text
+            type: Text,
+            minLength: 4
         }
     },
     posts: {

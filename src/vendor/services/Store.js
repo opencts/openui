@@ -1,7 +1,8 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { _SERVER_URL, _WS_SERVER_URL } from "../../config/environment";
 import useSchema from "../hooks/useSchema";
 import { http } from "./http.service";
+import { deepCopie } from "./utils";
 
 const StoreContext = createContext()
 export const useStore = () => useContext(StoreContext)
@@ -12,10 +13,12 @@ export default function Store({ children }) {
     const [schema, schemaLoadingState] = useSchema();
     const [savedSchema, setSchema] = useState({});
     const [sockets, setSockets] = useState({});
+    const [storeChanged, setCount] = useState(0);
 
     // Connexion aux sockets serveurs
     useEffect(() => {
         if (!schemaLoadingState) {
+            console.log(schema)
             const s = {};
             for (const attr in schema) {
                 const socketPostUrl = _WS_SERVER_URL + attr + '/post';
@@ -24,69 +27,95 @@ export default function Store({ children }) {
                 const postSocket = new WebSocket(socketPostUrl);
                 const putSocket = new WebSocket(socketPutUrl);
                 const deleteSocket = new WebSocket(socketDeleteUrl);
-                postSocket.onopen = () => {
-                    console.log('Connexion to socket ' + socketPostUrl + ' established!');
-                    postSocket.onmessage = event => {
-                        console.log(event);
-                        let socketResponseData = JSON.parse(event.data).data;
-                        if ('posted' in socketResponseData) {
-                            const { posted, route } = socketResponseData;
-                            delete posted.__v;
-                            if (route in data && data[route].findIndex(it => it.id === posted.id) === -1) {
-                                data[route].push(posted);
-                                console.log('Added successfully', data[route]);
-                                setData(data => ({ ...data, [route]: [...data[route]] }));
-                            }
-                        }
-                    }
+
+                s[attr] = {
+                    postSocket: handleSocketPost(postSocket, socketPostUrl),
+                    putSocket: handleSocketUpdate(putSocket, socketPutUrl),
+                    deleteSocket: handleSocketDelete(deleteSocket, socketDeleteUrl)
                 };
+            };
 
-                putSocket.onopen = () => {
-                    console.log('Connexion to socket ' + socketPutUrl + ' established!');
-                    putSocket.onmessage = event => {
-                        console.log(event);
-                        let socketResponseData = JSON.parse(event.data).data;
-                        if ('updated' in socketResponseData) {
-                            const { updated, route } = socketResponseData;
-                            delete updated.__v;
-                            if (route in data) {
-                                const itemIndex = data[route].findIndex(it => it.id === updated.id);
-                                if (itemIndex !== -1) {
-                                    data[route].splice(itemIndex, 1, updated);
-                                    console.log('Updated successfully', data[route]);
-                                    setData(data => ({ ...data, [route]: [...data[route]] }));
-                                }
-                            }
-                        }
-                    }
-                };
 
-                deleteSocket.onopen = () => {
-                    console.log('Connexion to socket ' + socketDeleteUrl + ' established!');
-                    deleteSocket.onmessage = event => {
-                        console.log(event);
-                        let socketResponseData = JSON.parse(event.data).data;
-
-                        if ('deletedId' in socketResponseData) {
-                            const { deletedId, route } = socketResponseData;
-                            const itemIndex = data[route].findIndex(it => it.id === deletedId);
-                            if (route in data && itemIndex !== -1) {
-                                data[route].splice(itemIndex, 1);
-                                console.log('Updated successfully', data[route]);
-                                setData({ ...data, [route]: [...data[route]] });
-                            }
-                        }
-                    }
-                };
-
-                s[attr] = { postSocket, putSocket, deleteSocket };
-            }
             setSockets(s);
             setSchema(schema);
         }
     }, [schemaLoadingState, schema, data]);
 
-    const all = useCallback(async (route) => {
+    const handleSocketPost = (socket, url) => {
+        const ev = event => {
+            let socketResponseData = JSON.parse(event.data).data;
+            if ('posted' in socketResponseData) {
+                const { posted, route } = socketResponseData;
+                delete posted.__v;
+                if (route in data && data[route].findIndex(it => it.id === posted.id) === -1) {
+                    data[route].push(posted);
+                    console.log('Added successfully', data[route]);
+                    setData(data => ({ ...data, [route]: [...data[route]] }));
+                    setCount(storeChanged + 1);
+                }
+            }
+        }
+        socket.onmessage = ev;
+        socket.onclose = () => {
+            window.location.reload();
+        }
+        
+        return socket;
+    };
+
+    const handleSocketUpdate = (socket, url) => {
+        const ev = event => {
+            let socketResponseData = JSON.parse(event.data).data;
+            if ('updated' in socketResponseData) {
+                const { updated, route } = socketResponseData;
+                delete updated.__v;
+                if (route in data) {
+                    const itemIndex = data[route].findIndex(it => it.id === updated._id);
+                    if (itemIndex !== -1) {
+                        const newValue = { ...updated, id: updated._id };
+                        delete newValue._id;
+                        delete newValue.__v;
+                        const newData = deepCopie(data[route]);
+                        newData[itemIndex] = newValue;
+                        setData(data => ({ ...data, [route]: [...newData] }));
+                        setCount(storeChanged + 1);
+                    }
+                }
+            }
+        };
+
+        socket.onmessage = ev;
+        socket.onclose = () => {
+            window.location.reload();
+        }
+
+        return socket;
+    }
+
+    const handleSocketDelete = (socket, url) => {
+        const ev = event => {
+            let socketResponseData = JSON.parse(event.data).data;
+            if ('deletedId' in socketResponseData) {
+                const { deletedId, route } = socketResponseData;
+                const itemIndex = data[route].findIndex(it => it.id === deletedId);
+                if (route in data && itemIndex !== -1) {
+                    data[route].splice(itemIndex, 1);
+                    console.log('Deleted successfully', data[route]);
+                    setData({ ...data, [route]: [...data[route]] });
+                    setCount(storeChanged + 1);
+                }
+            }
+        }
+
+        socket.onmessage = ev;
+        socket.onclose = () => {
+            window.location.reload();
+        }
+
+        return socket;
+    };
+
+    const all = async (route) => {
         if (route in data) {
             return data[route];
         }
@@ -102,9 +131,9 @@ export default function Store({ children }) {
             ...data, [route]: values
         });
         return values;
-    }, [data]);
+    };
 
-    async function one(route, _id) {
+    const one = async (route, _id) => {
         if (route in data) {
             return data[route].find(item => item._id === _id);
         }
@@ -113,7 +142,7 @@ export default function Store({ children }) {
         return value;
     }
 
-    async function save(route, data, _id) {
+    const save = async (route, data, _id) => {
         const reqMethod = !_id ? "POST" : "PUT";
         if (route in data) {
             const response = fetch(_SERVER_URL + '/' + (!_id ? '' : _id),
@@ -134,7 +163,6 @@ export default function Store({ children }) {
     }
 
     function wsSave(route, data, id) {
-        console.log(id);
         if (!id) {
             sockets[route].postSocket.send(JSON.stringify(data));
         } else {
@@ -152,7 +180,8 @@ export default function Store({ children }) {
         save,
         wsSave,
         wsDelete,
-        getSchema: collection => savedSchema[collection]
+        getSchema: collection => savedSchema[collection],
+        storeChanged
     }}>
         {children}
     </StoreContext.Provider>

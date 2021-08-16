@@ -3,10 +3,11 @@ const NodeExternals = require('webpack-node-externals');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+const isSafe = process.env.NODE_SAFE === 'safe';
 
 module.exports = {
     mode,
-    entry: path.resolve(__dirname, 'server/index.js'),
+    entry: path.resolve(__dirname, isSafe && mode === 'development' ? 'server/index.safe.js' : 'server/index.js'),
     output: {
         path: path.resolve(__dirname, 'dist', 'server'),
         clean: true
