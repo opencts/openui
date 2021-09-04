@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { deepCopie } from '../../services/utils';
+import Flex from '../Containers/Flex';
+import Button from './Button';
 import FormField from './FormField';
 
 function Form({
@@ -7,34 +9,31 @@ function Form({
     labels,
     bgcolor = 'white',
     onChange = () => { },
-    resetForm = null,
     errorMsgs,
     values = {},
-    onSubmit,
+    onSubmit = () => { },
+    buttonText = 'Create',
+    resetText = 'Reset',
+    showReset = true,
     refs,
     ...props
 }) {
 
     const [value, setValue] = useState(values);
-    const [reset, setReset] = useState(resetForm);
 
     useEffect(() => {
-        setReset(resetForm);
-    }, [resetForm]);
+        setValue(values);
+    }, [values]);
 
     useEffect(() => {
-        console.log(reset);
-        if (reset) {
-            const newValue = {};
-            for (const el in schema) {
-                newValue[el] = ''
-            };
-            setValue({ ...newValue });
-            setReset(null);
-        }
+        const newValue = {};
+        for (const el in schema) {
+            newValue[el] = ''
+        };
+        setValue({ ...newValue });
 
         // eslint-disable-next-line
-    }, [reset]);
+    }, []);
 
     const handleChange = useCallback((v, name) => {
         setValue({ ...value, [name]: v });
@@ -53,20 +52,39 @@ function Form({
         return {}
     };
 
+    const handleSubmit = () => {
+        onSubmit(value);
+        resetForm();
+    };
+
+    const resetForm = () => {
+        const newValue = {};
+        for (const el in schema) {
+            newValue[el] = ''
+        };
+        setValue({ ...newValue });
+    };
+
     return (
-        <form {...props}>
-            {Object.keys(schema).map(key => <FormField
-                key={key}
-                bgcolor={bgcolor}
-                name={key}
-                label={labels && labels[key] ? labels[key] : key}
-                onChange={v => handleChange(v, key)}
-                value={schema[key]}
-                errorMsgs={errorMsgs}
-                defaultValue={values[key]}
-                refLabel={refs ? refs[schema[key].ref] : null}
-                {...getValidation(key)} />)}
-        </form>
+        <div className="mb-2">
+            <form {...props}>
+                {Object.keys(schema).map(key => <FormField
+                    key={key}
+                    bgcolor={bgcolor}
+                    name={key}
+                    label={labels && labels[key] ? labels[key] : key}
+                    onChange={v => handleChange(v, key)}
+                    value={schema[key]}
+                    errorMsgs={errorMsgs}
+                    defaultValue={value[key]}
+                    refLabel={refs ? refs[schema[key].ref] : null}
+                    {...getValidation(key)} />)}
+            </form>
+            <Flex gap={10}>
+                <Button onClick={handleSubmit}>{buttonText}</Button>
+                {showReset && <Button color="dark-gray" onClick={resetForm}>{resetText}</Button>}
+            </Flex>
+        </div>
     )
 }
 

@@ -99,7 +99,6 @@ function Input({
         const errorState = validate(value, conditions);
         if (!errorState.valid) {
             const error = errorState.errors[0];
-            console.log(errorMsgs)
             errorMsgs = errorMsgs && errorMsgs[error] ? errorMsgs : _ERROR_MSGS;
             if (typeof (errorMsgs[error]) === 'function') {
                 setErrorMsg(errorMsgs[error](conditions[error]));

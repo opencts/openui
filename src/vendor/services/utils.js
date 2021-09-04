@@ -2,7 +2,6 @@ export function capitalize(value) {
     return value[0].toUpperCase() + value.substr(1);
 }
 
-
 function generateFakeWord(n) {
     const v = "aieyou";
     const c = "bcdfghjklmnpqrstvwxz";

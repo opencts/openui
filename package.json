@@ -27,10 +27,9 @@
   "scripts": {
     "start:client": "webpack serve",
     "build:client": "NODE_ENV=production webpack",
-    "start:server": "NODE_SAFE=safe webpack --watch --config webpack.server.js",
+    "start:server": "NODE_ENV=dev webpack --watch --config webpack.server.js",
     "build:server": "NODE_ENV=production webpack --config webpack.server.js",
-    "start": "npm-run-all --parallel start:client start:server",
-    "serve": "npm-run-all --parallel start:client start:server",
+    "start": "npm-run-all --parallel start:server start:client",
     "build": "npm-run-all --parallel build:client build:server"
   },
   "devDependencies": {

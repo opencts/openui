@@ -76,7 +76,7 @@ function Select({
     }, []);
 
     function renderOptions() {
-        return <div className="mt-2">
+        return <div className="mt-2 select-options">
             {vdata.map((item, index) => <div className="options-item" key={index} onClick={_ => selectItem(item, index)}>
                 <Flex ai="center" jc="space-between">
                     <div>{item[valueLabel]}</div>

@@ -21,20 +21,18 @@ export default function FormField({
     ...props
 }) {
 
-    console.log(refLabel)
-
     const [type] = useState(typeof value === 'string' ?
         value.toLowerCase() : value.type.toLowerCase());
     const [data, setData] = useState([]);
-    const { all } = useStore();
+    // const { all } = useStore();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (typeof value === 'object' && value.type === 'ObjectId') {
-            all(value.ref).then(d => {
-                setData(d);
-                setLoading(false);
-            });
+            // all(value.ref).then(d => {
+            //     setData(d);
+            //     setLoading(false);
+            // });
         } else {
             setLoading(false);
         }
@@ -52,7 +50,7 @@ export default function FormField({
             {type === 'boolean' && <Flex gap={20}>
                 <Checkbox onChange={onChange} /> <div>{label}</div>
             </Flex>}
-            {type === 'objectid' && <Select data={data} valueId="id" valueLabel={refLabel} />}
+            {type === 'objectid' && <Select data={data} bgcolor={bgcolor} valueId="id" valueLabel={refLabel} />}
         </div>
     )
 }
