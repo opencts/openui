@@ -5,13 +5,8 @@ import Button from "./components/Forms/Button";
 import Input from "./components/Forms/Input";
 import Datatable from "./components/Tables/Datatable";
 import Table from "./components/Tables/Table";
-import { useDialog } from "./services/DialogProvider";
 
 function App() {
-
-  const [v, setV] = useState('');
-  const [s, setS] = useState(false);
-  const { confirm, alert } = useDialog();
   const [values, setValues] = useState({
     nom: '',
     prenom: '',
