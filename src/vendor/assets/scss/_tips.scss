@@ -1,0 +1,89 @@
+@import './theme';
+
+.avatar-container {
+    width: fit-content;
+    display: inline-block;
+
+    .avatar {
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+        }
+
+        div {
+            padding: 8px;
+            font-weight: $x-bold;
+        }
+    }
+}
+
+.badge {
+    border-radius: 20px;
+    display: inline-block;
+    font-size: 0.65em;
+    font-weight: $x-bold;
+
+    .badge-child {
+        padding: 3px 7px;
+    }
+
+    .badge-single {
+        padding: 5px;
+    }
+}
+
+.tooltip-container {
+    position: relative;
+    width: fit-content;
+
+    .tooltip {
+        position: absolute;
+        border-radius: 5px;
+        text-align: center;
+        padding: 5px;
+        font-size: 0.85rem;
+        z-index: 10;
+        transition: 1s;
+    }
+
+    .tooltip-top {
+        bottom: 100%;
+        margin-bottom: 10px;
+    }
+
+    .tooltip-left {
+        right: 100%;
+        margin-right: 10px;
+        top: 0;
+        min-width: fit-content;
+    }
+
+    .tooltip-right {
+        left: 100%;
+        top: 0;
+        margin-left: 10px;
+        min-width: fit-content;
+    }
+
+    .tooltip-bottom {
+        top: 100%;
+        margin-top: 10px;
+    }
+}
+
+.dropdown-container {
+    width: fit-content;
+}
+
+.dropdown {
+    position: fixed;
+    overflow: auto;
+    box-shadow: 0 3px 3px 0 $dark;
+    z-index: 1000;
+}

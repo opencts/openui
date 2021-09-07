@@ -1,0 +1,360 @@
+@use "sass:math";
+@import './theme';
+
+.container-fluid {
+    width: 100%;
+}
+
+.container {
+    width: 72%;
+    margin: auto;
+
+    @media screen and (max-width: $break-md) {
+        width: 82%;
+    }
+
+    @media screen and (max-width: $break-sm) {
+        width: 92%;
+    }
+}
+
+/* ---------- Ripple effect --------------------*/
+.ripple-container {
+    position: relative;
+    width: fit-content;
+    overflow: hidden;
+    background-color: transparent;
+    padding-top: 2px;
+}
+
+.ripple-container-raised {
+    position: relative;
+    width: fit-content;
+    overflow: hidden;
+    background-color: transparent;
+    padding: 2px 2px 3px 2px;
+}
+
+.ripple {
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #00000025;
+    animation: rippleAnimation 0.3s ease-out;
+}
+
+.ripple-center {
+    border-radius: 100px;
+    background-color: #00000025;
+    animation: rippleCircleAnimation 0.3s;
+}
+
+@keyframes rippleAnimation {
+    from {
+        width: 0;
+        height: 0;
+    }
+
+    to {
+        width: 10vw;
+        height: 10vh;
+    }
+}
+
+@keyframes rippleCircleAnimation {
+    from {
+        width: 100%;
+        height: 100%;
+        transform: scale(0);
+    }
+
+    to {
+        width: 100%;
+        height: 100%;
+        transform: scale(1);
+    }
+}
+
+/* ------------------------------*/
+
+/* ---------- Animations effect --------------------*/
+.effect {
+    transition: .7s;
+    overflow: hidden;
+}
+
+.fade-in {
+    width: fit-content;
+    animation-name: fadein;
+}
+
+.fade-out {
+    width: fit-content;
+    animation-name: fadeout;
+}
+
+.slide-down {
+    width: fit-content;
+    animation-name: slidedown;
+}
+
+.slide-up {
+    width: fit-content;
+    animation-name: slideup;
+
+    &:hover {
+        animation: fadein 0.3s;
+    }
+}
+
+.slide-in {
+    width: fit-content;
+    animation-name: slidein;
+
+    &:hover {
+        animation: fadein 0.3s;
+    }
+}
+
+.slide-out {
+    width: fit-content;
+    animation-name: slideout;
+
+    &:hover {
+        animation: fadein 0.3s;
+    }
+}
+
+.zoom-in {
+    width: fit-content;
+    animation-name: zoomin;
+
+    &:hover {
+        animation: fadein 0.3s;
+    }
+}
+
+.zoom-out {
+    width: fit-content;
+    animation-name: zoomout;
+
+    &:hover {
+        animation: fadein 0.3s;
+    }
+}
+
+.shake {
+    width: fit-content;
+    animation-name: shake;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes slidedown {
+    from {
+        transform: translateY(-100vh);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideup {
+    from {
+        transform: translateY(100vh);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slidein {
+    from {
+        transform: translateX(-100vw);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideout {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100vw);
+    }
+}
+
+@keyframes zoomin {
+    from {
+        transform: scale(0.5);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes zoomout {
+    from {
+        transform: scale(1.25);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: skew(3deg, 3deg);
+    }
+
+    50% {
+        transform: skew(-3deg, -3deg);
+    }
+
+    to {
+        transform: skew(0deg, 0deg);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ------------------------------*/
+
+/* ---------- Flexbox --------------------*/
+.flex {
+    display: flex;
+}
+
+.flex-auto {
+    display: flex;
+    overflow: auto;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+
+    @media (max-width: $break-sm) {
+        justify-content: center !important;
+    }
+}
+
+.f-row {
+    flex-direction: row;
+}
+
+.f-column {
+    flex-direction: column;
+}
+
+.f-jc-start {
+    justify-content: flex-start;
+}
+
+.f-jc-end {
+    justify-content: flex-end;
+}
+
+.f-jc-center {
+    justify-content: center;
+}
+
+.f-jc-space-between {
+    justify-content: space-between;
+}
+
+.f-jc-space-around {
+    justify-content: space-around;
+}
+
+.f-ai-start {
+    align-items: flex-start;
+}
+
+.f-ai-end {
+    align-items: flex-end;
+}
+
+.f-ai-center {
+    align-items: center;
+}
+
+.f-ai-space-between {
+    align-items: space-between;
+}
+
+.f-ai-space-around {
+    align-items: space-around;
+}
+
+/* ------------------------------*/
+
+/* ---------- Grid --------------------*/
+.grid {
+    display: grid;
+}
+
+@for $i from 1 to 20 {
+    .grid-cols-#{$i} {
+        grid-template-columns: repeat(auto-fit, minmax(math.div(100%, $i+1), 1fr));
+    }
+
+    .grid-cols-min-#{$i * 100} {
+        grid-template-columns: repeat(auto-fit, minmax($i * 100px, 1fr));
+    }
+
+    .grid-gap-#{$i} {
+        gap: $i * 3px;
+
+        @media (max-width: $break-md) {
+            gap: $i * 1px;
+        }
+
+        @media (max-width: $break-sm) {
+            gap: 0;
+        }
+    }
+}
+
+
+
+/* ------------------------------*/
+
+/* ---------- Tab --------------------*/
+.tab-v {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+}
+
+/* ------------------------------*/

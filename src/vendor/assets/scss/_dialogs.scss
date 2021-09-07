@@ -1,0 +1,101 @@
+@import './theme';
+
+.dialog {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba($color: #161C29, $alpha: 0.47);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    opacity: 1;
+
+    .dialog-content {
+        background-color: $light;
+        box-shadow: 0 10px 10px 0 $dark;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        margin: 10% auto;
+        max-width: 80vw;
+        max-height: 80vh;
+
+        .dialog-header {
+            width: 100%;
+            padding: 7px 10px;
+        }
+
+        .dialog-subcontent {
+            padding: 10px;
+            max-height: 70vh;
+            overflow: auto;
+        }
+
+        .dialog-actions {
+            padding: 10px;
+        }
+
+        @media (max-width: 600px) {
+            max-width: 95vw;
+        }
+    }
+}
+
+.modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 12;
+    background-color: rgba($color: #161C29, $alpha: 0.7);
+    overflow: hidden;
+
+    .modal-container {
+        margin: 5% auto;
+        max-width: 70vw;
+        position: relative;
+        background-color: $light;
+        box-shadow: 0 4px 4px 0 $dark;
+
+        @media (max-width: 1000px) {
+            max-width: 85vw;
+        }
+
+        @media (max-width: 601px) {
+            max-width: 90vw;
+            margin: 40vw auto;
+        }
+
+        .modal-close-icon {
+            position: absolute;
+            right: -43px;
+            font-size: 1.6em;
+
+            @media (max-width: 601px) {
+                top: -30px;
+                right: 0;
+                font-size: 1.2em;
+            }
+        }
+
+        h3 {
+            padding: 9px;
+            text-align: center;
+        }
+
+        .modal-content {
+            max-height: 70vh;
+            overflow: auto;
+        }
+
+        .modal-actions {
+            box-shadow: 0 -2px 2px 0 $light-gray;
+            padding: 7px 12px;
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+}

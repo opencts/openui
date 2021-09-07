@@ -1,0 +1,298 @@
+// Font sizes
+$h1: 48px;
+$h2: 30px;
+$h3: 24px;
+$h4: 20px;
+$h5: 18px;
+$h6: 14px;
+
+$regular-size: 14px;
+$regular-size-mobile: 10px;
+
+// Line height
+$line-height: 1.4;
+$line-height-mobile: 1.1;
+
+// Default font
+@font-face {
+    font-family: "Tenor";
+    src: url(../fonts/TenorSans-Regular.ttf);
+}
+
+// Default all element's definition
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Tenor";
+    letter-spacing: 1px;
+    line-height: $line-height;
+    font-size: $regular-size;
+
+    @media (max-width: 601) {
+        line-height: $line-height-mobile;
+        font-size: $regular-size-mobile;
+    }
+}
+
+// HO definition
+.h0 {
+    font-size: $regular-size;
+}
+
+// H1 ... H5 definitions
+$titles: (h1: $h1,
+    h2: $h2,
+    h3: $h3,
+    h4: $h4,
+    h5: $h5,
+    h6: $h6,
+);
+
+@each $key,
+$val in $titles {
+    #{$key} {
+        font-size: $val;
+    }
+
+    .#{$key} {
+        font-size: $val;
+    }
+}
+
+// Breakpoints
+$break-sm: 600px;
+$break-md: 1000px;
+
+// Colors
+$primary: #3f51b5;
+$secondary: #735600;
+$dark: #252f44;
+$dark-gray: #686c75;
+$gray: #9b9ea3;
+$light-gray: #e4e6eb;
+$light: #f7f8fa;
+$success: #00841d;
+$danger: #ad320d;
+$white: #ffffff;
+
+$_COLORS: (primary: $primary,
+    secondary: $secondary,
+    dark: $dark,
+    dark-gray: $dark-gray,
+    gray: $gray,
+    light-gray: $light-gray,
+    light: $light,
+    success: $success,
+    danger: $danger,
+    white: $white);
+
+@each $key,
+$val in $_COLORS {
+
+    // Text color's generation
+    .text-#{""+$key} {
+        color: $val !important;
+    }
+
+    // Background color's generation
+    @if $key==gray or $key==light-gray or $key==light or $key==white {
+        .bg-#{""+$key} {
+            background-color: $val;
+            color: $dark-gray;
+            border: solid 1px $val;
+        }
+
+        .bg-hover-#{""+$key} {
+            transition: 0.5s;
+
+            &:hover {
+                transition: 0.5s;
+                background-color: $val;
+                color: $dark-gray;
+                cursor: pointer;
+            }
+        }
+    }
+
+    @else {
+        .bg-#{""+$key} {
+            background-color: $val;
+            color: $light;
+            border: solid 1px $val;
+        }
+
+        .bg-hover-#{""+$key} {
+            transition: 0.5s;
+
+            &:hover {
+                transition: 0.5s;
+                background-color: $val;
+                color: $light;
+                cursor: pointer;
+            }
+        }
+    }
+
+    // Outlined features generation
+    .bg-#{""+$key}-outlined {
+        background-color: $light;
+        color: $val;
+        border: solid 1px $val !important;
+    }
+
+    // Borders
+    .border-#{""+$key} {
+        border: solid 1px $val !important;
+    }
+}
+
+// Font size
+$thin: 100;
+$lighter: 250;
+$regular: 400;
+$medium: 500;
+$bold: 700;
+$x-bold: 900;
+
+$_WEIGHT: (thin: $thin,
+    light: $lighter,
+    regular: $regular,
+    medium: $medium,
+    bold: $bold,
+    x-bold: $x-bold,
+);
+
+@each $key,
+$val in $_WEIGHT {
+    .#{$key} {
+        font-weight: $val;
+    }
+}
+
+.italic {
+    font-style: italic;
+}
+
+// Margins and paddings definitions
+
+// Default spacing
+$spacing: 20px;
+
+$spacings: 0,
+0.25,
+0.5,
+1,
+1.5,
+3;
+
+@for $i from 1 to 7 {
+    .m-#{($i - 1)} {
+        margin: nth($spacings, $i) * $spacing;
+    }
+
+    .p-#{($i - 1)} {
+        padding: nth($spacings, $i) * $spacing;
+    }
+
+    .ml-#{($i - 1)} {
+        margin-left: nth($spacings, $i) * $spacing;
+    }
+
+    .pl-#{($i - 1)} {
+        padding-left: nth($spacings, $i) * $spacing;
+    }
+
+    .mr-#{($i - 1)} {
+        margin-right: nth($spacings, $i) * $spacing;
+    }
+
+    .pr-#{($i - 1)} {
+        padding-right: nth($spacings, $i) * $spacing;
+    }
+
+    .mt-#{($i - 1)} {
+        margin-top: nth($spacings, $i) * $spacing;
+    }
+
+    .pt-#{($i - 1)} {
+        padding-top: nth($spacings, $i) * $spacing;
+    }
+
+    .mb-#{($i - 1)} {
+        margin-bottom: nth($spacings, $i) * $spacing;
+    }
+
+    .pb-#{($i - 1)} {
+        padding-bottom: nth($spacings, $i) * $spacing;
+    }
+}
+
+// Positions
+.fixed {
+    position: fixed;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.relative {
+    position: relative;
+}
+
+.sticky {
+    position: sticky;
+}
+
+.static {
+    position: static;
+}
+
+// Shadow box
+$shadow: 0 0 5px 0 $gray;
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.fit-content {
+    width: fit-content;
+}
+
+.circled {
+    border-radius: 50%;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+// Scrollbars style
+::-webkit-scrollbar {
+    width: 3px;
+
+    @media (max-width: $break-md) {
+        width: 1px !important;
+    }
+}
+
+::-webkit-scrollbar-track {
+    background: $light;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $primary;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: $secondary;
+}

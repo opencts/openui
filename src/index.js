@@ -1,32 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-import './assets/scss/_index.scss';
-import DialogProvider from './services/DialogProvider';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Admin from './views/Admin';
-import Store from './services/Store';
+import './vendor/assets/scss/_index.scss';
+import DialogProvider from './vendor/services/DialogProvider';
+import Store from './vendor/services/Store';
 
 ReactDOM.render(
   <DialogProvider>
     <Store>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact>
-            <App />
-          </Route>
-          <Route path="/admin">
-            <Admin />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <App />
     </Store>
   </DialogProvider>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
