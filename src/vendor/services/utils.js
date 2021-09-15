@@ -67,3 +67,17 @@ export function csvMapToJson(arr) {
     }
     return values;
 }
+
+export function objectToMap(arrOfObj) {
+    if (arrOfObj.length === 0) return [];
+    const keys = Object.keys(arrOfObj[0]).filter(it => it !== '__v');
+    const arrOfArr = [keys];
+    for (const el of arrOfObj) {
+        const newArray = [];
+        for (const it of keys) {
+            newArray.push(el[it]);
+        }
+        arrOfArr.push(newArray);
+    }
+    return arrOfArr;
+}

@@ -26,7 +26,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "shalk": "^0.0.1-security",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "xlsx": "^0.17.1"
   },
   "scripts": {
     "start:client": "webpack serve",

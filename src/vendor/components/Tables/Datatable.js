@@ -9,7 +9,6 @@ import Flex from '../Containers/Flex'
 import Hidden from '../Containers/Hidden'
 import Modal from '../Dialogs/Modal'
 import Font from '../Fonts/Font'
-import Icon from '../Fonts/Icon'
 import Button from '../Forms/Button'
 import Form from '../Forms/Form'
 import Search from '../Forms/Search'
@@ -36,7 +35,8 @@ function Datatable({
     formLabels = null,
     errorMsgs = null,
     refs = null,
-    checkable = true
+    checkable = true,
+    onItemViewChange = () => {}
 }) {
 
     const collectionItem = useMemo(() => collection.slice(0, collection.length - 1), [collection]);
@@ -54,6 +54,7 @@ function Datatable({
     const [buttonText, setButtonText] = useState('Create ' + collectionItem);
     const [titleText, setTitleText] = useState('Add new ' + collectionItem);
     const [itemSelected, setItemSelected] = useState([]);
+    const [allData, setAllData] = useState([]);
 
     const { db, getSchema, save, load, dataIsLoading, remove, wsActionStatus } = useClientDB();
 
@@ -71,6 +72,7 @@ function Datatable({
         if (!(loadingCollectionSchema || dataIsLoading)) {
             const data = deepCopie(db[collection]);
             setValues(data);
+            setAllData(data);
             setValuesCopie(data);
             if (data.length > 0) {
                 setVFilter(Object.keys(data[0]));
@@ -107,6 +109,7 @@ function Datatable({
     function reset() {
         setButtonText('Create ' + collectionItem);
         setTitleText('Add new ' + collectionItem);
+        setUpdateValues({});
     }
 
     const handleSubmit = data => {
@@ -128,6 +131,7 @@ function Datatable({
                 for (const el of itemSelected) {
                     remove(collection, el.id);
                 }
+                setItemSelected([]);
             }
         });
     }
@@ -153,10 +157,10 @@ function Datatable({
                             setActions={setActions}
                             color={color} />}
                         <Hidden up="600px">
-                            <ImportExportMenu save={(value) => save(collection, value)} status={wsActionStatus} color={color} />
+                            <ImportExportMenu data={allData} collection={collection} save={save} status={wsActionStatus} color={color} />
                         </Hidden>
                         <Hidden down="600px">
-                            <ImportExportMenu save={(value) => save(collection, value)} status={wsActionStatus} color={color} position="left" />
+                            <ImportExportMenu data={allData} collection={collection} save={save} status={wsActionStatus} color={color} position="left" />
                         </Hidden>
                         {itemSelected.length > 0 && <Button color="danger" icon="trash" onClick={handleDeleteSelected}>Delete selected</Button>}
                     </Flex>
@@ -182,7 +186,7 @@ function Datatable({
                             hiddens={vHiddens}
                             onSelectionChange={handleSelectionChange}
                             actions={[
-                                { icon: 'eye', label: 'Item details', color: 'success', action: row => alert('Displaying row' + JSON.stringify(row)) },
+                                { icon: 'eye', label: 'Item details', color: 'success', action: onItemViewChange },
                                 {
                                     icon: 'edit', label: 'Edit item', color: 'primary', action: row => {
                                         setUpdateValues(row);
