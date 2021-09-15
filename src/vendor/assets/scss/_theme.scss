@@ -7,11 +7,15 @@ $h5: 18px;
 $h6: 14px;
 
 $regular-size: 14px;
-$regular-size-mobile: 10px;
+$regular-size-mobile: 12px;
 
 // Line height
 $line-height: 1.4;
-$line-height-mobile: 1.1;
+$line-height-mobile: 1.4;
+
+// Breakpoints
+$break-sm: 600px;
+$break-md: 1000px;
 
 // Default font
 @font-face {
@@ -29,7 +33,7 @@ $line-height-mobile: 1.1;
     line-height: $line-height;
     font-size: $regular-size;
 
-    @media (max-width: 601) {
+    @media (max-width: $break-sm) {
         line-height: $line-height-mobile;
         font-size: $regular-size-mobile;
     }
@@ -59,10 +63,6 @@ $val in $titles {
         font-size: $val;
     }
 }
-
-// Breakpoints
-$break-sm: 600px;
-$break-md: 1000px;
 
 // Colors
 $primary: #3f51b5;
@@ -278,10 +278,10 @@ $shadow: 0 0 5px 0 $gray;
 
 // Scrollbars style
 ::-webkit-scrollbar {
-    width: 3px;
+    width: 7px;
 
     @media (max-width: $break-md) {
-        width: 1px !important;
+        width: 3px !important;
     }
 }
 
@@ -291,8 +291,14 @@ $shadow: 0 0 5px 0 $gray;
 
 ::-webkit-scrollbar-thumb {
     background: $primary;
+    border-radius: 12px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background: $secondary;
+}
+
+// Cursor pointer
+.pointer {
+    cursor: pointer;
 }

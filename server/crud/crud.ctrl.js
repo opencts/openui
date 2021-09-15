@@ -3,6 +3,12 @@ import HttpResponse from '../generators/http/HttpResponse';
 import WSResponse from '../generators/ws/WSResponse';
 import createModel from './crud.model';
 
+const actions = {
+    _ADD_ITEM: 'add-item',
+    _UPDATE_ITEM: 'update-item',
+    _DELETE_ITEM: 'delete-item',
+};
+
 function crudCtrl(route, wsInfo) {
     const router = express.Router();
     const model = createModel(route);
@@ -38,83 +44,89 @@ function crudCtrl(route, wsInfo) {
     });
 
     router.post('/', async (req, res) => {
-        const httpResponse = new HttpResponse(res, route.name + '/' + req.params.id);
+        const httpResponse = new HttpResponse(res, route.name);
         try {
             const newData = new model({ ...req.body });
-            console.log(req.body, newData);
             await newData.save();
             httpResponse.json(201, newData, 'Item created!');
         } catch (e) {
-            httpResponse.json(201, null, e.message);
+            httpResponse.json(422, null, e.message);
         }
     });
 
     router.put('/:id', async (req, res) => {
+        const httpResponse = new HttpResponse(res, route.name + '/' + req.params.id);
         delete req.body._id;
         try {
-            await model.updateOne({ _id: req.params.id }, { ...req.body })
-            res.status(200).json({ message: 'Item Updated!' });
+            await model.updateOne({ _id: req.params.id }, { ...req.body });
+            const updated = model.findOne({ _id: req.params.id });
+            httpResponse.json(201, updated, 'Item Updated!');
         } catch (e) {
-            res.status(422).json(e)
+            httpResponse.json(422, null, e.message);
         }
     });
 
     router.delete('/:id', async (req, res) => {
+        const httpResponse = new HttpResponse(res, route.name + '/' + req.params.id);
         try {
-            await model.deleteOne({ _id: req.params.id })
-            res.status(200).json({ message: 'Item deleted!' });
+            await model.deleteOne({ _id: req.params.id });
+            httpResponse.json(200, { _id: req.params.id }, 'Item deleted!');
         } catch (e) {
-            res.status(422).json(e)
+            httpResponse.json(422, null, e.message);
         }
     });
     // ===== END HTTP HANDLING =====
 
 
     // ===== Web Socket HANDLING =====
-    router.ws('/post', (ws, req) => {
+    router.ws('/ws', (ws, req) => {
+        console.log('Connected')
         ws.on('message', async msg => {
-            try {
-                const newData = new model(JSON.parse(msg));
-                await newData.save();
-                console.log(newData);
-                wsJsonBroadCast('post', 200, {
-                    route: route.name,
-                    posted: newData
-                });
-            } catch (e) {
-                wsJsonBroadCast('post', 500, null, e.message)
-            }
-        });
-    });
-
-    router.ws('/put', (ws, req) => {
-        ws.on('message', async msg => {
-            try {
-                const value = JSON.parse(msg);
-                const id = value.id;
-                delete value.id;
-                await model.updateOne({ _id: id }, value);
-                const updated = await model.findOne({ _id: id });
-                wsJsonBroadCast('put', 200, {
-                    route: route.name,
-                    updated
-                });
-            } catch (e) {
-                wsJsonBroadCast('put', 422, null, e.message);
-            }
-        });
-    });
-
-    router.ws('/delete', (ws, req) => {
-        ws.on('message', async (msg) => {
-            try {
-                await model.deleteOne({ _id: JSON.parse(msg).id });
-                wsJsonBroadCast('delete', 200, {
-                    route: route.name,
-                    deletedId: JSON.parse(msg).id
-                });
-            } catch (e) {
-                wsJsonBroadCast('delete', 422, null, e.message);
+            const { value, type } = JSON.parse(msg);
+            console.log(type);
+            switch (type) {
+                case 'post':
+                    try {
+                        const newData = new model(value);
+                        await newData.save();
+                        console.log(newData);
+                        wsJsonBroadCast('post', 200, {
+                            route: route.name,
+                            action: actions._ADD_ITEM,
+                            data: newData
+                        });
+                    } catch (e) {
+                        wsJsonBroadCast('post', 500, null, e.message)
+                    }
+                    break;
+                case 'put':
+                    try {
+                        const id = value.id;
+                        delete value.id;
+                        await model.updateOne({ _id: id }, value);
+                        const updated = await model.findOne({ _id: id });
+                        console.log(updated);
+                        wsJsonBroadCast('put', 200, {
+                            route: route.name,
+                            action: actions._UPDATE_ITEM,
+                            data: updated
+                        });
+                    } catch (e) {
+                        wsJsonBroadCast('put', 422, null, e.message);
+                    }
+                    break;
+                case 'delete':
+                    try {
+                        await model.deleteOne({ _id: value.id });
+                        wsJsonBroadCast('delete', 200, {
+                            route: route.name,
+                            action: actions._DELETE_ITEM,
+                            data: { id: value.id }
+                        });
+                    } catch (e) {
+                        wsJsonBroadCast('delete', 422, null, e.message);
+                    }
+                    break;
             }
         });
     });

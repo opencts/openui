@@ -4,13 +4,13 @@ export const MONGO_URI = 'mongodb://localhost/test_db';
 
 export default {
     users: {
-        email: Email,
-        password: Password,
         name: {
             required: true,
             type: Text,
             minLength: 4
-        }
+        },
+        email: Email,
+        password: Password
     },
     posts: {
         author: {

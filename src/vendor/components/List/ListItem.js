@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Flex from '../Containers/Flex';
 import Icon from '../Fonts/Icon';
 import Avatar from '../Tips/Avatar'
@@ -16,7 +16,8 @@ function ListItem({
     actions = [], //  [ {icon: 'pencil', color: '', action: () => {...}} ]
     align = 'flex-start', // flex-start - center - flex-end
     actionsAlign = 'flex-end', // flex-start - center - flex-end
-    children
+    children,
+    ...props
 }) {
 
     const [avatarOptions, setAvatarOptions] = useState({});
@@ -46,10 +47,13 @@ function ListItem({
         </Flex>
     }
 
+    const className = useMemo(() => props.className, []);
+    delete props.className;
+
     if (loading) return null;
 
     return (
-        <div className="p-1">
+        <div className={'p-1 ' + className} {...props}>
             <Flex ai={align} gap={20} jc="space-between">
                 {avatar && <Avatar {...avatarOptions} />}
                 <div style={{ width: '100%' }}>

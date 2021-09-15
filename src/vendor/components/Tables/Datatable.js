@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useState } from 'react'
+import { useClientDB } from '../../services/ClientDBProvider'
 import { useDialog } from '../../services/DialogProvider'
-import { useStore } from '../../services/Store'
-import { capitalize, deepCopie, generateUniqueKey } from '../../services/utils'
+import { deepCopie } from '../../services/utils'
 import _THEME_COLORS from '../../services/_colors'
 import Element from '../Containers/Element'
 import Flex from '../Containers/Flex'
@@ -11,14 +11,12 @@ import Modal from '../Dialogs/Modal'
 import Font from '../Fonts/Font'
 import Icon from '../Fonts/Icon'
 import Button from '../Forms/Button'
-import Checkbox from '../Forms/Checkbox'
 import Form from '../Forms/Form'
 import Search from '../Forms/Search'
-import List from '../List/List'
-import ListGroup from '../List/ListGroup'
-import ListItem from '../List/ListItem'
 import BarsLoader from '../Progress/BarsLoader'
-import Dropdown from '../Tips/Dropdown'
+import ColumnsPicker from './ColumnsPicker'
+import Filter from './Filter'
+import ImportExportMenu from './ImportExportMenu'
 import Paginator from './Paginator'
 import Table from './Table'
 
@@ -29,16 +27,19 @@ function Datatable({
     pageSizes = [5, 10, 25, 100, 500],
     defaultSize = 5,
     circled = false,
-    hiddens = ['id', '_id'],
+    hiddens = ['id', '_id', '__v'],
     of = "of",
     simplified = false,
     rowsPerPageLabel = 'Rows/page',
     collection = '',
     deleteText = 'Are you sure you want to continue ?',
     formLabels = null,
-    errorMsgs = null, 
-    refs = null
+    errorMsgs = null,
+    refs = null,
+    checkable = true
 }) {
+
+    const collectionItem = useMemo(() => collection.slice(0, collection.length - 1), [collection]);
 
     const [values, setValues] = useState([]);
     const [valuesCopie, setValuesCopie] = useState([]);
@@ -49,36 +50,33 @@ function Datatable({
     const [vFilter, setVFilter] = useState([]);
     const [actions, setActions] = useState({});
     const [openAddDialog, setOpenAddDialog] = useState(false);
-    const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
-    const [updateValues, setUpdateValues] = useState(null);
-    const [loadingData, setLoadingData] = useState(true);
+    const [updateValues, setUpdateValues] = useState({});
+    const [buttonText, setButtonText] = useState('Create ' + collectionItem);
+    const [titleText, setTitleText] = useState('Add new ' + collectionItem);
+    const [itemSelected, setItemSelected] = useState([]);
 
-    const { wsSave, all, getSchema, storeChanged, wsDelete } = useStore();
+    const { db, getSchema, save, load, dataIsLoading, remove, wsActionStatus } = useClientDB();
 
-    const [collectionSchema, setCollectionSchema] = useState({});
-    const [collectionData, setCollectionData] = useState({});
+    const [loadingCollectionSchema, collectionSchema] = getSchema(collection);
     const { confirm } = useDialog();
 
-    useEffect(() => {
-        setCollectionSchema(getSchema(collection));
-    }, [getSchema, collection]);
+    const filterList = useMemo(() => (collection in db && db[collection].length > 0) ?
+        Object.keys(db[collection][0]).filter(it => !hiddens.includes(it)) : [], [collection, db]);
 
-    const loadData = async () => {
-        const data = await all(collection);
-        console.log(data);
-        setValues(data);
-        setValuesCopie(data);
-        if (data.length > 0) {
-            setVFilter(Object.keys(data[0]));
+    useEffect(() => {
+        load(collection);
+    }, []);
+
+    useEffect(() => {
+        if (!(loadingCollectionSchema || dataIsLoading)) {
+            const data = deepCopie(db[collection]);
+            setValues(data);
+            setValuesCopie(data);
+            if (data.length > 0) {
+                setVFilter(Object.keys(data[0]));
+            }
         }
-        setLoadingData(false);
-    };
-
-    useEffect(() => {
-        console.log(storeChanged)
-        loadData();
-        return _ => { };
-    }, [storeChanged]);
+    }, [loadingCollectionSchema, dataIsLoading, db]);
 
     useEffect(() => {
         const start = size * (curPage - 1);
@@ -106,166 +104,98 @@ function Datatable({
         }
     }
 
-    function toggleColumnVisibility(it) {
-        const index = vHiddens.findIndex(el => el === it);
-        if (index !== -1) {
-            vHiddens.splice(index, 1);
-        } else {
-            vHiddens.push(it);
-        }
-        setVHiddens([...vHiddens]);
+    function reset() {
+        setButtonText('Create ' + collectionItem);
+        setTitleText('Add new ' + collectionItem);
     }
 
-    function toggleColumnFilter(it) {
-        const index = vFilter.findIndex(el => el === it);
-        if (index !== -1) {
-            vFilter.splice(index, 1);
-        } else {
-            vFilter.push(it);
-        }
-        setVFilter([...vFilter]);
+    const handleSubmit = data => {
+        save(collection, data);
+        reset();
     }
 
-    function toggleActionVisibility() {
-        if (Object.keys(actions).length === 0) {
-            setActions({ actions: null });
-        } else {
-            setActions({});
-        }
+    const handleReset = () => {
+        reset();
     }
 
-    function renderImportExportMenu(position) {
-        return <Dropdown width={200} position={position} component={<Button color={color} outlined icon="sort">Import / Export</Button>}>
-            <List>
-                <ListGroup title="Import">
-                    <ListItem>
-                        <Flex ai="center" gap={15}>
-                            <Icon name="file" />
-                            <Font>Csv</Font>
-                        </Flex>
-                    </ListItem>
-                    <ListItem>
-                        <Flex ai="center" gap={15}>
-                            <Icon name="fileExcel" color="success" />
-                            <Font>Excel</Font>
-                        </Flex>
-                    </ListItem>
-                </ListGroup>
-                <ListGroup title="Export">
-                    <ListItem>
-                        <Flex ai="center" gap={15}>
-                            <Icon name="filePdf" color="danger" />
-                            <Font>Pdf</Font>
-                        </Flex>
-                    </ListItem>
-                    <ListItem>
-                        <Flex ai="center" gap={15}>
-                            <Icon name="fileExcel" color="success" />
-                            <Font>Excel</Font>
-                        </Flex>
-                    </ListItem>
-                    <ListItem>
-                        <Flex ai="center" gap={15}>
-                            <Icon name="file" />
-                            <Font>Csv</Font>
-                        </Flex>
-                    </ListItem>
-                </ListGroup>
-            </List>
-        </Dropdown>;
+    const handleSelectionChange = values => {
+        setItemSelected(values);
     }
+
+    const handleDeleteSelected = () => {
+        confirm('Are you sure you want to delete those items?', {
+            onConfirm: () => {
+                for (const el of itemSelected) {
+                    remove(collection, el.id);
+                }
+            }
+        });
+    }
+
+    if (loadingCollectionSchema || dataIsLoading || !db || !(collection in db)) return <Element elevation="3" className="bg-light" padding="20px">
+        <Flex jc="center" ai="center" direction="column" gap={20}>
+            <BarsLoader /> <br />
+            <Font weight="bold">Loading data!</Font>
+        </Flex>
+    </Element>
 
     return (
         <div>
             <Element padding="2" elevation="2" bTop={'solid 3px ' + _THEME_COLORS['$' + color]} radius="5px">
                 <Flex ai="center" jc="space-between" wrap gap={20}>
                     <Flex gap={10}>
-                        <Dropdown width="200" component={<Button color={color} outlined icon="filter">Filter</Button>}>
-                            <List>
-                                {vFilter?.length > 0 && vFilter
-                                    .map(it => <ListItem key={generateUniqueKey('col-pick-' + it)}>
-                                        <Flex gap={15} ai="center">
-                                            <Checkbox
-                                                onChange={_ => toggleColumnFilter(it)}
-                                                color={color}
-                                                checked={vFilter.includes(it)} />
-                                            <Font>{capitalize(it)}</Font>
-                                        </Flex>
-                                    </ListItem>)}
-                            </List>
-                        </Dropdown>
-                        <Dropdown width="200" component={<Button color={color} outlined icon="crosshairs">Columns picker</Button>}>
-                            <List>
-                                {vFilter?.length > 0 && <div>
-                                    {vFilter
-                                        .map(it => <ListItem key={generateUniqueKey('col-pick-' + it)}>
-                                            <Flex gap={15} ai="center">
-                                                <Checkbox
-                                                    onChange={_ => toggleColumnVisibility(it)}
-                                                    color={color}
-                                                    checked={!vHiddens.includes(it)} />
-                                                <Font>{capitalize(it)}</Font>
-                                            </Flex>
-                                        </ListItem>)}
-                                    <ListItem>
-                                        <Flex gap={15} ai="center">
-                                            <Checkbox
-                                                onChange={_ => toggleActionVisibility()}
-                                                color={color}
-                                                checked={Object.keys(actions).length === 0} />
-                                            <Font>Actions</Font>
-                                        </Flex>
-                                    </ListItem>
-                                </div>}
-                            </List>
-                        </Dropdown>
+                        {collection in db && db[collection].length > 0 && <Filter values={filterList} vFilter={vFilter} setVFilter={setVFilter} color={color} />}
+                        {collection in db && db[collection].length > 0 && <ColumnsPicker
+                            vFilter={vFilter}
+                            vHiddens={vHiddens}
+                            setVHiddens={setVHiddens}
+                            actions={actions}
+                            setActions={setActions}
+                            color={color} />}
                         <Hidden up="600px">
-                            {renderImportExportMenu('bottom')}
+                            <ImportExportMenu save={(value) => save(collection, value)} status={wsActionStatus} color={color} />
                         </Hidden>
                         <Hidden down="600px">
-                            {renderImportExportMenu('left')}
+                            <ImportExportMenu save={(value) => save(collection, value)} status={wsActionStatus} color={color} position="left" />
                         </Hidden>
+                        {itemSelected.length > 0 && <Button color="danger" icon="trash" onClick={handleDeleteSelected}>Delete selected</Button>}
                     </Flex>
                     <Button color={color} icon="plus" onClick={_ => {
                         setOpenAddDialog(true);
                     }}>Add new item</Button>
                 </Flex>
                 <div className="mt-3 mb-3">
-                    <Search color={color} bgcolor="white" onSearch={v => search(v)} />
+                    {collection in db && db[collection].length > 0 && <Search color={color} bgcolor="white" onSearch={v => search(v)} />}
                 </div>
                 {searching && <Font color={color} weight="bold">{values.length} items founded!</Font>}
                 {values.length === 0 ?
-                    <div>
-                        {loadingData ? <Element elevation="3" className="bg-light" padding="20px">
-                            <Flex jc="center" ai="center" direction="column" gap={20}>
-                                <BarsLoader /> <br />
-                                <Font weight="bold">Loading data!</Font>
-                            </Flex>
-                        </Element> : <Element elevation="3" className="bg-danger">
-                            <div className="m-3 p-2 text-center">
-                                <Font weight="bold">No data founded!</Font>
-                            </div>
-                        </Element>
-                        }
-                    </div>
+                    <Element elevation="3" className="bg-danger">
+                        <div className="m-3 p-2 text-center">
+                            <Font weight="bold">No data founded!</Font>
+                        </div>
+                    </Element>
                     : <div>
                         <Table
+                            checkable={checkable}
                             data={values}
                             setData={setValues}
                             hiddens={vHiddens}
+                            onSelectionChange={handleSelectionChange}
                             actions={[
                                 { icon: 'eye', label: 'Item details', color: 'success', action: row => alert('Displaying row' + JSON.stringify(row)) },
                                 {
                                     icon: 'edit', label: 'Edit item', color: 'primary', action: row => {
-                                        setOpenUpdateDialog(true);
                                         setUpdateValues(row);
+                                        setButtonText('Update ' + collectionItem);
+                                        setTitleText('Update new ' + collectionItem);
+                                        setOpenAddDialog(true);
                                     }
                                 },
                                 {
                                     icon: 'trash', label: 'Delete item', color: 'danger', action: row => {
                                         confirm(deleteText, {
                                             onConfirm: () => {
-                                                wsDelete(collection, row.id);
+                                                remove(collection, row.id);
                                             }
                                         });
                                     }
@@ -273,6 +203,7 @@ function Datatable({
                             ]}
                             color={color}
                             {...actions} />
+
                         {!searching && <Paginator
                             color="light"
                             hoverColor={color}
@@ -290,16 +221,11 @@ function Datatable({
                             }} />}
                     </div>}
             </Element >
+
             {openAddDialog && <Modal
                 color={color}
-                title="Add new item"
-                onClose={_ => setOpenAddDialog(false)}
-                actions={<Button
-                    onClick={_ => {
-                        wsSave(collection, collectionData);
-                        loadData();
-                        setOpenAddDialog(false);
-                    }}>Add item</Button>}>
+                title={titleText}
+                onClose={_ => setOpenAddDialog(false)}>
                 <div className="pt-0 pl-3 pr-3">
                     <Form
                         refs={refs}
@@ -307,30 +233,13 @@ function Datatable({
                         bgcolor="light"
                         errorMsgs={errorMsgs}
                         labels={formLabels}
-                        onChange={v => setCollectionData(v)}
-                        className="grid grid-cols-min-200 grid-gap-5" />
-                </div>
-            </Modal>}
-            {openUpdateDialog && <Modal
-                color={color}
-                title="Update item"
-                onClose={_ => setOpenUpdateDialog(false)}
-                actions={<Button
-                    onClick={_ => {
-                        wsSave(collection, collectionData, collectionData.id);
-                        loadData();
-                        setOpenUpdateDialog(false);
-                    }}>Update item</Button>}>
-                <div className="pt-0 pl-3 pr-3">
-                    <Form
-                        refs={refs}
-                        schema={collectionSchema}
-                        bgcolor="light"
-                        values={updateValues}
-                        labels={formLabels}
-                        errorMsgs={errorMsgs}
-                        onChange={v => setCollectionData(v)}
-                        className="grid grid-cols-min-200 grid-gap-5" />
+                        values={deepCopie(updateValues)}
+                        buttonText={buttonText}
+                        onSubmit={event => {
+                            handleSubmit(event);
+                            setOpenAddDialog(false);
+                        }}
+                        onReset={handleReset} />
                 </div>
             </Modal>}
         </div >
