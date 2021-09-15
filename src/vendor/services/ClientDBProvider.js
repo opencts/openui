@@ -1,14 +1,15 @@
 import React, { createContext, useCallback, useContext, useEffect, useReducer, useState } from 'react'
-import { _SERVER_URL, _WS_SERVER_URL } from '../../config/environment';
+import { _SERVER_URL, _STORAGE_PREFIX, _WS_SERVER_URL } from '../../config/environment';
 import DotsLoader from '../components/Progress/DotsLoader';
 import useFetch from '../hooks/useFetch';
-import { clientDBInitValue, clientDBReducer, _CLIENT_DB_ACTIONS } from '../reducers/clientdb.reducer';
+import { clientDBReducer, _CLIENT_DB_ACTIONS } from '../reducers/clientdb.reducer';
 import { http } from './http.service';
 import WSProvider, { useWebSocket } from './WSProvider';
 
 const ClientDBContext = createContext();
+let clientDBInitValue = {};
 
-export const useClientDB = () => useContext(ClientDBContext);
+export const useClientDB = _ => useContext(ClientDBContext);
 
 function ClientDBProviderWS({ children }) {
 
@@ -16,7 +17,7 @@ function ClientDBProviderWS({ children }) {
     const [loadingSchema, schema] = useFetch('get', _SERVER_URL + 'schema');
     const [dataIsLoading, triggerDataLoading] = useState(false);
     const [collectionLoadingInfo, setCollectionInLoading] = useState(null);
-    const { send, defineWS } = useWebSocket();
+    const { send, defineWS, status } = useWebSocket();
 
     useEffect(() => {
         if (!loadingSchema) {
@@ -80,10 +81,12 @@ function ClientDBProviderWS({ children }) {
         return send(collection, { id }, 'delete');
     };
 
-    const load = (collection) => {
-        triggerDataLoading(true);
-        setCollectionInLoading(collection);
-    };
+    const load = useCallback((collection) => {
+        if (!(collection in db)) {
+            triggerDataLoading(true);
+            setCollectionInLoading(collection);
+        }
+    }, [db]);
 
     if (loadingSchema) return <DotsLoader />
 
@@ -94,7 +97,8 @@ function ClientDBProviderWS({ children }) {
             getSchema,
             load,
             remove,
-            dataIsLoading
+            dataIsLoading,
+            wsActionStatus: status
         }}>
             {children}
         </ClientDBContext.Provider>

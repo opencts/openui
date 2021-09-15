@@ -20,8 +20,8 @@ function Table({
     onSelectionChange = () => { }
 }) {
 
-    const [selected, setSelected] = useState([]);
-    
+    const [selected, setSelected] = useState(new Array(data.length).fill(false));
+
     const [sorter, setSorter] = useState({
         direction: -1,
         index: -1
@@ -49,8 +49,9 @@ function Table({
                     <tr className={'bg-' + color}>
                         {checkable && <th className={'bg-' + color}>
                             <Checkbox color="light" onChange={v => {
-                                setSelected(data.map(_ => v));
-                                onSelectionChange([...data]);
+                                const selection = data.map(_ => v);
+                                setSelected(selection);
+                                onSelectionChange(data.filter((it, index) => selection[index]));
                             }} />
                         </th>}
                         {headers
@@ -81,7 +82,7 @@ function Table({
                                 <Checkbox color={color} checked={selected[index]} onChange={v => {
                                     const p = [...selected];
                                     p[index] = v;
-                                    const result = data.filter((item, index) => selected[index]);
+                                    const result = data.filter((item, index) => p[index]);
                                     setSelected(p);
                                     onSelectionChange(result);
                                 }} />

@@ -17,7 +17,7 @@ const Modal = ({
                     <Icon name="timesCircle" color="light" />
                 </div>
                 <div className="modal-container-block">
-                    <h3 className={'text-' + color}>{title}</h3>
+                    {title && <h3 className={'text-' + color}>{title}</h3>}
                     <div className="modal-content">
                         {children}
                     </div>

@@ -11,16 +11,16 @@ function WSProvider({ children }) {
     const [sockets, setSockets] = useState({});
     const [socketsCallbacks, setSocketsCallbacks] = useState({});
     const [emitter, setEmitter] = useState(-1);
-    const [successValue, setSuccessValue] = useState(null);
-    const [errorValue, setErrorValue] = useState(null);
+    const [status, setStatus] = useState('off');
 
     const handleSocketsMessages = useCallback((sockets, socketsCallbacks) => {
         for (const key in sockets) {
             sockets[key].onmessage = msg => {
                 const response = JSON.parse(msg.data);
                 if (response.status !== 200) {
-                    setErrorValue(response.message);
+                    setStatus('failed');
                 } else {
+                    setStatus('success');
                     const result = response.data;
                     const ans = result.data;
                     const id = ans._id ? ans._id: ans.id;
@@ -32,7 +32,6 @@ function WSProvider({ children }) {
                                 socketsCallbacks[key][action](ans);
                             }
                         }
-                        setSuccessValue(ans);
                     }
                 }
                 setEmitter(1);
@@ -63,7 +62,7 @@ function WSProvider({ children }) {
     }
 
     function send(collection, value, type) {
-        console.log(type);
+        setStatus('pending');
         setEmitter(emitter => emitter + 1);
         if (collection in sockets) {
             if (sockets[collection].readyState !== WebSocket.OPEN) {
@@ -83,30 +82,14 @@ function WSProvider({ children }) {
         } else {
             defineWS(collection, _WS_SERVER_URL + collection, { data: value });
         }
-        return new Promise((resolve, reject) => {
-            const interval = setInterval(() => {
-                console.log(emitter)
-                if (emitter === 1) {
-                    if (successValue) {
-                        resolve(successValue);
-                    } else {
-                        reject(errorValue);
-                    };
-                    setEmitter(-1);
-                    clearInterval(interval);
-                }
-                if (emitter === -1) {
-                    clearInterval(interval);
-                }
-            }, 500);
-        });
     }
 
     return (
         <WSContext.Provider value={{
             sockets,
             defineWS,
-            send
+            send,
+            status
         }}>
             {children}
         </WSContext.Provider>

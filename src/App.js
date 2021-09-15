@@ -4,8 +4,9 @@ import Container from './vendor/components/Containers/Container';
 import Flex from './vendor/components/Containers/Flex';
 import Button from './vendor/components/Forms/Button';
 import Form from './vendor/components/Forms/Form';
+import Select from './vendor/components/Forms/Select';
 import DotsLoader from './vendor/components/Progress/DotsLoader';
-import useCookie from './vendor/hooks/useCookie';
+import Datatable from './vendor/components/Tables/Datatable';
 import { useClientDB } from './vendor/services/ClientDBProvider';
 import { useDialog } from './vendor/services/DialogProvider';
 
@@ -16,8 +17,6 @@ function App() {
   const [user, setUser] = useState({});
   const [btnText, setBtnText] = useState('Create User');
   const { confirm } = useDialog();
-
-  const { cookieValue, putCookieValue, clearCookie } = useCookie('test', 'Sam7');
 
   const handleClick = user => {
     save('users', user);
@@ -33,15 +32,14 @@ function App() {
   return (
     <Container>
       <div>
-        <h3>Add a user {cookieValue}</h3> 
+        <h3>Add a user</h3>
         <hr />
-        <Button onClick={() => putCookieValue('Sam' + Math.round(Math.random() * 10))}>Change cookie value</Button>
-        <Button color='danger' onClick={() => clearCookie()}>Clear cookie</Button>
+        
         <Form
           values={user}
           schema={userSchema}
           buttonText={btnText}
-          showReset={false}
+          showReset={true}
           onSubmit={handleClick} />
       </div>
       <div className="table">
@@ -78,6 +76,14 @@ function App() {
           </tbody>
         </table>
       </div>
+      {/* <div>
+        <Select label="Test" data={[
+          { id: 1, name: 'John' },
+          { id: 2, name: 'Jane' },
+          { id: 3, name: 'Sam' }
+        ]} valueId="id" valueLabel="name" />
+      </div> */}
+      <Datatable collection="users" />
     </Container>
   );
 }

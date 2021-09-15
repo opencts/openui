@@ -6,7 +6,7 @@ function useLocalStorage(key, value = null) {
     const [lvalue, setLvalue] = useState(() => {
         if (!key) {
             console.error('Key is required');
-            throw new Error('Key is required')
+            throw new Error('Key is required');
         } else {
             if (value) {
                 localStorage.setItem(_STORAGE_PREFIX + key, JSON.stringify(value));

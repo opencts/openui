@@ -12,6 +12,7 @@ function Form({
     errorMsgs,
     values = {},
     onSubmit = () => { },
+    onReset = () => { },
     buttonText = 'Create',
     resetText = 'Reset',
     showReset = true,
@@ -22,18 +23,16 @@ function Form({
     const [value, setValue] = useState(values);
 
     useEffect(() => {
-        setValue(values);
+        if (Object.keys(values).length === 0) {
+            const newValue = {};
+            for (const el in schema) {
+                newValue[el] = ''
+            };
+            setValue(() => ({ ...newValue }));
+        } else {
+            setValue(() => values);
+        }
     }, [values]);
-
-    useEffect(() => {
-        const newValue = {};
-        for (const el in schema) {
-            newValue[el] = ''
-        };
-        setValue({ ...newValue });
-
-        // eslint-disable-next-line
-    }, []);
 
     const handleChange = useCallback((v, name) => {
         setValue({ ...value, [name]: v });
@@ -63,11 +62,12 @@ function Form({
             newValue[el] = ''
         };
         setValue({ ...newValue });
+        onReset();
     };
 
     return (
-        <div className="mb-2">
-            <form {...props}>
+        <div className="mb-2 mt-2">
+            <form className="responsive-grid" {...props}>
                 {Object.keys(schema).map(key => <FormField
                     key={key}
                     bgcolor={bgcolor}

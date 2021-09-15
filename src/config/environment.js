@@ -1,7 +1,8 @@
+const _server_url = '192.168.0.153:3790';
 export const config = {
     mode: 'dev',
-    _dev_url : 'http://localhost:3790/api/',
-    _dev_socket_url : 'ws://localhost:3790/api/',
+    _dev_url : `http://${_server_url}/api/`,
+    _dev_socket_url : `ws://${_server_url}/api/`,
     _prod_url: '',
     _prod_socket_url: '',
 }

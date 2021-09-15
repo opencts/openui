@@ -7,6 +7,7 @@ import createSchemaRouter from './generators/schema/schema.router';
 import expressWs from 'express-ws';
 import { MONGO_URI } from './db';
 import { startMongoServer } from './generators/utils/utils';
+import createEmailRouter from './generators/email/email.router';
 
 const app = express();
 const wsInfo = expressWs(app).getWss();
@@ -16,9 +17,10 @@ app.use(express.json());
 function startServer() {
 	createCrudRouter(app, wsInfo);
 	createSchemaRouter(app);
+	createEmailRouter(app);
 
 	const PORT = process.env.PORT || 3790;
-	app.listen(PORT, _ => log.success('Server is started'));
+	app.listen(PORT, '0.0.0.0', _ => log.success('Server is started'));
 }
 
 async function main() {

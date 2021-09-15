@@ -1,7 +1,5 @@
 import { deepCopie } from "../services/utils";
 
-export const clientDBInitValue = {};
-
 export const _CLIENT_DB_ACTIONS = {
     _SET_SCHEMA: 'set-schema',
     _SET_COLLECTION_DATA: 'set-collection-data',
@@ -16,9 +14,9 @@ export function clientDBReducer(state, action) {
             return { ...state, [action.collection]: action.payload };
         case _CLIENT_DB_ACTIONS._SET_SCHEMA:
             const newState = { schema: { ...action.payload } };
-            for (const attr in action.payload) {
-                newState[attr] = [];
-            }
+            // for (const attr in action.payload) {
+            //     newState[attr] = null;
+            // }
             return newState;
 
         case _CLIENT_DB_ACTIONS._ADD_ITEM:

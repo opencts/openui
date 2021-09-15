@@ -17,7 +17,7 @@ export function generateFakeData(m) {
     const data = [];
     for (let i = 0; i < m; i++) {
         const obj = {
-            id: (i+1),
+            id: (i + 1),
             name: generateFakeWord(Math.ceil(Math.random() * 10 + 5)),
             age: Math.trunc(Math.random() * 100),
             date: reformatDate(Math.ceil(Math.random() * 28) + '/' + Math.ceil(Math.random() * 12) + '/' + Math.ceil(Math.random() * 21 + 2000)),
@@ -52,4 +52,18 @@ export function reformatData(data) {
 
 export function generateUniqueKey(item) {
     return item + '.' + Date.now().toString(16);
+}
+
+export function csvMapToJson(arr) {
+    arr.pop();
+    const values = [];
+    const headers = arr.shift();
+    for (const el of arr) {
+        const newValue = {};
+        for (let i = 0; i < el.length; i++) {
+            newValue[headers[i]] = el[i];
+        }
+        values.push(newValue);
+    }
+    return values;
 }
