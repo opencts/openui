@@ -14,9 +14,6 @@ export function clientDBReducer(state, action) {
             return { ...state, [action.collection]: action.payload };
         case _CLIENT_DB_ACTIONS._SET_SCHEMA:
             const newState = { schema: { ...action.payload } };
-            // for (const attr in action.payload) {
-            //     newState[attr] = null;
-            // }
             return newState;
 
         case _CLIENT_DB_ACTIONS._ADD_ITEM:

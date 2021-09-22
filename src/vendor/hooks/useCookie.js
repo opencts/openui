@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { _STORAGE_PREFIX } from '../../config/environment';
+import { _STORAGE_PREFIX } from '../config/environment';
 
 function useCookie(key, value = null) {
     const [cvalue, setValue] = useState(() => {
@@ -18,6 +18,7 @@ function useCookie(key, value = null) {
             }
         }
     });
+
 
     function getCookie(key) {
         const cookies = document.cookie.split(';');

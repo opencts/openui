@@ -71,6 +71,7 @@ function Paginator({
                         color={hoverColor}
                         valueId="id"
                         valueLabel="value"
+                        value={defaultSize}
                         onChange={v => {
                             setSize(v.value);
                             onChange({

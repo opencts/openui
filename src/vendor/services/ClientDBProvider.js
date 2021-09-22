@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useReducer, useState } from 'react'
-import { _SERVER_URL, _STORAGE_PREFIX, _WS_SERVER_URL } from '../../config/environment';
+import { _SERVER_URL, _STORAGE_PREFIX, _WS_SERVER_URL } from '../config/environment';
 import DotsLoader from '../components/Progress/DotsLoader';
 import useFetch from '../hooks/useFetch';
 import { clientDBReducer, _CLIENT_DB_ACTIONS } from '../reducers/clientdb.reducer';
@@ -64,15 +64,6 @@ function ClientDBProviderWS({ children }) {
         cb();
     }, [dataIsLoading, collectionLoadingInfo]);
 
-
-    const getSchema = useCallback(collection => {
-        if (!loadingSchema && collection in schema) {
-            return [loadingSchema, schema[collection]];
-        } else {
-            return [loadingSchema, null];
-        }
-    }, [loadingSchema, schema]);
-
     const save = (collection, value) => {
         return send(collection, value, 'id' in value ? 'put' : 'post');
     }
@@ -82,11 +73,17 @@ function ClientDBProviderWS({ children }) {
     };
 
     const load = useCallback((collection) => {
-        if (!(collection in db)) {
-            triggerDataLoading(true);
-            setCollectionInLoading(collection);
+        if (!dataIsLoading) {
+            if (!(collection in db)) {
+                triggerDataLoading(true);
+                setCollectionInLoading(collection);
+            }
         }
-    }, [db]);
+    }, [dataIsLoading]);
+
+    const getValue = (collection, id) => {
+        return db[collection].find(it => it.id === id);
+    };
 
     if (loadingSchema) return <DotsLoader />
 
@@ -94,11 +91,12 @@ function ClientDBProviderWS({ children }) {
         <ClientDBContext.Provider value={{
             db,
             save,
-            getSchema,
             load,
             remove,
             dataIsLoading,
-            wsActionStatus: status
+            wsActionStatus: status,
+            isLoadingSchema: loadingSchema,
+            getValue
         }}>
             {children}
         </ClientDBContext.Provider>

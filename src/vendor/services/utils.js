@@ -39,6 +39,13 @@ export function reformatDate(date) {
     return td + '/' + tm + '/' + y;
 }
 
+export function reformatDateForInput(date) {
+    const [d, m, y] = date.split(/[/-]/);
+    const td = Number(d) < 10 ? ('0' + d) : d;
+    const tm = Number(m) < 10 ? ('0' + m) : m;
+    return y + '-' + tm + '-' + td;
+}
+
 export function reformatData(data) {
     return data.map(it => {
         for (const attr in it) {
@@ -66,4 +73,18 @@ export function csvMapToJson(arr) {
         values.push(newValue);
     }
     return values;
+}
+
+export function objectToMap(arrOfObj) {
+    if (arrOfObj.length === 0) return [];
+    const keys = Object.keys(arrOfObj[0]).filter(it => it !== '__v');
+    const arrOfArr = [keys];
+    for (const el of arrOfObj) {
+        const newArray = [];
+        for (const it of keys) {
+            newArray.push(el[it]);
+        }
+        arrOfArr.push(newArray);
+    }
+    return arrOfArr;
 }

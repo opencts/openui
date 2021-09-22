@@ -23,15 +23,73 @@ $break-md: 1000px;
     src: url(../fonts/TenorSans-Regular.ttf);
 }
 
+@font-face {
+    font-family: "Montserrat";
+    src: url(../fonts/montserrat/Montserrat-Regular.ttf);
+}
+
+@font-face {
+    font-family: "NotoSans";
+    src: url(../fonts/noto-sans/NotoSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: "NotoSerif";
+    src: url(../fonts/noto-serif/NotoSerif-Regular.ttf);
+}
+
+@font-face {
+    font-family: "OpenSans";
+    src: url(../fonts/open-sans/OpenSans-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url(../fonts/roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Ubuntu";
+    src: url(../fonts/ubuntu/Ubuntu-Regular.ttf);
+}
+
+
 // Default all element's definition
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Tenor";
     letter-spacing: 1px;
     line-height: $line-height;
     font-size: $regular-size;
+
+    .montserrat {
+        font-family: 'Montserrat';
+    }
+    
+    .noto-sans {
+        font-family: 'NotoSans' !important;
+    }
+    
+    .noto-serif {
+        font-family: 'NotoSerif' !important;
+    }
+    
+    .open-sans {
+        font-family: 'OpenSans' !important;
+    }
+    
+    .roboto {
+        font-family: 'Roboto' !important;
+    }
+    
+    .ubuntu {
+        font-family: 'Ubuntu' !important;
+    }
+
+    .tenor {
+        font-family: 'Tenor' !important;
+    }
 
     @media (max-width: $break-sm) {
         line-height: $line-height-mobile;
@@ -301,4 +359,77 @@ $shadow: 0 0 5px 0 $gray;
 // Cursor pointer
 .pointer {
     cursor: pointer;
+}
+
+// No activity
+.no-activity-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $dark;
+
+    img {
+        width: 30vw;
+        height: 30vh;
+    }
+
+    .no-activity-floating {
+        position: fixed;
+        animation: floating 5s ease-in-out infinite;
+    }
+
+    .no-activity-loader {
+        animation: appear-desappear 5s ease-in-out infinite;
+    }
+}
+
+@keyframes floating {
+    0% {
+        top: -35vh;
+        left: calc(50% - 15vw);
+        transform: scale(0) rotate(0deg);
+    }
+
+    45% {
+        top: calc(50% - 15vh);
+        left: calc(50% - 15vw);
+        transform: scale(1.8) rotate(360deg);
+    }
+
+    50% {
+        top: calc(50% - 15vh);
+        left: calc(50% - 15vw);
+        transform: scale(1) rotate(360deg);
+    }
+
+    55% {
+        top: calc(50% - 15vh);
+        left: calc(50% - 15vw);
+        transform: scale(1.8) rotate(360deg);
+    }
+
+    100% {
+        top: calc(100%);
+        left: calc(50% - 15vw);
+        transform: scale(0) rotate(0deg);
+    }
+}
+
+@keyframes appear-desappear {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

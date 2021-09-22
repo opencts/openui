@@ -22,7 +22,7 @@ const mailTransport = async () => {
         service: 'gmail',
         auth: {
             type: 'OAUTH2',
-            user: 'contact.opencts@gmail.com',
+            user: emailConfig.email,
             accessToken,
             clientId: emailConfig.clientId,
             clientSecret: emailConfig.clientSecret,
@@ -35,7 +35,7 @@ const mailTransport = async () => {
 const sendMail = async (subject, to, content) => {
     const transporter = await mailTransport();
     transporter.sendMail({
-        from: 'OpenCTS <contact.opencts@gmail.com',
+        from: `${emailConfig.name} <${emailConfig.email}>`,
         to,
         subject,
         html: content

@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { _WS_SERVER_URL } from '../../config/environment';
+import { _WS_SERVER_URL } from '../config/environment';
 import { _CLIENT_DB_ACTIONS } from '../reducers/clientdb.reducer';
 
 const WSContext = createContext('');
