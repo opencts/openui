@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { _STORAGE_PREFIX } from '../../config/environment';
+import { _STORAGE_PREFIX } from '../config/environment';
 
 function useLocalStorage(key, value = null) {
 

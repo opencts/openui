@@ -1,5 +1,5 @@
 import crudCtrl from "./crud.ctrl";
-import db from "../db";
+import db from "../../db";
 
 const dbValues = Object.entries(db);
 

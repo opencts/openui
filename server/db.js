@@ -4,13 +4,22 @@ export const MONGO_URI = 'mongodb://localhost/test_db';
 
 export default {
     users: {
-        name: {
-            required: true,
-            type: Text,
-            minLength: 4
-        },
+        name: Text,
         email: Email,
-        password: Password
+        password: Password,
+        avatar: File,
+        createdAt: {
+            type: Number,
+            default: Date.now()
+        },
+        lastUpdatedAt: {
+            type: Number,
+            default: Date.now()
+        },
+        enabled: {
+            type: Boolean,
+            default: true
+        }
     },
     posts: {
         author: {
@@ -19,6 +28,18 @@ export default {
         },
         message: Text,
         at: Date,
-        likes: Number
+        likes: Number,
+        createdAt: {
+            type: Number,
+            default: Date.now()
+        },
+        lastUpdatedAt: {
+            type: Number,
+            default: Date.now()
+        },
+        enabled: {
+            type: Boolean,
+            default: true
+        }
     }
 };

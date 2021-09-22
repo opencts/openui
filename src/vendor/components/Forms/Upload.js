@@ -18,6 +18,7 @@ function Upload({
     const [files, setFiles] = useState([]);
     const [curOpened, setCurOpened] = useState(null);
     const [opened, setOpened] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const fileRef = useRef(null);
 
     function handleDrop(ev) {
@@ -41,9 +42,7 @@ function Upload({
     }
 
     function removeFile(index) {
-        console.log(index)
         files.splice(index, 1);
-        console.log(files);
         setFiles([...files]);
     }
 
@@ -82,6 +81,7 @@ function Upload({
     }
 
     async function doUpload() {
+        setUploading(true);
         if (!uploadFunction) {
             const promises = [];
             for (const el of files) {
@@ -93,8 +93,24 @@ function Upload({
                 promises.push(p);
             }
             onUploadEnd(multiple ? await Promise.all(promises) : (await Promise.all(promises))[0]);
+            setUploading(false);
         } else {
-            onUploadEnd(multiple ? await uploadFunction(files): (await uploadFunction(files))[0]);
+            try {
+                onUploadEnd(multiple ? await uploadFunction(files) : (await uploadFunction(files[0])));
+                setUploading(false);
+            } catch (e) {
+                const promises = [];
+                for (const el of files) {
+                    const p = new Promise(r => {
+                        const fr = new FileReader();
+                        fr.readAsDataURL(el);
+                        fr.onloadend = _ => r(fr.result);
+                    });
+                    promises.push(p);
+                }
+                onUploadEnd(multiple ? await Promise.all(promises) : (await Promise.all(promises))[0]);
+                setUploading(false);
+            }
         }
         setOpened(false);
     }
@@ -122,7 +138,8 @@ function Upload({
                     <Button type="button" expand color={color} onClick={_ => setCurOpened(null)}>Back</Button>
                 </div> : (
                     files.length > 0 ? <div className="mt-2">
-                        <Button type="button" color={color} expand onClick={doUpload}>{finishText}</Button>
+                        {JSON.stringify(uploading)}
+                        <Button type="button" loading={uploading} disabled={uploading} color={color} expand onClick={doUpload}>{finishText}</Button>
                     </div> : null
                 )}
                 onClose={_ => setOpened(false)}>

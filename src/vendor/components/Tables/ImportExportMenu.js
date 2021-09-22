@@ -9,9 +9,10 @@ import ListGroup from '../List/ListGroup'
 import ListItem from '../List/ListItem'
 import Dropdown from '../Tips/Dropdown'
 import Papa from 'papaparse';
-import { csvMapToJson, objectToMap } from '../../services/utils'
+import { csvMapToJson } from '../../services/utils'
 import DataUploadProgress from './DataUploadProgress'
 import XLSX from 'xlsx';
+import { XLSExport } from '../../services/_export'
 
 function ImportExportMenu({
     position = 'bottom',
@@ -59,21 +60,9 @@ function ImportExportMenu({
         }
     };
 
-    const exportDataToXLS = () => {
-        const aoa = objectToMap(data);
-        const worksheet = XLSX.utils.aoa_to_sheet(aoa);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, collection);
-        XLSX.writeFile(workbook, collection + '.xlsx');
-    };
+    const exportDataToXLS = () => XLSExport(data, 'xlsx', collection, collection);
 
-    const exportDataToCSV = () => {
-        const aoa = objectToMap(data);
-        const worksheet = XLSX.utils.aoa_to_sheet(aoa);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, collection);
-        XLSX.writeFile(workbook, collection + '.csv');
-    };
+    const exportDataToCSV = () => XLSExport(data, 'csv', collection, collection);
 
     return <div>
         <input ref={fileRef} onChange={handleCSVUpload} type="file" style={{ display: 'none' }} />

@@ -1,6 +1,6 @@
 import localforage from 'localforage';
 import React, { useEffect, useState } from 'react'
-import { _STORAGE_PREFIX } from '../../config/environment';
+import { _STORAGE_PREFIX } from '../config/environment';
 
 function usePersistance(key, value = null) {
 

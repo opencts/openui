@@ -1,13 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import createCrudRouter from './crud/crud.router';
 import log from './generators/console/log';
 import createSchemaRouter from './generators/schema/schema.router';
 import expressWs from 'express-ws';
 import { MONGO_URI } from './db';
 import { startMongoServer } from './generators/utils/utils';
 import createEmailRouter from './generators/email/email.router';
+import createCrudRouter from './generators/crud/crud.router';
 
 const app = express();
 const wsInfo = expressWs(app).getWss();

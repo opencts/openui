@@ -11,7 +11,7 @@ function DoubleCircularLoader({
     const customStyle = {
         width: Number(size) + 'px',
         height: Number(size) + 'px',
-        border: `solid ${Number(borderSize)}px ${_THEME_COLORS.$lightgray}`,
+        border: `solid ${Number(borderSize)}px ${_THEME_COLORS.$dark}`,
         borderTop: `solid ${Number(borderSize)}px ${_THEME_COLORS['$' + color]}`,
         borderBottom: `solid ${Number(borderSize)}px ${_THEME_COLORS['$' + color]}`,
         ...props.style

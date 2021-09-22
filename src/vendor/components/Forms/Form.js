@@ -16,6 +16,7 @@ function Form({
     buttonText = 'Create',
     resetText = 'Reset',
     showReset = true,
+    hiddens = ['createdAt', 'lastUpdatedAt', 'enabled'],
     refs,
     ...props
 }) {
@@ -68,7 +69,7 @@ function Form({
     return (
         <div className="mb-2 mt-2">
             <form className="responsive-grid" {...props}>
-                {Object.keys(schema).map(key => <FormField
+                {Object.keys(schema).filter(it => !hiddens.includes(it)).map(key => <FormField
                     key={key}
                     bgcolor={bgcolor}
                     name={key}
@@ -77,7 +78,7 @@ function Form({
                     value={schema[key]}
                     errorMsgs={errorMsgs}
                     defaultValue={value[key]}
-                    refLabel={refs ? refs[schema[key].ref] : null}
+                    refLabel={refs ? refs[key] : null}
                     {...getValidation(key)} />)}
             </form>
             <Flex gap={10}>

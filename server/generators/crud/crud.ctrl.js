@@ -1,6 +1,6 @@
 import express from 'express';
-import HttpResponse from '../generators/http/HttpResponse';
-import WSResponse from '../generators/ws/WSResponse';
+import HttpResponse from '../http/HttpResponse';
+import WSResponse from '../ws/WSResponse';
 import createModel from './crud.model';
 
 const actions = {
@@ -22,7 +22,7 @@ function crudCtrl(route, wsInfo) {
     router.get('/', async (req, res) => {
         const httpResponse = new HttpResponse(res, route.name);
         try {
-            const data = await model.find({ ...req.query });
+            const data = await model.find({ ...req.query, enabled: true });
             httpResponse.json(200, data);
         } catch (e) {
             httpResponse.json(500, null, 'Unable to read data');
@@ -33,7 +33,7 @@ function crudCtrl(route, wsInfo) {
         const httpResponse = new HttpResponse(res, route.name + '/' + req.params.id);
         try {
             const data = await model.findById(req.params.id)
-            if (!data) {
+            if (!data || (data && !data.enabled)) {
                 httpResponse.json(404, null, 'Resource not found.')
             } else {
                 httpResponse.json(200, data);
@@ -46,7 +46,12 @@ function crudCtrl(route, wsInfo) {
     router.post('/', async (req, res) => {
         const httpResponse = new HttpResponse(res, route.name);
         try {
-            const newData = new model({ ...req.body });
+            const newData = new model({
+                ...req.body,
+                createdAt: Date.now(),
+                lastUpdatedAt: Date.now(),
+                enabled: true
+            });
             await newData.save();
             httpResponse.json(201, newData, 'Item created!');
         } catch (e) {
@@ -58,7 +63,7 @@ function crudCtrl(route, wsInfo) {
         const httpResponse = new HttpResponse(res, route.name + '/' + req.params.id);
         delete req.body._id;
         try {
-            await model.updateOne({ _id: req.params.id }, { ...req.body });
+            await model.updateOne({ _id: req.params.id }, { ...req.body, lastUpdatedAt: Date.now() });
             const updated = model.findOne({ _id: req.params.id });
             httpResponse.json(201, updated, 'Item Updated!');
         } catch (e) {
@@ -67,6 +72,16 @@ function crudCtrl(route, wsInfo) {
     });
 
     router.delete('/:id', async (req, res) => {
+        const httpResponse = new HttpResponse(res, route.name + '/' + req.params.id);
+        try {
+            await model.updateOne({ _id: req.params.id }, { enabled: false, lastUpdatedAt: Date.now() });
+            httpResponse.json(200, { _id: req.params.id }, 'Item archived!');
+        } catch (e) {
+            httpResponse.json(422, null, e.message);
+        }
+    });
+
+    router.delete('/def/:id/', async (req, res) => {
         const httpResponse = new HttpResponse(res, route.name + '/' + req.params.id);
         try {
             await model.deleteOne({ _id: req.params.id });
@@ -83,11 +98,16 @@ function crudCtrl(route, wsInfo) {
         console.log('Connected')
         ws.on('message', async msg => {
             const { value, type } = JSON.parse(msg);
-            console.log(type);
+            console.log(value, type);
             switch (type) {
                 case 'post':
                     try {
-                        const newData = new model(value);
+                        const newData = new model({
+                            ...value,
+                            createdAt: Date.now(),
+                            lastUpdatedAt: Date.now(),
+                            enabled: true
+                        });
                         await newData.save();
                         console.log(newData);
                         wsJsonBroadCast('post', 200, {
@@ -103,7 +123,10 @@ function crudCtrl(route, wsInfo) {
                     try {
                         const id = value.id;
                         delete value.id;
-                        await model.updateOne({ _id: id }, value);
+                        await model.updateOne({ _id: id }, {
+                            ...value,
+                            lastUpdatedAt: Date.now()
+                        });
                         const updated = await model.findOne({ _id: id });
                         console.log(updated);
                         wsJsonBroadCast('put', 200, {
@@ -117,7 +140,7 @@ function crudCtrl(route, wsInfo) {
                     break;
                 case 'delete':
                     try {
-                        await model.deleteOne({ _id: value.id });
+                        await model.updateOne({ _id: value.id }, { enabled: false, lastUpdatedAt: Date.now() });
                         wsJsonBroadCast('delete', 200, {
                             route: route.name,
                             action: actions._DELETE_ITEM,

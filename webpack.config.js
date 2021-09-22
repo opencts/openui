@@ -52,11 +52,14 @@ module.exports = {
             template: path.resolve(__dirname, 'public/index.html')
         })
     ],
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
     devServer: {
         port: 4300,
         progress: true,
         open: true,
-        host: '0.0.0.0'
+        host: '0.0.0.0',
+        historyApiFallback: true,
+        contentBase: './',
+        hot: true
     }
 }

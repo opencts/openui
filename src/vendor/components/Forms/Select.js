@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react'
 import Flex from '../Containers/Flex';
 import Icon from '../Fonts/Icon';
 import Input from './Input'
@@ -9,6 +9,7 @@ function Select({
     color = 'primary',
     searcheable = true,
     data = [],
+    value = '---',
     onChange = _ => { },
     valueId = 'id',
     valueLabel = 'name',
@@ -21,7 +22,7 @@ function Select({
     const selectRef = useRef(null);
 
     const [disabled, setDisabled] = useState(false);
-    const [values, setValues] = useState(data.length > 0 ? [data[0]] : []);
+    const [values, setValues] = useState([]);
     const [vdata, setVdata] = useState(data);
     const [selected, setSelected] = useState(data.map(it => false));
 
@@ -30,6 +31,22 @@ function Select({
         event.stopPropagation();
         setDisabled(true);
     }
+
+    const setValueCallback = useCallback(() => {
+        if (value === '---') {
+            setValues(() => [{ [valueId]: 'null', [valueLabel]: '---' }]);
+        } else {
+            if (typeof value === 'object' && 'length' in value) {
+                setValues(() => data.filter(it => value.includes(it[valueId])));
+            } else {
+                setValues(() => [data.find(it => it[valueId] === value)]);
+            }
+        }
+    }, [value]);
+
+    useEffect(() => {
+        setValueCallback();
+    }, [setValueCallback]);
 
     function selectItem(item, index) {
         const v = JSON.parse(JSON.stringify(values));
@@ -86,7 +103,9 @@ function Select({
         </div>
     }
 
-    const selectedValue = useMemo(() => values.map(it => it[valueLabel]), [values, valueLabel]);
+    const selectedValue = useMemo(() => {
+        return values.map(it => it[valueLabel]);
+    }, [values, valueLabel]);
 
     return (
         <div ref={selectRef} className="select" onClick={openSelect}>

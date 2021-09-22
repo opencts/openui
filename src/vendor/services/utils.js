@@ -39,6 +39,13 @@ export function reformatDate(date) {
     return td + '/' + tm + '/' + y;
 }
 
+export function reformatDateForInput(date) {
+    const [d, m, y] = date.split(/[/-]/);
+    const td = Number(d) < 10 ? ('0' + d) : d;
+    const tm = Number(m) < 10 ? ('0' + m) : m;
+    return y + '-' + tm + '-' + td;
+}
+
 export function reformatData(data) {
     return data.map(it => {
         for (const attr in it) {

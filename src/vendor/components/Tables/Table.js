@@ -17,6 +17,7 @@ function Table({
     maxHeight = '72vh',
     data = [],
     hiddens = ['id'],
+    render = {},
     onSelectionChange = () => { }
 }) {
 
@@ -87,7 +88,9 @@ function Table({
                                     onSelectionChange(result);
                                 }} />
                             </td>}
-                            {headers.map(col => <td key={generateUniqueKey('dt-td-' + col)}>{item[col]}</td>)}
+                            {headers.map(col => <td key={generateUniqueKey('dt-td-' + col)}>
+                                {col in render ? render[col](item[col]) : item[col]}
+                            </td>)}
                             {actions && <td>
                                 <Dropdown width="150" component={() => <Icon name="ellipsisV" color={color} />} position="left">
                                     {actions.map((elt, id) => <div className={'p-2 bg-hover-light-gray'} key={id}>

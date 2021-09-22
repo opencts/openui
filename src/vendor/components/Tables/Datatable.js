@@ -26,7 +26,7 @@ function Datatable({
     pageSizes = [5, 10, 25, 100, 500],
     defaultSize = 5,
     circled = false,
-    hiddens = ['id', '_id', '__v'],
+    hiddens = ['id', '_id', '__v', 'createdAt', 'enabled', 'lastUpdatedAt'],
     of = "of",
     simplified = false,
     rowsPerPageLabel = 'Rows/page',
@@ -34,9 +34,10 @@ function Datatable({
     deleteText = 'Are you sure you want to continue ?',
     formLabels = null,
     errorMsgs = null,
-    refs = null,
+    refs = {},
     checkable = true,
-    onItemViewChange = () => {}
+    render = {},
+    onItemViewChange = () => { }
 }) {
 
     const collectionItem = useMemo(() => collection.slice(0, collection.length - 1), [collection]);
@@ -56,20 +57,24 @@ function Datatable({
     const [itemSelected, setItemSelected] = useState([]);
     const [allData, setAllData] = useState([]);
 
-    const { db, getSchema, save, load, dataIsLoading, remove, wsActionStatus } = useClientDB();
+    const { db, isLoadingSchema, save, load, dataIsLoading, remove, wsActionStatus } = useClientDB();
 
-    const [loadingCollectionSchema, collectionSchema] = getSchema(collection);
     const { confirm } = useDialog();
+
+    const collectionSchema = useMemo(() => !isLoadingSchema && !dataIsLoading && db.schema[collection],
+        [isLoadingSchema, db, dataIsLoading]);
 
     const filterList = useMemo(() => (collection in db && db[collection].length > 0) ?
         Object.keys(db[collection][0]).filter(it => !hiddens.includes(it)) : [], [collection, db]);
 
     useEffect(() => {
-        load(collection);
-    }, []);
+        if (!isLoadingSchema) {
+            load(collection);
+        }
+    }, [isLoadingSchema]);
 
     useEffect(() => {
-        if (!(loadingCollectionSchema || dataIsLoading)) {
+        if (!dataIsLoading) {
             const data = deepCopie(db[collection]);
             setValues(data);
             setAllData(data);
@@ -78,7 +83,7 @@ function Datatable({
                 setVFilter(Object.keys(data[0]));
             }
         }
-    }, [loadingCollectionSchema, dataIsLoading, db]);
+    }, [dataIsLoading, db]);
 
     useEffect(() => {
         const start = size * (curPage - 1);
@@ -136,7 +141,7 @@ function Datatable({
         });
     }
 
-    if (loadingCollectionSchema || dataIsLoading || !db || !(collection in db)) return <Element elevation="3" className="bg-light" padding="20px">
+    if (dataIsLoading || !db || !(collection in db)) return <Element elevation="3" className="bg-light" padding="20px">
         <Flex jc="center" ai="center" direction="column" gap={20}>
             <BarsLoader /> <br />
             <Font weight="bold">Loading data!</Font>
@@ -184,6 +189,7 @@ function Datatable({
                             data={values}
                             setData={setValues}
                             hiddens={vHiddens}
+                            render={render}
                             onSelectionChange={handleSelectionChange}
                             actions={[
                                 { icon: 'eye', label: 'Item details', color: 'success', action: onItemViewChange },
